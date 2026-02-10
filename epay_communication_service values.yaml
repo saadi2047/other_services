@@ -1,0 +1,78 @@
+###### Default values for epaytransactionservice.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.#
+replicaCount: 1
+
+image:
+  repository: "registry.dev.sbiepay.sbi:8443/library/{{ .Chart.Name }}"
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  #tag: "v-develop-20260209150955"
+  tag: "v-develop-20260209150955"
+  
+# spark_java_modules: |
+#   --add-exports=java.base/sun.nio.ch=ALL-UNNAMED 
+#   --add-exports=java.base/sun.util.calendar=ALL-UNNAMED 
+#   --add-exports=java.base/sun.security.action=ALL-UNNAMED
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount: {}
+  # create: false
+  # name: comm-sa
+  
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+#
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 9098
+
+namespace: dev-communication
+gatewayName: dev-istio-system/dev-gateway
+virtualServiceName: comm-commsservice
+serviceName: comm-commsservice
+prefixName: /api/comm/v1
+servicePort: 9098
+gatewayPort: 80
+gatewayHost: "dev.epay.sbi"
+
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.loca
+  
+configMap: 
+  additionalLabels:
+    # ...
+  annotations:
+    # ...
+  nameSuffix: "config" 
+
+resources: {}
+ingress: {}
+readinessProbe: {}
+livenessProbe: {}
+
+autoscaling: {}
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true#
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
