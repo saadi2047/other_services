@@ -11,8 +11,47 @@ data:
 
     sftp.file.upload.dir=/epay/sftp/upload
 
-    # add other properties also if required
-    # example:
-    # spring.datasource.url=jdbc:oracle:thin:@...
-    # spring.datasource.username=...
-    # spring.datasource.password=...
+__________________________________________________________
+ConfigMap: comm-config
+
+data:
+  application-local.properties:
+     sftp.file.upload.dir=/tmp
+
+_______________________________________complete yaml:_____________________________________
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: comm-config
+  namespace: dev-communication
+data:
+
+  application-local.properties: |
+
+    #################################################
+    # REQUIRED PROPERTY (THIS WAS MISSING - ROOT CAUSE)
+    #################################################
+    sftp.file.upload.dir=/tmp
+
+    #################################################
+    # SPRING PROFILE (optional but recommended)
+    #################################################
+    spring.profiles.active=local
+
+    #################################################
+    # SERVER CONFIG
+    #################################################
+    server.port=9099
+
+    #################################################
+    # LOGGING (optional)
+    #################################################
+    logging.level.root=INFO
+
+    #################################################
+    # ADD OTHER PROPERTIES BELOW IF YOUR APP NEEDS
+    #################################################
+    # spring.datasource.url=jdbc:oracle:thin:@hostname:1521/service
+    # spring.datasource.username=username
+    # spring.datasource.password=password
+
