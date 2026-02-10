@@ -1,0 +1,293 @@
+before logs
+05:39:26,425 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+05:39:26,434 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Here is a list of configurators discovered as a service, by rank: 
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+05:39:26,451 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+05:39:26,451 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:39:26,453 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:39:26,457 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+05:39:26,458 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+05:39:26,458 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 5 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+05:39:26,459 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:39:26,460 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:39:26,462 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+05:39:26,463 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml]
+05:39:26,466 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs multiple times on the classpath.
+05:39:26,467 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/lib/logging-service-0.1.0.jar!/logback.xml]
+05:39:26,467 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml]
+05:39:26,488 |-INFO in ConfigurationWatchList(mainURL=jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml, fileWatchList={}, urlWatchList=[}) - URL [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+05:39:26,671 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+05:39:26,672 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+05:39:26,672 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+05:39:26,942 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+05:39:26,944 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+05:39:26,944 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+05:39:26,967 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+05:39:26,967 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+05:39:27,010 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+05:39:27,252 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+05:39:27,255 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+05:39:27,258 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@24aed80c - End of configuration.
+05:39:27,261 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@3a52dba3 - Registering current configuration as safe fallback point
+05:39:27,261 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 801 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+05:39:28,422 |-INFO in ConfigurationWatchList(mainURL=jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml, fileWatchList={}, urlWatchList=[}) - URL [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+05:39:28,440 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+05:39:28,440 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+05:39:28,441 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+05:39:28,453 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+05:39:28,455 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+05:39:28,456 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@1433046b - Propagating INFO level on Logger[ROOT] onto the JUL framework
+05:39:28,459 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+05:39:28,459 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@3f446bef - End of configuration.
+05:39:28,460 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@7829b776 - Registering current configuration as safe fallback point
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.3.10)
+
+2026-02-10 05:39:28.563 INFO | org.hibernate.validator.internal.util.Version:21 | principal= | scenario= | operation= | correlation= | <clinit> | HV000001: Hibernate Validator 8.0.2.Final
+2026-02-10 05:39:28.703 INFO | org.springframework.boot.StartupInfoLogger:50 | principal= | scenario= | operation= | correlation= | logStarting | Starting EpayCommunicationServiceApplication vv-develop-20260209150955 using Java 21.0.8 with PID 1 (/home/default/epay_communication_service-v-develop-20260209150955.jar started by 1001780000 in /home/default)
+2026-02-10 05:39:28.704 INFO | org.springframework.boot.SpringApplication:660 | principal= | scenario= | operation= | correlation= | logStartupProfileInfo | The following 1 profile is active: "local"
+2026-02-10 05:39:32.287 INFO | org.springframework.data.repository.config.RepositoryConfigurationDelegate:143 | principal= | scenario= | operation= | correlation= | registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-10 05:39:32.631 INFO | org.springframework.data.repository.config.RepositoryConfigurationDelegate:211 | principal= | scenario= | operation= | correlation= | registerRepositoriesIn | Finished Spring Data repository scanning in 327 ms. Found 4 JPA repository interfaces.
+2026-02-10 05:39:32.897 INFO | org.springframework.core.log.LogAccessor:292 | principal= | scenario= | operation= | correlation= | info | No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2026-02-10 05:39:32.914 INFO | org.springframework.core.log.LogAccessor:292 | principal= | scenario= | operation= | correlation= | info | No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2026-02-10 05:39:35.190 INFO | org.springframework.boot.web.embedded.tomcat.TomcatWebServer:111 | principal= | scenario= | operation= | correlation= | initialize | Tomcat initialized with port 9099 (http)
+2026-02-10 05:39:35.221 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Initializing ProtocolHandler ["http-nio-9099"]
+2026-02-10 05:39:35.227 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Starting service [Tomcat]
+2026-02-10 05:39:35.228 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Starting Servlet engine: [Apache Tomcat/10.1.39]
+2026-02-10 05:39:35.328 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Initializing Spring embedded WebApplicationContext
+2026-02-10 05:39:35.331 INFO | org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:301 | principal= | scenario= | operation= | correlation= | prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 6504 ms
+2026-02-10 05:39:36.323 INFO | com.zaxxer.hikari.HikariDataSource:109 | principal= | scenario= | operation= | correlation= | getConnection | HikariPool-1 - Starting...
+2026-02-10 05:39:37.077 INFO | com.zaxxer.hikari.pool.HikariPool:554 | principal= | scenario= | operation= | correlation= | checkFailFast | HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@1818390b
+2026-02-10 05:39:37.080 INFO | com.zaxxer.hikari.HikariDataSource:122 | principal= | scenario= | operation= | correlation= | getConnection | HikariPool-1 - Start completed.
+2026-02-10 05:39:37.138 INFO | org.hibernate.jpa.internal.util.LogHelper:31 | principal= | scenario= | operation= | correlation= | logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-10 05:39:37.233 INFO | org.hibernate.Version:44 | principal= | scenario= | operation= | correlation= | logVersion | HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-02-10 05:39:37.290 INFO | org.hibernate.cache.internal.RegionFactoryInitiator:50 | principal= | scenario= | operation= | correlation= | initiateService | HHH000026: Second-level cache disabled
+2026-02-10 05:39:37.429 INFO | org.hibernate.envers.boot.internal.EnversServiceImpl:76 | principal= | scenario= | operation= | correlation= | configure | Envers integration enabled? : true
+2026-02-10 05:39:37.797 INFO | org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo:87 | principal= | scenario= | operation= | correlation= | addTransformer | No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-10 05:39:39.703 INFO | org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:59 | principal= | scenario= | operation= | correlation= | initiateService | HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-10 05:39:39.708 INFO | org.springframework.orm.jpa.AbstractEntityManagerFactoryBean:437 | principal= | scenario= | operation= | correlation= | buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-10 05:39:39.740 WARN | org.springframework.context.support.AbstractApplicationContext:633 | principal= | scenario= | operation= | correlation= | refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'communicationConfig': Injection of autowired dependencies failed
+2026-02-10 05:39:39.741 INFO | org.springframework.orm.jpa.AbstractEntityManagerFactoryBean:650 | principal= | scenario= | operation= | correlation= | destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-10 05:39:39.746 INFO | com.zaxxer.hikari.HikariDataSource:349 | principal= | scenario= | operation= | correlation= | close | HikariPool-1 - Shutdown initiated...
+2026-02-10 05:39:39.805 INFO | com.zaxxer.hikari.HikariDataSource:351 | principal= | scenario= | operation= | correlation= | close | HikariPool-1 - Shutdown completed.
+2026-02-10 05:39:39.811 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Stopping service [Tomcat]
+2026-02-10 05:39:39.840 INFO | org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger:82 | principal= | scenario= | operation= | correlation= | logMessage | 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-02-10 05:39:39.867 ERROR | org.springframework.boot.SpringApplication:859 | principal= | scenario= | operation= | correlation= | reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'communicationConfig': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1439)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:971)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.epay.cs.EpayCommunicationServiceApplication.main(EpayCommunicationServiceApplication.java:19)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:102)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64)
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'sftp.file.upload.dir' in value "${sftp.file.upload.dir}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:964)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1379)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1358)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	... 22 common frames omitted
+
+
+
+
++++++++++++++++++++++++++++++++++++++++++++++
+
+current logs
+
+05:39:26,425 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.18
+05:39:26,434 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Here is a list of configurators discovered as a service, by rank: 
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+05:39:26,435 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+05:39:26,451 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+05:39:26,451 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Trying to configure with ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:39:26,453 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class ch.qos.logback.classic.joran.SerializedModelConfigurator
+05:39:26,457 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.scmo]
+05:39:26,458 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.scmo]
+05:39:26,458 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - ch.qos.logback.classic.joran.SerializedModelConfigurator.configure() call lasted 5 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+05:39:26,459 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:39:26,460 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+05:39:26,462 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+05:39:26,463 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml]
+05:39:26,466 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs multiple times on the classpath.
+05:39:26,467 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/lib/logging-service-0.1.0.jar!/logback.xml]
+05:39:26,467 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@3d285d7e - Resource [logback.xml] occurs at [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml]
+05:39:26,488 |-INFO in ConfigurationWatchList(mainURL=jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml, fileWatchList={}, urlWatchList=[}) - URL [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+05:39:26,671 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+05:39:26,672 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+05:39:26,672 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+05:39:26,942 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+05:39:26,944 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+05:39:26,944 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+05:39:26,967 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+05:39:26,967 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+05:39:27,010 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+05:39:27,248 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+05:39:27,251 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+05:39:27,252 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+05:39:27,255 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+05:39:27,258 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@24aed80c - End of configuration.
+05:39:27,261 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@3a52dba3 - Registering current configuration as safe fallback point
+05:39:27,261 |-INFO in ch.qos.logback.classic.util.ContextInitializer@302552ec - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 801 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+05:39:28,422 |-INFO in ConfigurationWatchList(mainURL=jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml, fileWatchList={}, urlWatchList=[}) - URL [jar:nested:/home/default/epay_communication_service-v-develop-20260209150955.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+05:39:28,440 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+05:39:28,440 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+05:39:28,441 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+05:39:28,451 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+05:39:28,453 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - BEWARE: Writing to the console can be very slow. Avoid logging to the 
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+05:39:28,455 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+05:39:28,455 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+05:39:28,455 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+05:39:28,456 |-INFO in ch.qos.logback.classic.jul.LevelChangePropagator@1433046b - Propagating INFO level on Logger[ROOT] onto the JUL framework
+05:39:28,459 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+05:39:28,459 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@3f446bef - End of configuration.
+05:39:28,460 |-INFO in org.springframework.boot.logging.logback.SpringBootJoranConfigurator@7829b776 - Registering current configuration as safe fallback point
+
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.3.10)
+
+2026-02-10 05:39:28.563 INFO | org.hibernate.validator.internal.util.Version:21 | principal= | scenario= | operation= | correlation= | <clinit> | HV000001: Hibernate Validator 8.0.2.Final
+2026-02-10 05:39:28.703 INFO | org.springframework.boot.StartupInfoLogger:50 | principal= | scenario= | operation= | correlation= | logStarting | Starting EpayCommunicationServiceApplication vv-develop-20260209150955 using Java 21.0.8 with PID 1 (/home/default/epay_communication_service-v-develop-20260209150955.jar started by 1001780000 in /home/default)
+2026-02-10 05:39:28.704 INFO | org.springframework.boot.SpringApplication:660 | principal= | scenario= | operation= | correlation= | logStartupProfileInfo | The following 1 profile is active: "local"
+2026-02-10 05:39:32.287 INFO | org.springframework.data.repository.config.RepositoryConfigurationDelegate:143 | principal= | scenario= | operation= | correlation= | registerRepositoriesIn | Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-02-10 05:39:32.631 INFO | org.springframework.data.repository.config.RepositoryConfigurationDelegate:211 | principal= | scenario= | operation= | correlation= | registerRepositoriesIn | Finished Spring Data repository scanning in 327 ms. Found 4 JPA repository interfaces.
+2026-02-10 05:39:32.897 INFO | org.springframework.core.log.LogAccessor:292 | principal= | scenario= | operation= | correlation= | info | No bean named 'errorChannel' has been explicitly defined. Therefore, a default PublishSubscribeChannel will be created.
+2026-02-10 05:39:32.914 INFO | org.springframework.core.log.LogAccessor:292 | principal= | scenario= | operation= | correlation= | info | No bean named 'integrationHeaderChannelRegistry' has been explicitly defined. Therefore, a default DefaultHeaderChannelRegistry will be created.
+2026-02-10 05:39:35.190 INFO | org.springframework.boot.web.embedded.tomcat.TomcatWebServer:111 | principal= | scenario= | operation= | correlation= | initialize | Tomcat initialized with port 9099 (http)
+2026-02-10 05:39:35.221 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Initializing ProtocolHandler ["http-nio-9099"]
+2026-02-10 05:39:35.227 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Starting service [Tomcat]
+2026-02-10 05:39:35.228 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Starting Servlet engine: [Apache Tomcat/10.1.39]
+2026-02-10 05:39:35.328 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Initializing Spring embedded WebApplicationContext
+2026-02-10 05:39:35.331 INFO | org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext:301 | principal= | scenario= | operation= | correlation= | prepareWebApplicationContext | Root WebApplicationContext: initialization completed in 6504 ms
+2026-02-10 05:39:36.323 INFO | com.zaxxer.hikari.HikariDataSource:109 | principal= | scenario= | operation= | correlation= | getConnection | HikariPool-1 - Starting...
+2026-02-10 05:39:37.077 INFO | com.zaxxer.hikari.pool.HikariPool:554 | principal= | scenario= | operation= | correlation= | checkFailFast | HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@1818390b
+2026-02-10 05:39:37.080 INFO | com.zaxxer.hikari.HikariDataSource:122 | principal= | scenario= | operation= | correlation= | getConnection | HikariPool-1 - Start completed.
+2026-02-10 05:39:37.138 INFO | org.hibernate.jpa.internal.util.LogHelper:31 | principal= | scenario= | operation= | correlation= | logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-02-10 05:39:37.233 INFO | org.hibernate.Version:44 | principal= | scenario= | operation= | correlation= | logVersion | HHH000412: Hibernate ORM core version 6.5.3.Final
+2026-02-10 05:39:37.290 INFO | org.hibernate.cache.internal.RegionFactoryInitiator:50 | principal= | scenario= | operation= | correlation= | initiateService | HHH000026: Second-level cache disabled
+2026-02-10 05:39:37.429 INFO | org.hibernate.envers.boot.internal.EnversServiceImpl:76 | principal= | scenario= | operation= | correlation= | configure | Envers integration enabled? : true
+2026-02-10 05:39:37.797 INFO | org.springframework.orm.jpa.persistenceunit.SpringPersistenceUnitInfo:87 | principal= | scenario= | operation= | correlation= | addTransformer | No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-02-10 05:39:39.703 INFO | org.hibernate.engine.transaction.jta.platform.internal.JtaPlatformInitiator:59 | principal= | scenario= | operation= | correlation= | initiateService | HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-02-10 05:39:39.708 INFO | org.springframework.orm.jpa.AbstractEntityManagerFactoryBean:437 | principal= | scenario= | operation= | correlation= | buildNativeEntityManagerFactory | Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-02-10 05:39:39.740 WARN | org.springframework.context.support.AbstractApplicationContext:633 | principal= | scenario= | operation= | correlation= | refresh | Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'communicationConfig': Injection of autowired dependencies failed
+2026-02-10 05:39:39.741 INFO | org.springframework.orm.jpa.AbstractEntityManagerFactoryBean:650 | principal= | scenario= | operation= | correlation= | destroy | Closing JPA EntityManagerFactory for persistence unit 'default'
+2026-02-10 05:39:39.746 INFO | com.zaxxer.hikari.HikariDataSource:349 | principal= | scenario= | operation= | correlation= | close | HikariPool-1 - Shutdown initiated...
+2026-02-10 05:39:39.805 INFO | com.zaxxer.hikari.HikariDataSource:351 | principal= | scenario= | operation= | correlation= | close | HikariPool-1 - Shutdown completed.
+2026-02-10 05:39:39.811 INFO | org.apache.juli.logging.DirectJDKLog:173 | principal= | scenario= | operation= | correlation= | log | Stopping service [Tomcat]
+2026-02-10 05:39:39.840 INFO | org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLogger:82 | principal= | scenario= | operation= | correlation= | logMessage | 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2026-02-10 05:39:39.867 ERROR | org.springframework.boot.SpringApplication:859 | principal= | scenario= | operation= | correlation= | reportFailure | Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'communicationConfig': Injection of autowired dependencies failed
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:515)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1439)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:971)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352)
+	at com.epay.cs.EpayCommunicationServiceApplication.main(EpayCommunicationServiceApplication.java:19)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:102)
+	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:64)
+	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:40)
+Caused by: java.lang.IllegalArgumentException: Could not resolve placeholder 'sftp.file.upload.dir' in value "${sftp.file.upload.dir}"
+	at org.springframework.util.PropertyPlaceholderHelper.parseStringValue(PropertyPlaceholderHelper.java:180)
+	at org.springframework.util.PropertyPlaceholderHelper.replacePlaceholders(PropertyPlaceholderHelper.java:126)
+	at org.springframework.core.env.AbstractPropertyResolver.doResolvePlaceholders(AbstractPropertyResolver.java:239)
+	at org.springframework.core.env.AbstractPropertyResolver.resolveRequiredPlaceholders(AbstractPropertyResolver.java:210)
+	at org.springframework.context.support.PropertySourcesPlaceholderConfigurer.lambda$processProperties$0(PropertySourcesPlaceholderConfigurer.java:200)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.resolveEmbeddedValue(AbstractBeanFactory.java:964)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1379)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1358)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:785)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:768)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:509)
+	... 22 common frames omitted
