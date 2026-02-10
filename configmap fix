@@ -1,0 +1,18 @@
+configmap.fix
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: comm-config
+  namespace: dev-communication
+data:
+
+  application-local.properties: |
+
+    sftp.file.upload.dir=/epay/sftp/upload
+
+    # add other properties also if required
+    # example:
+    # spring.datasource.url=jdbc:oracle:thin:@...
+    # spring.datasource.username=...
+    # spring.datasource.password=...
