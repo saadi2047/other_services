@@ -1,0 +1,622 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  generateName: comm-commsservice-7fcbc46764-
+  annotations:
+    openshift.io/scc: restricted-v2
+    kubectl.kubernetes.io/restartedAt: '2026-02-09T13:40:21Z'
+    sidecar.istio.io/interceptionMode: REDIRECT
+    prometheus.io/port: '15020'
+    k8s.ovn.org/pod-networks: '{"default":{"ip_addresses":["172.16.14.92/23"],"mac_address":"0a:58:ac:10:0e:5c","gateway_ips":["172.16.14.1"],"routes":[{"dest":"172.16.0.0/16","nextHop":"172.16.14.1"},{"dest":"172.30.0.0/16","nextHop":"172.16.14.1"},{"dest":"169.254.169.5/32","nextHop":"172.16.14.1"},{"dest":"100.64.0.0/16","nextHop":"172.16.14.1"}],"ip_address":"172.16.14.92/23","gateway_ip":"172.16.14.1","role":"primary"}}'
+    k8s.v1.cni.cncf.io/networks: default/istio-cni
+    prometheus.io/path: /stats/prometheus
+    traffic.sidecar.istio.io/excludeInboundPorts: '15020'
+    sidecar.istio.io/status: '{"initContainers":["istio-validation"],"containers":["istio-proxy"],"volumes":["workload-socket","credential-socket","workload-certs","istio-envoy","istio-data","istio-podinfo","istio-token","istiod-ca-cert"],"imagePullSecrets":null,"revision":"dev-istio"}'
+    traffic.sidecar.istio.io/includeOutboundIPRanges: '*'
+    kubectl.kubernetes.io/default-logs-container: commsservice
+    seccomp.security.alpha.kubernetes.io/pod: runtime/default
+    kubectl.kubernetes.io/default-container: commsservice
+    k8s.v1.cni.cncf.io/network-status: |-
+      [{
+          "name": "ovn-kubernetes",
+          "interface": "eth0",
+          "ips": [
+              "172.16.14.92"
+          ],
+          "mac": "0a:58:ac:10:0e:5c",
+          "default": true,
+          "dns": {}
+      }]
+    istio.io/rev: dev-istio
+    traffic.sidecar.istio.io/includeInboundPorts: '*'
+    prometheus.io/scrape: 'true'
+  resourceVersion: '600673429'
+  name: comm-commsservice-7fcbc46764-477qw
+  uid: d188f8e9-1bf4-4ecc-8f52-5756354a7a0b
+  creationTimestamp: '2026-02-09T15:15:56Z'
+  managedFields:
+    - manager: kube-controller-manager
+      operation: Update
+      apiVersion: v1
+      time: '2026-02-09T15:15:56Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:kubectl.kubernetes.io/restartedAt': {}
+          'f:generateName': {}
+          'f:labels':
+            .: {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/managed-by': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/version': {}
+            'f:helm.sh/chart': {}
+            'f:pod-template-hash': {}
+          'f:ownerReferences':
+            .: {}
+            'k:{"uid":"6d2addfb-5d64-47e3-a9c3-1d3cd8bf0b0a"}': {}
+        'f:spec':
+          'f:volumes':
+            .: {}
+            'k:{"name":"config"}':
+              .: {}
+              'f:configMap':
+                .: {}
+                'f:defaultMode': {}
+                'f:name': {}
+              'f:name': {}
+          'f:containers':
+            'k:{"name":"commsservice"}':
+              'f:image': {}
+              'f:volumeMounts':
+                .: {}
+                'k:{"mountPath":"/opt/gradle"}':
+                  .: {}
+                  'f:mountPath': {}
+                  'f:name': {}
+              'f:terminationMessagePolicy': {}
+              .: {}
+              'f:resources': {}
+              'f:env':
+                .: {}
+                'k:{"name":"SPRING_CONFIG_LOCATION"}':
+                  .: {}
+                  'f:name': {}
+                  'f:value': {}
+              'f:securityContext': {}
+              'f:terminationMessagePath': {}
+              'f:imagePullPolicy': {}
+              'f:ports':
+                .: {}
+                'k:{"containerPort":9098,"protocol":"TCP"}':
+                  .: {}
+                  'f:containerPort': {}
+                  'f:name': {}
+                  'f:protocol': {}
+              'f:name': {}
+          'f:dnsPolicy': {}
+          'f:serviceAccount': {}
+          'f:restartPolicy': {}
+          'f:schedulerName': {}
+          'f:terminationGracePeriodSeconds': {}
+          'f:serviceAccountName': {}
+          'f:enableServiceLinks': {}
+          'f:securityContext': {}
+    - manager: multus-daemon
+      operation: Update
+      apiVersion: v1
+      time: '2026-02-09T15:15:56Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:k8s.v1.cni.cncf.io/network-status': {}
+      subresource: status
+    - manager: worker2.dev.sbiepay.sbi
+      operation: Update
+      apiVersion: v1
+      time: '2026-02-09T15:15:56Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:metadata':
+          'f:annotations':
+            'f:k8s.ovn.org/pod-networks': {}
+      subresource: status
+    - manager: kubelet
+      operation: Update
+      apiVersion: v1
+      time: '2026-02-10T06:00:56Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:status':
+          'f:hostIP': {}
+          'f:phase': {}
+          'f:conditions':
+            'k:{"type":"ContainersReady"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Initialized"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"PodReadyToStartContainers"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:status': {}
+              'f:type': {}
+            'k:{"type":"Ready"}':
+              .: {}
+              'f:lastProbeTime': {}
+              'f:lastTransitionTime': {}
+              'f:message': {}
+              'f:reason': {}
+              'f:status': {}
+              'f:type': {}
+          'f:containerStatuses': {}
+          'f:hostIPs': {}
+          'f:podIP': {}
+          'f:startTime': {}
+          'f:podIPs':
+            .: {}
+            'k:{"ip":"172.16.14.92"}':
+              .: {}
+              'f:ip': {}
+          'f:initContainerStatuses': {}
+      subresource: status
+  namespace: dev-communication
+  ownerReferences:
+    - apiVersion: apps/v1
+      kind: ReplicaSet
+      name: comm-commsservice-7fcbc46764
+      uid: 6d2addfb-5d64-47e3-a9c3-1d3cd8bf0b0a
+      controller: true
+      blockOwnerDeletion: true
+  labels:
+    security.istio.io/tlsMode: istio
+    app.kubernetes.io/instance: comm
+    service.istio.io/canonical-revision: 1.16.0
+    app.kubernetes.io/version: 1.16.0
+    app.kubernetes.io/managed-by: Helm
+    helm.sh/chart: commsservice-0.1.0
+    service.istio.io/canonical-name: commsservice
+    app.kubernetes.io/name: commsservice
+    pod-template-hash: 7fcbc46764
+spec:
+  nodeSelector:
+    env: dev
+  restartPolicy: Always
+  initContainers:
+    - resources:
+        limits:
+          cpu: '2'
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      terminationMessagePath: /dev/termination-log
+      name: istio-validation
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        runAsUser: 1001789999
+        runAsGroup: 1001789999
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - name: kube-api-access-5wc9z
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePolicy: File
+      image: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      args:
+        - istio-iptables
+        - '-p'
+        - '15001'
+        - '-z'
+        - '15006'
+        - '-u'
+        - '1001789999'
+        - '-m'
+        - REDIRECT
+        - '-i'
+        - '*'
+        - '-x'
+        - ''
+        - '-b'
+        - '*'
+        - '-d'
+        - '15090,15021,15020'
+        - '--log_output_level=default:info'
+        - '--run-validation'
+        - '--skip-rule-apply'
+  serviceAccountName: default
+  imagePullSecrets:
+    - name: default-dockercfg-wsp25
+  priority: 0
+  schedulerName: default-scheduler
+  enableServiceLinks: true
+  terminationGracePeriodSeconds: 30
+  preemptionPolicy: PreemptLowerPriority
+  nodeName: worker2.dev.sbiepay.sbi
+  securityContext:
+    seLinuxOptions:
+      level: 's0:c42,c29'
+    fsGroup: 1001780000
+    seccompProfile:
+      type: RuntimeDefault
+  containers:
+    - resources: {}
+      terminationMessagePath: /dev/termination-log
+      name: commsservice
+      env:
+        - name: SPRING_CONFIG_LOCATION
+          value: 'file:/opt/gradle/'
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        runAsUser: 1001780000
+        runAsNonRoot: true
+        allowPrivilegeEscalation: false
+      ports:
+        - name: http
+          containerPort: 9098
+          protocol: TCP
+      imagePullPolicy: IfNotPresent
+      volumeMounts:
+        - name: config
+          mountPath: /opt/gradle
+        - name: kube-api-access-5wc9z
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePolicy: File
+      image: 'registry.dev.sbiepay.sbi:8443/library/commsservice:v-develop-20260209150955'
+    - resources:
+        limits:
+          cpu: '2'
+          memory: 1Gi
+        requests:
+          cpu: 100m
+          memory: 128Mi
+      readinessProbe:
+        httpGet:
+          path: /healthz/ready
+          port: 15021
+          scheme: HTTP
+        timeoutSeconds: 3
+        periodSeconds: 15
+        successThreshold: 1
+        failureThreshold: 4
+      terminationMessagePath: /dev/termination-log
+      name: istio-proxy
+      env:
+        - name: PILOT_CERT_PROVIDER
+          value: istiod
+        - name: CA_ADDR
+          value: 'istiod-dev-istio.dev-istio-system.svc:15012'
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+        - name: INSTANCE_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.podIP
+        - name: SERVICE_ACCOUNT
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.serviceAccountName
+        - name: HOST_IP
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: status.hostIP
+        - name: ISTIO_CPU_LIMIT
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+              divisor: '0'
+        - name: PROXY_CONFIG
+          value: |
+            {"discoveryAddress":"istiod-dev-istio.dev-istio-system.svc:15012"}
+        - name: ISTIO_META_POD_PORTS
+          value: |-
+            [
+                {"name":"http","containerPort":9098,"protocol":"TCP"}
+            ]
+        - name: ISTIO_META_APP_CONTAINERS
+          value: commsservice
+        - name: GOMEMLIMIT
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.memory
+              divisor: '0'
+        - name: GOMAXPROCS
+          valueFrom:
+            resourceFieldRef:
+              resource: limits.cpu
+              divisor: '0'
+        - name: ISTIO_META_CLUSTER_ID
+          value: Kubernetes
+        - name: ISTIO_META_NODE_NAME
+          valueFrom:
+            fieldRef:
+              apiVersion: v1
+              fieldPath: spec.nodeName
+        - name: ISTIO_META_INTERCEPTION_MODE
+          value: REDIRECT
+        - name: ISTIO_META_WORKLOAD_NAME
+          value: comm-commsservice
+        - name: ISTIO_META_OWNER
+          value: 'kubernetes://apis/apps/v1/namespaces/dev-communication/deployments/comm-commsservice'
+        - name: ISTIO_META_MESH_ID
+          value: cluster.local
+        - name: TRUST_DOMAIN
+          value: cluster.local
+      securityContext:
+        capabilities:
+          drop:
+            - ALL
+        privileged: false
+        runAsUser: 1001789999
+        runAsGroup: 1001789999
+        runAsNonRoot: true
+        readOnlyRootFilesystem: true
+        allowPrivilegeEscalation: false
+      ports:
+        - name: http-envoy-prom
+          containerPort: 15090
+          protocol: TCP
+      imagePullPolicy: IfNotPresent
+      startupProbe:
+        httpGet:
+          path: /healthz/ready
+          port: 15021
+          scheme: HTTP
+        timeoutSeconds: 3
+        periodSeconds: 1
+        successThreshold: 1
+        failureThreshold: 600
+      volumeMounts:
+        - name: workload-socket
+          mountPath: /var/run/secrets/workload-spiffe-uds
+        - name: credential-socket
+          mountPath: /var/run/secrets/credential-uds
+        - name: workload-certs
+          mountPath: /var/run/secrets/workload-spiffe-credentials
+        - name: istiod-ca-cert
+          mountPath: /var/run/secrets/istio
+        - name: istio-data
+          mountPath: /var/lib/istio/data
+        - name: istio-envoy
+          mountPath: /etc/istio/proxy
+        - name: istio-token
+          mountPath: /var/run/secrets/tokens
+        - name: istio-podinfo
+          mountPath: /etc/istio/pod
+        - name: kube-api-access-5wc9z
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePolicy: File
+      image: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      args:
+        - proxy
+        - sidecar
+        - '--domain'
+        - $(POD_NAMESPACE).svc.cluster.local
+        - '--proxyLogLevel=warning'
+        - '--proxyComponentLogLevel=misc:error'
+        - '--log_output_level=default:info'
+  serviceAccount: default
+  volumes:
+    - name: workload-socket
+      emptyDir: {}
+    - name: credential-socket
+      emptyDir: {}
+    - name: workload-certs
+      emptyDir: {}
+    - name: istio-envoy
+      emptyDir:
+        medium: Memory
+    - name: istio-data
+      emptyDir: {}
+    - name: istio-podinfo
+      downwardAPI:
+        items:
+          - path: labels
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.labels
+          - path: annotations
+            fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.annotations
+        defaultMode: 420
+    - name: istio-token
+      projected:
+        sources:
+          - serviceAccountToken:
+              audience: istio-ca
+              expirationSeconds: 43200
+              path: istio-token
+        defaultMode: 420
+    - name: istiod-ca-cert
+      configMap:
+        name: istio-ca-root-cert
+        defaultMode: 420
+    - name: config
+      configMap:
+        name: comm-config
+        defaultMode: 420
+    - name: kube-api-access-5wc9z
+      projected:
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              name: kube-root-ca.crt
+              items:
+                - key: ca.crt
+                  path: ca.crt
+          - downwardAPI:
+              items:
+                - path: namespace
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+          - configMap:
+              name: openshift-service-ca.crt
+              items:
+                - key: service-ca.crt
+                  path: service-ca.crt
+        defaultMode: 420
+  dnsPolicy: ClusterFirst
+  tolerations:
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/memory-pressure
+      operator: Exists
+      effect: NoSchedule
+status:
+  containerStatuses:
+    - restartCount: 168
+      started: false
+      ready: false
+      name: commsservice
+      state:
+        waiting:
+          reason: CrashLoopBackOff
+          message: back-off 5m0s restarting failed container=commsservice pod=comm-commsservice-7fcbc46764-477qw_dev-communication(d188f8e9-1bf4-4ecc-8f52-5756354a7a0b)
+      volumeMounts:
+        - name: config
+          mountPath: /opt/gradle
+        - name: kube-api-access-5wc9z
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+          recursiveReadOnly: Disabled
+      imageID: 'registry.dev.sbiepay.sbi:8443/library/commsservice@sha256:b682fdfb7403c98f22f4b45986521c5e95c898aa8760e2a89800984fe4dc49fe'
+      image: 'registry.dev.sbiepay.sbi:8443/library/commsservice:v-develop-20260209150955'
+      lastState:
+        terminated:
+          exitCode: 1
+          reason: Error
+          startedAt: '2026-02-10T06:00:33Z'
+          finishedAt: '2026-02-10T06:00:43Z'
+          containerID: 'cri-o://f013cdd3d05f8872de06dac04d40bb99de31d586ce105df632da09d70daedc99'
+      containerID: 'cri-o://f013cdd3d05f8872de06dac04d40bb99de31d586ce105df632da09d70daedc99'
+    - restartCount: 0
+      started: true
+      ready: true
+      name: istio-proxy
+      state:
+        running:
+          startedAt: '2026-02-09T15:16:08Z'
+      volumeMounts:
+        - name: workload-socket
+          mountPath: /var/run/secrets/workload-spiffe-uds
+        - name: credential-socket
+          mountPath: /var/run/secrets/credential-uds
+        - name: workload-certs
+          mountPath: /var/run/secrets/workload-spiffe-credentials
+        - name: istiod-ca-cert
+          mountPath: /var/run/secrets/istio
+        - name: istio-data
+          mountPath: /var/lib/istio/data
+        - name: istio-envoy
+          mountPath: /etc/istio/proxy
+        - name: istio-token
+          mountPath: /var/run/secrets/tokens
+        - name: istio-podinfo
+          mountPath: /etc/istio/pod
+        - name: kube-api-access-5wc9z
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+          recursiveReadOnly: Disabled
+      imageID: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      image: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      lastState: {}
+      containerID: 'cri-o://36c49768ce9e5dfe41acc3acb5635f0cb2ee96e3d709dac23582dc71e9ac864f'
+  qosClass: Burstable
+  hostIPs:
+    - ip: 10.177.142.142
+  podIPs:
+    - ip: 172.16.14.92
+  podIP: 172.16.14.92
+  hostIP: 10.177.142.142
+  startTime: '2026-02-09T15:15:56Z'
+  initContainerStatuses:
+    - restartCount: 0
+      started: false
+      ready: true
+      name: istio-validation
+      state:
+        terminated:
+          exitCode: 0
+          reason: Completed
+          startedAt: '2026-02-09T15:15:57Z'
+          finishedAt: '2026-02-09T15:15:57Z'
+          containerID: 'cri-o://ce64ed62556241f354ed8eced603d322a014768f277d9e89444915505ec3b542'
+      volumeMounts:
+        - name: kube-api-access-5wc9z
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+          readOnly: true
+          recursiveReadOnly: Disabled
+      imageID: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      image: 'registry.redhat.io/openshift-service-mesh/istio-proxyv2-rhel9@sha256:1306526a12590e284b1170cfccdf91388520360e2d7afab0d7f57111c4f28662'
+      lastState: {}
+      containerID: 'cri-o://ce64ed62556241f354ed8eced603d322a014768f277d9e89444915505ec3b542'
+  conditions:
+    - type: PodReadyToStartContainers
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2026-02-09T15:15:58Z'
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2026-02-09T15:15:58Z'
+    - type: Ready
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2026-02-10T06:00:44Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [commsservice]'
+    - type: ContainersReady
+      status: 'False'
+      lastProbeTime: null
+      lastTransitionTime: '2026-02-10T06:00:44Z'
+      reason: ContainersNotReady
+      message: 'containers with unready status: [commsservice]'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2026-02-09T15:15:56Z'
+  phase: Running
