@@ -1,0 +1,183 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: comm-config
+  namespace: dev-communication
+  uid: e3f7b0ac-f611-47ff-963a-5957d2f2fb8f
+  resourceVersion: '599907007'
+  creationTimestamp: '2025-11-12T07:07:36Z'
+  labels:
+    app.kubernetes.io/instance: comm
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/name: commsservice
+    app.kubernetes.io/version: 1.16.0
+    helm.sh/chart: commsservice-0.1.0
+  annotations:
+    meta.helm.sh/release-name: comm
+    meta.helm.sh/release-namespace: dev-communication
+  managedFields:
+    - manager: helm
+      operation: Update
+      apiVersion: v1
+      time: '2026-02-09T13:21:39Z'
+      fieldsType: FieldsV1
+      fieldsV1:
+        'f:data':
+          .: {}
+          'f:application.yml': {}
+        'f:metadata':
+          'f:annotations':
+            .: {}
+            'f:meta.helm.sh/release-name': {}
+            'f:meta.helm.sh/release-namespace': {}
+          'f:labels':
+            .: {}
+            'f:app.kubernetes.io/instance': {}
+            'f:app.kubernetes.io/managed-by': {}
+            'f:app.kubernetes.io/name': {}
+            'f:app.kubernetes.io/version': {}
+            'f:helm.sh/chart': {}
+data:
+  application.yml: |
+    server:
+      servlet:
+        context-path: /api/communication/v1
+      port: 9099
+
+    spring:
+      application:
+        name: epay_communication_service
+      profiles:
+        active: local
+
+      datasource:
+        driver-class-name: oracle.jdbc.OracleDriver
+        url: jdbc:oracle:thin:@10.177.134.124:1590:epaydbdev1
+        username: EPAYINTEGRATION
+        password: April_2025
+
+      jpa:
+        properties:
+          hibernate:
+            jdbc:
+              batch_size: 1000
+              order_updates: true
+              order_inserts: true
+              batch_versioned_data: true
+            show_sql: true
+            format_sql: true
+        show-sql: true
+
+      liquibase:
+        change-log: classpath:db/changelog/db.changelog-master.xml
+        enabled: true
+        drop-first: false
+
+      kafka:
+        bootstrapServers: dev-kafka-cluster-kafka-bootstrap.dev-kafka.svc.cluster.local:9092
+
+        properties:
+          security.protocol: SSL
+          ssl:
+            truststore:
+              location: /certs/kafka/cluster-ca.p12
+              password: pbUnnCLwMfNm
+              type: PKCS12
+            keystore:
+              location: /certs/kafka/client-ca.p12
+              password: MvgumtgtCJiq
+              type: PKCS12
+
+        consumer:
+          groupId: communication-consumers
+          keyDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+          valueDeserializer: org.apache.kafka.common.serialization.StringDeserializer
+          autoOffsetReset: latest
+          enableAutoCommit: true
+          autoCommitInterval: 100
+          sessionTimeoutMS: 300000
+          requestTimeoutMS: 420000
+          fetchMaxWaitMS: 200
+          maxPollRecords: 5
+          retryMaxAttempts: 3
+          retryBackOffInitialIntervalMS: 10000
+          retryBackOffMaxIntervalMS: 30000
+          retryBackOffMultiplier: 2
+          spring.json.trusted.packages: com.epay.communication
+          numberOfConsumers: 1
+
+        producer:
+          keyDeserializer: org.apache.kafka.common.serialization.StringSerializer
+          valueDeserializer: org.apache.kafka.common.serialization.StringSerializer
+          acks: all
+          retries: 3
+          batchSize: 1000
+          lingerMs: 1
+          bufferMemory: 33554432
+
+        topic:
+          partitions: 4
+          replicationFactor: 1
+          gstInvoiceDownload: local_gst_invoice_download_topic
+          gstReportStatusTopic: local_gst_report_status_topic
+
+    security:
+      jwt:
+        secret:
+          issuer: sbi.epay
+          key: bsrfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3
+      whitelist:
+        urls: /webjars/, /actuator/health, /swagger-resources/, /v3/api-docs/**, /swagger-ui/**, /index.html, /login
+
+    servlet:
+      multipart:
+        max-file-size: 50MB
+        max-request-size: 50MB
+
+    scheduled:
+      gstn:
+        monitor:
+          time: 0 */30 * * * *
+
+    queue:
+      threadPool:
+        size:
+          core: 5
+          max: 10
+          batch: 1000
+
+    sftp:
+      host: localhost
+      port: 2222
+      username: root
+      password: root
+      dir: /home/default/OPS
+      session:
+        timeout: 30000
+      gstn:
+        file:
+          success:
+          error:
+          archive:
+
+    aws:
+      s3:
+        url: https://s3store.bank.sbi
+        region: ap-south-1
+        accessKey: IDHJO1513FFMMNLPR9BC
+        secretKey: avXqEPv5B_QqqPK0D1VJzP3pSyAA4x31Zu_KucQ9
+        bucket: epay-nonprod-s3bucket
+
+    gst:
+      report:
+        retry:
+          max: 3
+          delay: 3000
+        encryption:
+          key: key/EPY_20190528_20190528_PRI.key
+
+    logging:
+      level:
+        liquibase: DEBUG
+        org.apache.kafka: ERROR
+        com.epay.communication: DEBUG
