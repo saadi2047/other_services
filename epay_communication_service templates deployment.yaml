@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "Epay_Communication_Service.fullname" . }}
+  labels:
+    {{- include "Epay_Communication_Service.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "Epay_Communication_Service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "Epay_Communication_Service.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "Epay_Communication_Service.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ tpl .Values.image.repository $ }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+            - name: SPRING_CONFIG_LOCATION
+              value: file:/opt/gradle/
+            # - name: DB_USERNAME
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: my-secrets-operation-service-secret
+            #       key: DB_USERNAME
+            # - name: DB_PASSWORD
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: my-secrets-operation-service-secret
+            #       key: DB_PASSWORD
+            #- name: JAVA_OPTS
+              #value: "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+              #value: "--add-exports=java.base/sun.nio.ch=ALL-UNNAMED --add-exports=java.base/sun.util.calendar=ALL-UNNAMED --add-exports=java.base/sun.security.action=ALL-UNNAMED"
+          volumeMounts:
+            - mountPath: /opt/gradle
+              name: config
+  #          - mountPath: /certs
+   #           name: gemfire-cert
+   #           readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            defaultMode: 420
+            name: comm-config
+       # - name: gemfire-cert
+        #  secret:
+         #   defaultMode: 420
+         #   secretName: dev-gemfire-secrets
+
+
+            
+#
