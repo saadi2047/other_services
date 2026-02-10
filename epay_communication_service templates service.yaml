@@ -1,0 +1,16 @@
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "Epay_Communication_Service.fullname" . }}
+  labels:
+    {{- include "Epay_Communication_Service.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      protocol: TCP
+      name: {{ .Values.service.port }}-tcp
+  selector:
+    {{- include "Epay_Communication_Service.selectorLabels" . | nindent 4 }}
