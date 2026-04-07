@@ -1,0 +1,204 @@
+[osuser@bastion ~]$ curl -kv https://10.189.42.83:636
+* Rebuilt URL to: https://10.189.42.83:636/
+*   Trying 10.189.42.83...
+* TCP_NODELAY set
+^C
+[osuser@bastion ~]$ oc get node
+NAME                      STATUS   ROLES                  AGE    VERSION
+infra1.dev.sbiepay.sbi    Ready    infra                  577d   v1.32.9
+infra2.dev.sbiepay.sbi    Ready    infra                  577d   v1.32.9
+infra3.dev.sbiepay.sbi    Ready    infra                  577d   v1.32.9
+master1.dev.sbiepay.sbi   Ready    control-plane,master   577d   v1.32.9
+master2.dev.sbiepay.sbi   Ready    control-plane,master   577d   v1.32.9
+master3.dev.sbiepay.sbi   Ready    control-plane,master   577d   v1.32.9
+worker1.dev.sbiepay.sbi   Ready    worker                 577d   v1.32.9
+worker1.integ.epay.sbi    Ready    worker                 207d   v1.32.9
+worker1.sit.epay.sbi      Ready    worker                 530d   v1.32.9
+worker1.uat.epay.sbi      Ready    worker                 531d   v1.32.9
+worker2.dev.sbiepay.sbi   Ready    worker                 577d   v1.32.9
+worker2.integ.epay.sbi    Ready    worker                 209d   v1.32.9
+worker2.sit.epay.sbi      Ready    worker                 530d   v1.32.9
+worker2.uat.epay.sbi      Ready    worker                 531d   v1.32.9
+worker3.dev.sbiepay.sbi   Ready    worker                 577d   v1.32.9
+worker3.integ.epay.sbi    Ready    worker                 208d   v1.32.9
+worker3.sit.epay.sbi      Ready    worker                 530d   v1.32.9
+worker3.uat.epay.sbi      Ready    worker                 531d   v1.32.9
+[osuser@bastion ~]$ oc debug node/worker1.dev.sbiepay.sbi
+Temporary namespace openshift-debug-lfh4s is created for debugging node...
+Starting pod/worker1devsbiepaysbi-debug-5x4px ...
+To use host binaries, run `chroot /host`
+Pod IP: 10.177.142.141
+If you don't see a command prompt, try pressing enter.
+sh-5.1# chroot /host
+sh-5.1# curl -kv https://10.189.42.83:636
+*   Trying 10.189.42.83:636...
+^C
+sh-5.1# export http_proxy=http://serverswg.sbi.co.in:9090
+sh-5.1# export https_proxy=http://serverswg.sbi.co.in:9090
+sh-5.1# curl -kv https://10.189.42.83:636
+* Uses proxy env variable https_proxy == 'http://serverswg.sbi.co.in:9090'
+^C
+sh-5.1# curl -kv uatrootdc1.uatad.sbi 636
+* Uses proxy env variable http_proxy == 'http://serverswg.sbi.co.in:9090'
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+> GET http://uatrootdc1.uatad.sbi/ HTTP/1.1
+> Host: uatrootdc1.uatad.sbi
+> User-Agent: curl/7.76.1
+> Accept: */*
+> Proxy-Connection: Keep-Alive
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 404 Not Found
+< Cache-Control: no-cache
+< X-XSS-Protection: 1
+< Connection: Keep-Alive
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 867
+< Pragma: no-cache
+<
+<HTML><HEAD>
+<TITLE>Network Error</TITLE>
+</HEAD>
+<BODY>
+<FONT face="Helvetica">
+<big><strong></strong></big><BR>
+</FONT>
+<blockquote>
+<TABLE border=0 cellPadding=1 width="80%">
+<TR><TD>
+<FONT face="Helvetica">
+<big>Network Error (dns_unresolved_hostname)</big>
+<BR>
+<BR>
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica">
+Your requested host "uatrootdc1.uatad.sbi" could not be resolved by DNS.
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica">
+
+</FONT>
+</TD></TR>
+<TR><TD>
+<BR>
+<FONT face="Helvetica">
+Transaction ID: a4799805918e37e4-00000004961f57b1-0000000069d4de3a
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica" SIZE=2>
+<BR>
+This site is currently not available. For assistance, Please contact CIA HelpDesk Team Email ID:helpdesk.proxy@sbi.co.in.
+</FONT>
+</TD></TR>
+</TABLE>
+</blockquote>
+</FONT>
+</BODY></HTML>
+* Connection #0 to host serverswg.sbi.co.in left intact
+* Uses proxy env variable http_proxy == 'http://serverswg.sbi.co.in:9090'
+* Found bundle for host serverswg.sbi.co.in: 0x5652087275e0 [serially]
+* Can not multiplex, even if we wanted to!
+* Connection 0 seems to be dead!
+* Closing connection 0
+* Hostname serverswg.sbi.co.in was found in DNS cache
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#1)
+> GET http://636/ HTTP/1.1
+> Host: 636
+> User-Agent: curl/7.76.1
+> Accept: */*
+> Proxy-Connection: Keep-Alive
+>
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 503 Service Unavailable
+< Cache-Control: no-cache
+< X-XSS-Protection: 1
+< Connection: Keep-Alive
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 988
+< Pragma: no-cache
+<
+<HTML><HEAD>
+<TITLE>Network Error</TITLE>
+</HEAD>
+<BODY>
+<FONT face="Helvetica">
+<big><strong></strong></big><BR>
+</FONT>
+<blockquote>
+<TABLE border=0 cellPadding=1 width="80%">
+<TR><TD>
+<FONT face="Helvetica">
+<big>Network Error (tcp_error)</big>
+<BR>
+<BR>
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica">
+A communication error occurred: "Operation timed out"
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica">
+The Web Server may be down, too busy, or experiencing other problems preventing it from responding to requests. You may wish to try again at a later time.
+</FONT>
+</TD></TR>
+<TR><TD>
+<BR>
+<FONT face="Helvetica">
+Transaction ID: a4799805918e37e4-000000049621548e-0000000069d4de3a
+</FONT>
+</TD></TR>
+<TR><TD>
+<FONT face="Helvetica" SIZE=2>
+<BR>
+This site is currently not available. For assistance, Please contact CIA HelpDesk Team Email ID:helpdesk.proxy@sbi.co.in.
+</FONT>
+</TD></TR>
+</TABLE>
+</blockquote>
+</FONT>
+</BODY></HTML>
+* Connection #1 to host serverswg.sbi.co.in left intact
+sh-5.1#
+exit
+sh-5.1#
+exit
+
+Removing debug pod ...
+Temporary namespace openshift-debug-lfh4s was removed.
+[osuser@bastion ~]$
+[osuser@bastion ~]$
+
+[osuser@bastion ~]$
+[osuser@bastion ~]$ ldapsearch -H ldaps://uatrootdc1.uatad.sbi:636 -D "CN=EPAYUAT_LDAP,OU=Users,DC=UATAD,DC=SBI" -w Gitlab@180326 -b "DC=UATAD,DC=SBI" "(sAMAccountName=EPAYUAT_LDAP)"
+ldap_sasl_bind(SIMPLE): Can't contact LDAP server (-1)
+[osuser@bastion ~]$ net user EPAYUAT_LDAP /domain
+bash: net: command not found...
+Failed to search for file: /run/media/addmitam/RHEL-8-8-0-BaseOS-x86_64/BaseOS was not found
+[osuser@bastion ~]$ rsh
+bash: rsh: command not found...
+Failed to search for file: /run/media/addmitam/RHEL-8-8-0-BaseOS-x86_64/BaseOS was not found
+[osuser@bastion ~]$ oc get pods
+NAME                                              READY   STATUS    RESTARTS   AGE
+admin-adminservice-5d9b99fd89-rpwnw               2/2     Running   0          14d
+admin-portal-adminportalservice-f755b6d7c-5tprc   2/2     Running   0          4h48m
+[osuser@bastion ~]$ oc rsh admin-portal-adminportalservice-f755b6d7c-5tprc
+sh-5.1$ net user EPAYUAT_LDAP /domain
+sh: net: command not found
+sh-5.1$
+exit
+command terminated with exit code 127
+[osuser@bastion ~]$ oc net user EPAYUAT_LDAP /domain
+error: unknown command "net" for "oc"
+
+Did you mean this?
+        get
+        set
+[osuser@bastion ~]$
