@@ -1,0 +1,2 @@
+oc get pods -n dev-admin -o wide | grep adminservice
+oc get deploy admin-adminservice -n dev-admin -o jsonpath='{.spec.template.spec.affinity}{"\n"}'
