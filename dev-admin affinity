@@ -1,0 +1,29 @@
+[osuser@bastion namdev]$ oc get pods -n dev-admin
+NAME                                               READY   STATUS    RESTARTS   AGE
+admin-adminservice-76765f764-x847x                 2/2     Running   0          7h2m
+admin-portal-adminportalservice-6dd58bcb99-7c9xn   2/2     Running   0          27m
+[osuser@bastion namdev]$ oc get pods -n dev-admin -o wide
+NAME                                               READY   STATUS    RESTARTS   AGE    IP              NODE                      NOMINATED NODE   READINESS GATES
+admin-adminservice-76765f764-x847x                 2/2     Running   0          7h2m   172.16.17.165   worker3.dev.sbiepay.sbi   <none>           <none>
+admin-portal-adminportalservice-6dd58bcb99-7c9xn   2/2     Running   0          27m    172.16.17.179   worker3.dev.sbiepay.sbi   <none>           <none>
+[osuser@bastion namdev]$ oc get node -o wide
+NAME                      STATUS   ROLES                  AGE     VERSION    INTERNAL-IP      EXTERNAL-IP      OS-IMAGE                                                KERNEL-VERSION                  CONTAINER-RUNTIME
+infra1.dev.sbiepay.sbi    Ready    infra                  2y21d   v1.33.12   10.177.142.137   10.177.142.137   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+infra2.dev.sbiepay.sbi    Ready    infra                  2y21d   v1.33.12   10.177.142.138   10.177.142.138   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+infra3.dev.sbiepay.sbi    Ready    infra                  2y21d   v1.33.12   10.177.142.139   10.177.142.139   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+master1.dev.sbiepay.sbi   Ready    control-plane,master   2y21d   v1.33.12   10.177.142.134   10.177.142.134   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+master2.dev.sbiepay.sbi   Ready    control-plane,master   2y21d   v1.33.12   10.177.142.135   10.177.142.135   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+master3.dev.sbiepay.sbi   Ready    control-plane,master   2y21d   v1.33.12   10.177.142.136   10.177.142.136   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker1.dev.sbiepay.sbi   Ready    worker                 2y21d   v1.33.12   10.177.142.141   10.177.142.141   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker1.integ.epay.sbi    Ready    worker                 381d    v1.33.12   10.177.139.245   10.177.139.245   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker1.sit.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.113   10.177.143.113   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker1.uat.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.110   10.177.143.110   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker2.dev.sbiepay.sbi   Ready    worker                 2y21d   v1.33.12   10.177.142.142   10.177.142.142   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker2.integ.epay.sbi    Ready    worker                 383d    v1.33.12   10.177.139.246   10.177.139.246   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker2.sit.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.114   10.177.143.114   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker2.uat.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.111   10.177.143.111   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker3.dev.sbiepay.sbi   Ready    worker                 2y21d   v1.33.12   10.177.142.143   10.177.142.143   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker3.integ.epay.sbi    Ready    worker                 382d    v1.33.12   10.177.136.165   10.177.136.165   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker3.sit.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.115   10.177.143.115   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+worker3.uat.epay.sbi      Ready    worker                 705d    v1.33.12   10.177.143.112   10.177.143.112   Red Hat Enterprise Linux CoreOS 9.6.20260521-1 (Plow)   5.14.0-570.117.1.el9_6.x86_64   cri-o://1.33.12-3.rhaos4.20.git64c6a00.el9
+[osuser@bastion namdev]$
