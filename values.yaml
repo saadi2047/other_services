@@ -1,0 +1,109 @@
+#Default values for adminservice.
+## This is a YAML-formatted file.
+# Declare variables to be passed into your templates.##
+
+replicaCount: 1
+
+virtualService:
+  enabled: true
+
+image:
+  repository: artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/app/backend/epay_admin_service
+  pullPolicy: IfNotPresent
+  # #Overrides the image tag whose default is the chart appVersion.
+  #tag: "dev-9ab6c9c0"
+  #tag: "dev-9ab6c9c0" dev-0ddbc6b9
+  tag: "mr-feature-epay-209-ibmb-paymode-view-develop-477-336cef2d"
+
+imagePullSecrets: 
+  - name: jfrog-pull-secret
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount: {}
+
+podAnnotations: {}
+podLabels: {}
+
+podSecurityContext: {}
+
+applicationProperties: ""
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 9094
+
+namespace: dev-admin
+gatewayName: dev-istio-system/dev-gateway
+virtualServiceName: admin-adminservice
+serviceName: admin-adminservice
+prefixName:  /api/admin/v1
+servicePort: 9094
+gatewayPort: 80
+gatewayHost: "dev.epay.sbi"
+routes:
+  - prefixName: /api/admin/v1/merchant/payMode/
+    serviceName: admin-adminservice
+    servicePort: 9094
+
+
+  
+configMap: 
+  additionalLabels:
+    # ...
+  annotations:
+    # ...
+  nameSuffix: "config"
+
+resources: {}
+ingress: {}
+# readinessProbe: {}
+# livenessProbe: {}
+
+# Enable health probes for proper HPA functioning
+readinessProbe:
+  enabled: true
+  httpGet:
+    path: "/api/admin/v1/actuator/health/readiness"
+    port: 9094
+    scheme: HTTP
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+livenessProbe:
+  enabled: true
+  httpGet:
+    path: "/api/admin/v1/actuator/health/liveness"
+    port: 9094
+    scheme: HTTP
+  initialDelaySeconds: 30
+  periodSeconds: 10
+
+autoscaling: {}
+
+# Additional volumes on the output Deployment definition.
+volumes: []
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts: []
+# - name: foo
+#   mountPath: "/etc/foo"
+#   readOnly: true#
+
+nodeSelector: {}
+
+tolerations: []
+
+# Pin admin service to worker3.dev only (hard rule).
+# All replicas run on this single node; if worker3 is drained or down,
+# pods stay Pending until it is back.
+affinity:
+  nodeAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: kubernetes.io/hostname
+              operator: In
+              values:
+                - worker3.dev.sbiepay.sbi

@@ -1,0 +1,118 @@
+#
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "Epay_Admin_Service.fullname" . }}
+  labels:
+    {{- include "Epay_Admin_Service.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ (index (index ($.Values.global | default dict) "replicas" | default dict) "epay_admin_service") | default 1 | int }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "Epay_Admin_Service.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:  
+      annotations:
+        {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "Epay_Admin_Service.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "Epay_Admin_Service.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      # Scheduling (values-driven) — pins admin service to worker3.dev
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }} 
+          image: "{{ tpl .Values.image.repository $ }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          env:
+          - name: SPRING_CONFIG_LOCATION
+            value: file:/opt/gradle/
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets-admin-service-secret
+                key: DB_USERNAME
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: my-secrets-admin-service-secret
+                key: DB_PASSWORD
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              # path: {{ .Values.prefixName }}/actuator/health
+              # port: {{ .Values.service.port }}
+              path: {{ .Values.readinessProbe.httpGet.path }}
+              port: {{ .Values.readinessProbe.httpGet.port }}
+            initialDelaySeconds: 60
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+            successThreshold: 1
+          {{- end }}
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              # path: {{ .Values.prefixName }}/actuator/health
+              # port: {{ .Values.service.port }}
+              path: {{ .Values.livenessProbe.httpGet.path }}
+              port: {{ .Values.livenessProbe.httpGet.port }}
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 10
+            failureThreshold: 6
+            successThreshold: 1
+          {{- end }}                
+          volumeMounts:
+            - name: config
+              mountPath: "/opt/gradle"
+            - name: payment-upivpaqr-cert
+              readOnly: true
+              mountPath: /certs
+            # - name: gemfire-admin-cert
+            #   readOnly: true
+            #   mountPath: /certs   
+      volumes:
+        - name: config
+          configMap:
+            name: admin-config
+        - name: payment-upivpaqr-cert
+          secret:
+            secretName: payment-upivpaqr
+            defaultMode: 444
+        # - name: gemfire-admin-cert
+        #   secret:
+        #     secretName: gemfire-dev-cert-admin
+        #     defaultMode: 420
+        
+#
