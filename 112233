@@ -1,2 +1,18 @@
-oc get pods -n dev-admin -o wide | grep adminservice
-oc get deploy admin-adminservice -n dev-admin -o jsonpath='{.spec.template.spec.affinity}{"\n"}'
+[osuser@bastion namdev]$ oc get pods -n dev-admin
+NAME                                               READY   STATUS    RESTARTS   AGE
+admin-adminservice-76765f764-x847x                 2/2     Running   0          7h24m
+admin-portal-adminportalservice-6dd58bcb99-7c9xn   2/2     Running   0          49m
+[osuser@bastion namdev]$ oc get pods -n dev-admin
+NAME                                               READY   STATUS    RESTARTS   AGE
+admin-adminservice-6bf77784c6-2g92z                1/2     Running   0          11s
+admin-adminservice-76765f764-x847x                 2/2     Running   0          7h25m
+admin-portal-adminportalservice-6dd58bcb99-7c9xn   2/2     Running   0          50m
+[osuser@bastion namdev]$ oc get pods -n dev-admin
+NAME                                               READY   STATUS    RESTARTS   AGE
+admin-adminservice-6bf77784c6-2g92z                2/2     Running   0          2m17s
+admin-portal-adminportalservice-6dd58bcb99-7c9xn   2/2     Running   0          52m
+[osuser@bastion namdev]$ oc get pods -n dev-admin -o wide | grep adminservice
+admin-adminservice-6bf77784c6-2g92z                2/2     Running   0          2m29s   172.16.17.181   worker3.dev.sbiepay.sbi   <none>           <none>
+[osuser@bastion namdev]$ oc get deploy admin-adminservice -n dev-admin -o jsonpath='{.spec.template.spec.affinity}{"\n"}'
+{"nodeAffinity":{"requiredDuringSchedulingIgnoredDuringExecution":{"nodeSelectorTerms":[{"matchExpressions":[{"key":"kubernetes.io/hostname","operator":"In","values":["worker3.dev.sbiepay.sbi"]}]}]}}}
+[osuser@bastion namdev]$
