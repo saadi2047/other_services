@@ -1,0 +1,1744 @@
+Using username "osuser".
+Pre-authentication banner message from server:
+| This system is restricted to authorized users. Individuals attempting unautho
+> rized access will be prosecuted. If unauthorized, terminate access now! Click
+> ing on OK indicates your acceptance of the information in the background.
+|
+End of banner message from server
+This system is restricted to authorized users. Individuals attempting unauthorized access will be prosecuted. If unauthorized, terminate access now! Clicking on OK indicates your acceptance of the information in the background.
+
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: rhc connect
+
+Example:
+# rhc connect --activation-key <key> --organization <org>
+
+The rhc client and Red Hat Insights will enable analytics and additional
+management capabilities on your system.
+View your connected systems at https://console.redhat.com/insights
+
+You can learn more about how to register your system
+using rhc at https://red.ht/registration
+Last login: Tue Sep 29 11:03:39 2026 from 10.30.64.59
+[osuser@bastion ~]$ oc get cm payment-config -n dev-transaction -o yaml | grep -n -iE 'ibmb|nbbl|npci|jks|p12|keystore|proxy'
+37:    \   session:\n      cookie:\n        secure: true\nhttps_protocols: \"TLSv1.2\"\nhttps_proxySet:
+38:    true\nhttps_proxyHost: \"serverswg.sbi.co.in\"\nhttps_proxyPort: 9090\ntransaction:\n
+88:    \     USD: 840\n      proxySet: true\n      browserAgent: \"TestMerchant/26.5.0.100
+102:    \     proxyip: \"\"\n      proxyport: \"\"\n      tlsversion: \"\"\n    other_inb_key_browser:
+130:    \ client_jks_filename: \"sbiepay_newpg.jks\"\n  client_jks_file_pwd: \"keystore\"\n
+132:    \"wibmo_pk\"\n  proxy:\n    required: \"Y\"\n  client_jks_filename_intl: \"keys/sbiepay_newpg_intl.jks\"\n
+133:    \ client_jks_filename_rupay: \"keys/sbiepay_newpg_rupay.jks\"\n  client_jks_file_pwd_rupay:
+136:    \ client_jks_file_pwd_intl: \"keystore\"\n  client_alias_name_intl: \"client_keypair\"\n
+169:    /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n    urls: \"/webjars/, /actuator/, /swagger-resources/,
+171:    /api/transaction/v1/actuator/health/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n
+176:    /paypal/sbi/**,  /sbi/ibmb/**, /ibmb/**\"\njwt:\n  secret:\n    key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\nexternal:\n
+214:    \ mId-list: 1000857\n\nibmb:\n  \n  ssl:\n    key-store: /nbbl-certs/nbbl_client.jks\n
+215:    \   public-key-path: /nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt\n    return-url:
+216:    https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback\n    key-store-pwd: sbi@123\n
+217:    \   key-store-type: JKS\n    timeout:\n      connection: 20\n      response: 20\n
+218:    \ base:\n    path: https://ibmbcert.npci.org.in\n  endpoint:\n    reqtxninit:
+220:    \     timeout: 20\n  sbi:\n    private-key-path: /nbbl-certs/sbi_private_key\n"
+226:      {"apiVersion":"v1","data":{"application.yaml":"#\nspring:\n  application:\n    name: \"epay_payment_service\"\n  jpa:\n    show-sql: true\n    properties:\n      hibernate:\n        show_sql: true\n        format_sql: true\n    hibernate:\n      ddl-auto: \"none\"\n  web:\n    resources:\n      static-locations: \"classpath:/,file:/non-existent-folder\"\n  datasource:\n    url: \"jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=epaydbscandev.sbiepay.sbi)(PORT=1524))(CONNECT_DATA= (SERVER=DEDICATED) (SERVICE_NAME=epaydbdev.sbiepay.sbi)))\"\n    username: ${DB_USERNAME}\n    password: ${DB_PASSWORD}\n    driver-class-name: \"oracle.jdbc.OracleDriver\"\n    hikari:\n      maximum-pool-size: 10\n      minimum-idle: 5\n      idle-timeout: 30000\n      max-lifetime: 2000000\n      connection-timeout: 30000\n  messages:\n    basename: \"errors,messages\"\n  liquibase:\n    change-log: \"classpath:db/changelog/db.changelog-master.xml\"\n    enabled: false\n    drop-first: false\n  profiles:\n    active: \"dev\"\n  kafka:\n    bootstrapServers: \"dev-kafka-cluster-kafka-bootstrap.dev-kafka.svc.cluster.local:9092\"\n    properties:\n      security:\n        protocol: \"PLAINTEXT\"\n    consumer:\n      groupId: \"payment-consumers\"\n      enableAutoCommit: true\n      autoCommitInterval: 100\n      sessionTimeoutMS: 300000\n      requestTimeoutMS: 420000\n      fetchMaxWaitMS: 200\n      maxPollRecords: 5\n      autoOffsetReset: \"latest\"\n      keyDeserializer: \"org.apache.kafka.common.serialization.StringDeserializer\"\n      valueDeserializer: \"org.apache.kafka.common.serialization.StringDeserializer\"\n      retryMaxAttempts: 3\n      retryBackOffInitialIntervalMS: 10000\n      retryBackOffMaxIntervalMS: 30000\n      numberOfConsumers: 1\n      auto-offset-reset: \"earliest\"\n    producer:\n      acks: \"all\"\n      retries: 3\n      batchSize: 1000\n      lingerMs: 1\n      bufferMemory: 33554432\n      keyDeserializer: \"org.apache.kafka.common.serialization.StringSerializer\"\n      valueDeserializer: \"org.apache.kafka.common.serialization.StringSerializer\"\n    topic:\n      payment:\n        notification:\n          sms: \"payment_sms_notification_topic\"\n          email: \"payment_email_notification_topic\"\n          cashstatusquery: \"payment_cashstatusquery_notification_topic\"\n        push:\n          verification: \"payment_push_verification_topic\"\n        cashstatusquery:\n          cron_time: \"0/180 * * * * *\"\n      partitions: 4\n      replicationFactor: 1\n  mail:\n    host: \"10.177.210.181\"\n    port: 587\n    username: \"sbitestclient\"\n    password: \"sbitestclient_7f827c4b3aa6cd1f08d6b9cce2c0c80e\"\n    smtp:\n      ssl:\n        protocols: \"TLSv1.3\"\n    properties:\n      mail:\n        smtp:\n          ssl:\n            protocols: \"TLSv1.3\"\n            trust: \"*\"\n            checkserveridentity: false\n          starttls:\n            enable: true\nserver:\n  port: 9093\n  servlet:\n    context-path: \"/api/payments/v1/\"\n    session:\n      cookie:\n        secure: true\nhttps_protocols: \"TLSv1.2\"\nhttps_proxySet: true\nhttps_proxyHost: \"serverswg.sbi.co.in\"\nhttps_proxyPort: 9090\ntransaction:\n  token:\n    expiry:\n      time: 30\nlogging:\n  level:\n    liquibase: \"INFO\"\n    com:\n      epay:\n        sbi: \"INFO\"\n        payment: \"INFO\"\n    org:\n      apache:\n        kafka: \"ERROR\"\n        geode: \"ERROR\"\n      springframework: \"ERROR\"\nkey:\n  aek: \"BiIZ5feKr16Td3XSpVywqXlwRNfSy9Gtis04WqEbD/0=\"\nepay:\n  payment:\n    card:\n      pvReqURL_intl: \"https://3ds2-api-3dsserver-intg.pc.enstage-sas.com/3dsserverapi/v5/pVrq/8642/\"\n      saleAuthURL_intl: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/sale\"\n      checkbin_Url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/checkbin\"\n      initiate_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/initiate\"\n      generateOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/generateOtp\"\n      resendOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/resendOtp\"\n      verifyOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/verifyOtp\"\n      authorize_url_intl: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/authorize\"\n      reverse_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/web/v1/parseRupayResponse\"\n      token_url_intl: \"https://cardvault-azure.pc.enstage-sas.com/tokenVault/v3/tokenize\"\n      api_key_intl: \"41b52a74-92f0-4c05-9487-8d0e01238170\"\n      clientId_intl: \"175f0289-0272-4cd2-bffa-51fc9b6c4101\"\n      clientApiUser_intl: \"100001-HDFC-2lP6tK9sB7\"\n      clientApiKey_intl: \"HDFC5nN2pO3aR5\"\n      tokenSecretKey_intl: \"f3a81ff0-e139-4e6a-8888-9709a0407713\"\n      tokenSecretKey_1_intl: \"c19215e2-c2a4-4630-937b-a3bfd764c96b\"\n      merchantId_Token_intl: \"hdfctestmid1\"\n      tokenRequesterId_MC_intl: \"7D6D61B2-0BF9-4763-885F-6E9D7516C00E\"\n      tokenRequesterId_VS_intl: \"DFFFAC4C-B2D8-4CEA-BEBB-E7EB1716A348\"\n      tokenRequesterId_R_intl: 77799966611\n      acquiringBankId_intl: 93734895\n      acquireInstanceId_intl: \"93954c92-58ed-4912-8648-0948d5becc69\"\n      acquirerMerchantId_intl: \"PAYUGCMID1\"\n      callback_url: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/visamaster/callback\"\n      callbackg_url_rupay: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/rupay/callback\"\n      callback_url_intl: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/intl/visamaster/callback\"\n      callbackg_url_rupay_intl: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/intl/rupay/callback\"\n      pvReqURL: \"https://3ds2-api-3dsserver-intg.pc.enstage-sas.com/3dsserverapi/v5/pVrq/8642/\"\n      saleAuthURL: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/sale\"\n      checkbin_Url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/checkbin\"\n      initiate_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/initiate\"\n      generateOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/generateOtp\"\n      resendOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/resendOtp\"\n      verifyOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/verifyOtp\"\n      authorize_url: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/authorize\"\n      reverse_url: \"https://areionsbi.pc.enstage-sas.com/authentication/web/v1/parseRupayResponse\"\n      preAuth_url: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/preauth\"\n      token_url: \"https://cardvault-azure.pc.enstage-sas.com/tokenVault/v3/tokenize\"\n      api_key: \"41b52a74-92f0-4c05-9487-8d0e01238170\"\n      clientId: \"175f0289-0272-4cd2-bffa-51fc9b6c4101\"\n      clientApiUser: \"100001-HDFC-2lP6tK9sB7\"\n      clientApiKey: \"HDFC5nN2pO3aR5\"\n      tokenSecretKey: \"f3a81ff0-e139-4e6a-8888-9709a0407713\"\n      tokenSecretKey_1: \"c19215e2-c2a4-4630-937b-a3bfd764c96b\"\n      merchantId_Token: \"hdfctestmid1\"\n      tokenRequesterId_MC: \"7D6D61B2-0BF9-4763-885F-6E9D7516C00E\"\n      tokenRequesterId_VS: \"DFFFAC4C-B2D8-4CEA-BEBB-E7EB1716A348\"\n      tokenRequesterId_R: 77799966611\n      acquiringBankId: 93734895\n      acquireInstanceId: \"93954c92-58ed-4912-8648-0948d5becc69\"\n      acquirerMerchantId: \"PAYUGCMID1\"\n      pgInstanceId_1: 8642\n      pgInstanceId: 72702415\n      pgInstanceId_2: 72702415\n      acquirerBIN_MASTER: 597291\n      acquirerBIN_VISA: 401934\n      acquirerID: 8642\n      MCC: 4900\n      transactionTypeCode: 9003\n      deviceCategory: 0\n      deviceChannel: \"02\"\n      p_messageVersion: \"2.1.0\"\n      messageCategory: \"01\"\n      vaultId: 100001\n      INR: 356\n      USD: 840\n      proxySet: true\n      browserAgent: \"TestMerchant/26.5.0.100 (Android/13/SM-S908E)\"\n      paymentsRedirectUrl: \"https://dev.epay.sbi/ui/channel/card/sbi/\"\n      cardOnboardURL: \"/card\"\n      api_key_new: \"\"\n      pgInstanceId_3: 9999\n      mle_ver: 1\n      checkbin_New_Url: \"https://areionpg.pc.enstage-sas.com/binservice/v1/bins\"\n      finalResponse_Url: \"/callback\"\n    sbiinb:\n      sbiinbKey: \"resources/keys/SBI_EPAY.key\"\n      bankURL: \"https://merchant.sbiuat.bank.in\"\n      bankbrowserurl: \"https://merchant.sbiuat.bank.in/merchant/merchantprelogin.htm\"\n      bankdvurl: \"https://merchantuat.onlinesbi.sbi/thirdparties/doubleverification.htm\"\n      keyvalue: \"encdata\"\n      merchantcode: \"SBIEPAY2\"\n      paymentsRedirectUrl: \"/api/payments/v1/sbi/inb/responseRedirect?status=\"\n      devredirecturl: \"https://dev.epay.sbi/ui/channel/inb/sbi/\"\n      gtwmapid: 7\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/inb/sbi/callback\"\n      sbiredirecturl: \"https://dev.epay.sbi/api/payments/v1/inb/sbi/callback\"\n      otherinbstatusquery: \"https://epay.sbiuat.bank.in/payagg/otherINBstatusQuery/getTxnStatusQuery\"\n    otherinb:\n      success:\n        base:\n          path: \"https://dev.epay.sbi/api/payments/v1/other-inb/sbi/callback\"\n      fail:\n        base:\n          path: \"https://dev.epay.sbi/api/payments/v1/other-inb/sbi/callback\"\n      proxyip: \"\"\n      proxyport: \"\"\n      tlsversion: \"\"\n    other_inb_key_browser: \"cs7rDrDAB1e2ZCNYn58xO/wqT4RuTd5hmhhftFO8bd0=\"\n    other_inb_key: \"cs7rDrDAB1e2ZCNYn58xO/wqT4RuTd5hmhhftFO8bd0=\"\n    merchant_post_url: \"https://epay.sbiuat.bank.in/secure/MerchantHostedListener\"\n    cscwallet:\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/csccallback\"\n      keyvalue: \"message\"\n    cscwallet_sbiredirectdvurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/csccallback\"\n    wallet:\n      cscbankbrowserurl: \"https://payuat.csccloud.in/v1/payment/\"\n      cscbankdvurl: \"https://bridgeuat.csccloud.in/cscbridge/v2/transaction/status/format/json\"\n      apiKey: \"5dc9302c9f3dbe952e31e73406bd45a6\"\n      productid: 1751396615\n      merchantid: 17513\n      cscid: 500100100014\n      bridgePrivateKey: \"LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tDQpNSUlDZHdJQkFEQU5CZ2txaGtpRzl3MEJBUUVGQUFTQ0FtRXdnZ0pkQWdFQUFvR0JBTHY4TXVjTUJSSC9NNGd2DQp3UXJDOUZocUtSYklsU2dwZyt4R0s1WUxpeWFiT0lpSmlzMXNUY1F2UmlZcEtLSU5qakd5UjRJNXprSFFEUmhDDQo2eHBoZVd1Yk5neVQxcVg5ZS9INmdNZTk1K2lGajFxM3BJMWNtL3RFRFB2Y2ppTDVJaURGU01MeHd3cFJFaWF2DQpHTkF5ZUp6cWpkTHhYK0dzVWVPUkRLQytHM0ZCQWdNQkFBRUNnWUFZRDF0a2Z3RlhJRmEwSTRpTm5BNHlFc1JYDQppaXl0QzBNN1JtL2xzR3lLOEdyMzdzSzVNQmR6K0tqOTBWN0YvdjRvRmkxWTJaVXdqelJkMnBMRXVaMFVsRklSDQpVTVhyZFl4SGlXWHFkNGdUa1h2bXd3TlVFZm1mcS9HY0FUd25pTlA4QnBmNmpSelJhaDN1bEJ6QnVicGNhOE1YDQpiUWRLYUt3c1puMnUrWHBYQVFKQkFQQTBrSVpCOHNUQzIzQUJEM2hKSzV2ZTFpejl0a05ScUZRT2RXN215T0V1DQpkU1pMMnZHWHFBazBCSGxxanVuY3ZXdFViU3EzL210M1RmMXB1SUdFb21rQ1FRRElXSmxqTG9OQ3ZkRG5tZGxQDQpyTTMwMEozM21zaEpsUHgxSkx6SjhOSHgvL2x0eWpWZGxFdDhBL1Q2WHRqend0OXVvdVlUMlZqUkVwWDcxQTl6DQpIazBaQWtFQWtSK0E3Y3hzU3hwYkQ1bGtha3p5enZKYnZjVHZXRTYrZjBKWkNzN2VNTVlydXg1N1FobFpTVzRuDQpBZUF5UmZLNmNsMElzNVdFWGhNdmlGcFdRZElMZVFKQkFJenBmQ0U5WXNjN21NWjgrRkxJMlNkYTMvQjZabXNTDQpwaXFDaDJLRnhqU3U5TEhhNm9RQ1BNRmlTeGthUXYvWVRheVVXTDBYUHhmMk9aV2hScWlTWkdrQ1FCTkRrbG1iDQo4SVNLL2JCeTl3OWFZZUdKTEZpaVFxQUlwR29vbEZRc2xOU1A0cyt1eCtnNS9BdEZJbVd4OEhKaGp3aDlNc2l3DQplcHoyZE9GcjU4WWdFTDQ9DQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0t\"\n      bridgePublicKey: \"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R05BRENCaVFLQmdRREU2L3dTbzl5VVZiakZQempXOERYekRXOEUNCmZEWERKMVFBc1pPb3BueENOajJwTkJOcC9hY3k4MlEraTVaMmxESzNvS3UzcGlFekNhVWhFdGRJRXJBMU11ZTANCm52cEVBMG9DMEV0b0RVK3BrZ01waUh3UkVPV1YzL1UyZFNqMGMvajFUUTQybDVwNUZ2ay9kbWtVRWFXRmo1WUYNCkR3azZBOGZvaDhiV09vWXFCUUlEQVFBQg0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t\"\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/mobikwikcallback\"\n      bankbrowserurl: \"https://test.mobikwik.com/encwallet\"\n      bankdvurl: \"https://test.mobikwik.com/enccheckstatus\"\n      mid: \"MBK1034202\"\n      cell: 7039262141\n      email: \"punam.rajput.cedge@sbi.co.in\"\n      merchantname: \"SBIEPAY2\"\n      secretkey: \"ju6tygh7u7tdg554k098ujd5468o\"\n      encryptionkey: 1234567890123456\n      Statuscode: 0\n      statusmessage: \"The payment has been successfully collected\"\n      refid: 838731552\n    wallet_sbiredirectdvurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/mobikwikcallback\"\n    cash:\n      begin: \"-----BEGIN PRIVATE KEY-----\"\n      end: \"-----END PRIVATE KEY-----\"\n    paypal:\n      authentication: \"https://api-m.sandbox.paypal.com/v1/oauth2/token\"\n      create:\n        orders: \"https://api-m.sandbox.paypal.com/v2/checkout/orders\"\n      client_id: \"AbY9leIuwTWw_rBS4YHOwM_cpY5o5B6544HlLRqPEUm4idOUCwjxLtRYbrnzNrZ_vAJW55hyaMRNdBdv\"\n      client_secret: \"EHOdoXAg2MTsqfmbzhLKUj9-EqL76Jt1Z1E0P0n7dL3EcCgLSTtcEgzGf0pkCHkRpt0yyyjTaq-zygDF\"\n      capture:\n        orders: \"https://api-m.sandbox.paypal.com/v2/checkout/orders/\"\n      return_url: \"https://dev.epay.sbi/api/payments/v1/paypal/sbi/callback/success\"\n      cancel_url: \"https://dev.epay.sbi/api/payments/v1/paypal/sbi/callback/cancel\"\n      clientApiKey: \"HDFC5nN2pO3aR5\"\n      paymentsRedirectUrl: \"https://dev.epay.sbi/ui/channel/paypal/sbi\"\n    testbank:\n      post_url: \"http://stubs-stubsservice.dev-simulators.svc.cluster.local:9099/stubs/payments/v1/other-inb/testbank-PostURL\"\nwibmo:\n  client_jks_filename: \"sbiepay_newpg.jks\"\n  client_jks_file_pwd: \"keystore\"\n  client_alias_name: \"client_keypair\"\n  client_alias_pwd: \"password\"\n  server_pk_alias_name: \"wibmo_pk\"\n  proxy:\n    required: \"Y\"\n  client_jks_filename_intl: \"keys/sbiepay_newpg_intl.jks\"\n  client_jks_filename_rupay: \"keys/sbiepay_newpg_rupay.jks\"\n  client_jks_file_pwd_rupay: \"Wibmo@123\"\n  client_alias_name_rupay: \"Wibmo3dss\"\n  client_alias_pwd_rupay: \"Wibmo@123\"\n  server_pk_alias_name_rupay: \"de95d081-ce9c-4af7-aff6-121ce2fe58e4\"\n  client_jks_file_pwd_intl: \"keystore\"\n  client_alias_name_intl: \"client_keypair\"\n  client_alias_pwd_intl: \"password\"\n  server_pk_alias_name_intl: \"wibmo_pk\"\ncardConfigDeatils: \"\"\nUPI:\n  UPI_CLIENT_ID: \"SBIEPAY_MID_2.0\"\n  SECRETKEY: \"f65e8f0a484d45babd33c10b4535ef66\"\n  OAUTH_USERNAME: \"oauth2-api-merweb-SBI0000000032588\"\n  OAUTH_PASSWORD: \"05B6948CCFCA37A74B3DDDD15F9482040A998019ED67D2C77B4F5554DCB48B13\"\n  UPI_SBI_PUBLIC_KEY_PATH: \"/certs/SBI0000000032588_UAT_1224_PublicKey.asc\"\n  EPAY_PVT_KEY_PATH: \"/certs/0x1D883787-sec.asc\"\n  PACKET_ENCRYPTION_KEY: \"25dea54b392d9b24803d95e2df4d11d8\"\n  OAUTH_TOKEN_URL: \"https://uatupionline.sbi/upi2/oauth/token\"\n  VALIDATE_VPA_CHECK_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/validateVPAWeb\"\n  VPA_COLLECT_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/meCollectInitiateWeb\"\n  TXN_STATUS_ENQUIRY_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/meTranStatusQueryWeb\"\n  UPI_CALLBACK_URL: \"https://epay.sbiuat.bank.in/secure/upiProcessingServlet\"\n  UPICONFIG:\n    URL: \"http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/v1/merchant/gatewayconfigdetails\"\n  TXN_STATUS_ENQUIRY_API_URL: \"\"\n  VPA_CHECK_API_URL: \"\"\n  INTENT_API_URL: \"https://uatupionline.sbi/upi2/upi/mandate/signVerifyIntent\"\n  UPI_CONFIG_DEATILS_URL: \"http://localhost:9097/api/admin/v1/merchant/upi/getUpiConfigDeatils\"\n  HANDSHAKE_API_URL: \"https://uatupionline.sbi/upi2/upi/oauth2-web-handshake\"\n  UPIPRICING:\n    URL: \"/merchant/upiPricing\"\nPG:\n  UPI_MERCHANT_ID: \"SBI0000000032588\"\nUPI_PVT_KEY_PWD: \"Uat@Sbiepay\"\nupi:\n  upiGatewayConfigDetailsUrl: \"/merchant/gateway\"\n  server:\n    private:\n      key:\n        path: \"0x1D883787-sec.asc\"\n    public:\n      key:\n        path: \"SBI0000000032588_UAT_1224_PublicKey.asc\"\nUPI_category: \"01\"\nUPI_intentMode: \"05\"\nUPI_ivtoken: \"2F70CBBDFAE8DBA95F46CEB68A970673\"\nUPI_keyid: 10\nUPI_mode: \"05\"\nUPI_purpose: \"00\"\nUPI_qrMedium: \"06\"\nUPI_ver: \"01\"\nUPI_cu: \"INR\"\nUPI_tier: \"TIER1\"\nUPI2_mode: 16\nUPI2_category: \"02\"\nUPI_upiQrVpa: \"sbiepay2.1000003@sbi\"\nUPI_businessName: \"TestMerchant\"\nUPI_mccCode: 6012\nupiqr:\n  private:\n    key:\n      path: \"/certs/0x1D883787-sec.asc\"\n      password: \"Uat@Sbiepay\"\n  sbi:\n    public:\n      key:\n        path: \"/certs/SBI0000000032588_UAT_1224_PublicKey.asc\"\nUPI2:\n  INTENT_API_URL: \"https://uatupionline.sbi/upi3/upi/mandate/generateQrIntent\"\ncors:\n  origin: \"*\"\nsecurity:\n  cors:\n    origin: \"*\"\n    allowed:\n      origins: \"*\"\n      methods: \"GET,POST\"\n      headers: \"\\\"Authorization, Origin, X-Correlation-Id, Content-Type, Accept, Content-Disposition\\\"\"\n    max:\n      age: 3600\n  whitelist:\n    url: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/cards/sbi/** ,/inb/sbi/**, /upi/sbi/**, /other-inb/sbi/**, /cashchallan/sbi/**, /neft-rtgs/sbi/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n    urls: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/payments/v1/sbi,/sbi/inb,/cards/sbi/**,/inb/sbi/**,/other-inb/sbi/**,/upi/sbi/**,/cashchallan/sbi/**,/neft-rtgs/sbi/**,/actuator/health/**, /api/transaction/v1/actuator/health/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n  jwt:\n    secret:\n      key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\n      issuer: \"sbi.epay\"\nwhitelisted:\n  endpoints: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/cards/sbi/** ,/inb/sbi/**, /upi/sbi/**, /other-inb/sbi/**, /cashchallan/sbi/**, /neft-rtgs/sbi/**, /paypal/sbi/**,  /sbi/ibmb/**, /ibmb/**\"\njwt:\n  secret:\n    key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\nexternal:\n  api:\n    admin:\n      services:\n        base:\n          path: \"http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1\"\n    transaction:\n      services:\n        base:\n          path: \"http://txn-transactionservice.dev-transaction.svc.cluster.local:9092/api/transaction/v1\"\n    ui:\n      service:\n        redirectView: \"https://dev.epay.sbi/ui/channel/sbi\"\n    paymentCallBackUrl: \"https://dev.epay.sbi/demo/\"\n    sms:\n      gateway:\n        base:\n          path: \"https://smsapipprod.sbi.co.in:9443\"\n        url: \"/bmg/sms/epaypgotpdom\"\n        user: \"epaypgotpdom\"\n        password: \"Ep@y1Dpt\"\n      body:\n        country:\n          code: \"DOM\"\n        content:\n          type: \"text\"\n        sender:\n          id: \"SBIBNK\"\n        int:\n          flag: 0\n        charging: 0\n    kms:\n      services:\n        base:\n          path: \"https://dev.epay.sbi/api/kms/v1\"\nneft:\n  kafka:\n    outbound:\n      topic: \"neft.outbound.kafka.topic\"\n    inbound:\n      topic: \"neft.inbound.kafka.topic\"\n    inbound-topic: \"neft.inbound.kafka.topic\"\n    outbound-topic: \"neft.outbound.kafka.topic\"\n  outbound:\n    kafka:\n      topic: \"neft.outbound.kafka.topic\"\n  inbound:\n    kafka:\n      topic: \"neft.inbound.kafka.topic\"\n  mis:\n    outbound:\n      kafka:\n        topic: \"neft.mis.outbound.kafka.topic\"\n    inbound:\n      kafka:\n        topic: \"neft.mis.inbound.kafka.topic\"\n  pdf:\n    challan:\n      accountnumber: \"SBIEPY\"\n      beneficiaryname: \"SBIePAY NEFT\"\n      branchname: \"FINANCIAL INSTITUTIONS BRANCH\"\n      ifsccode: \"SBIN0011777\"\nrtgs:\n  mis:\n    inbound:\n      kafka:\n        topic: \"rtgs.mis.inbound.kafka.topic\"\n    outbound:\n      kafka:\n        topic: \"rtgs.mis.outbound.kafka.topic\"\n  kafka:\n    outbound:\n      topic: \"rtgs.outbound.kafka.topic\"\n    inbound:\n      topic: \"rtgs.inbound.kafka.topic\"\n  outbound:\n    kafka:\n      topic: \"rtgs.outbound.kafka.topic\"\n  inbound:\n    kafka:\n      topic: \"rtgs.inbound.kafka.topic\"\nemail:\n  recipient: \"ebms_uat_receiver@sbiuat.bank.in\"\n  from: \"ebms_uat_sender@sbiuat.bank.in\"\nkms:\n  service:\n    base-url: \"http://kms-kmsservice.dev-kms.svc.cluster.local:9093/api/kms/v1\"\n    cors-origin: \"https://dev.epay.sbi\"\ncashchallan:\n  api:\n    eis:\n      services:\n        publickey:\n          path: \"/certs/EIS_ENC_UAT.cer\"\n        privatekey:\n          path: \"/etc/custom-certs-payment/SBI_private.key\"\n        gateway:\n          enquiry: \"https://eissiuat.sbi.co.in/gen6/gateway/payments/Dr1Cr2MR/enquiry\"\n          branchcode: \"05049\"\n          sourceid: \"E2\"\n          sbisourceid: \"SBIE2\"\n    maxlength:\n      otherdetails: 1000\naws:\n  s3:\n    key: \"IDHJO1513FFMMNLPR9BC\"\n    secret: \"avXqEPv5B_QqqPK0D1VJzP3pSyAA4x31Zu_KucQ9\"\n    region: \"ap-south-1\"\n    url: \"https://s3store.bank.sbi/\"\n    bucket: epay-nonprod-s3bucket\n    bucket.report: epay-nonprod-s3bucket\n    bucket.ops: ${aws.s3.bucket.report}\nchallan:\n  pdf:\n    regeneration:\n      link: \"https://dev.epay.sbi/\"\nscheduler:\n  cron:\n    expression:\n      paypal-token: \"0 */5 * * * *\"\n  time:\n    zone: \"Asia/Kolkata\"\n  paypal-token:\n    lockAtLeastFor: \"PT30S\"\n    lockAtMostFor: \"PT4M\"\nstandard:\n  mId-list: 1000857\n\nibmb:\n  \n  ssl:\n    key-store: /nbbl-certs/nbbl_client.jks\n    public-key-path: /nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt\n    return-url: https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback\n    key-store-pwd: sbi@123\n    key-store-type: JKS\n    timeout:\n      connection: 20\n      response: 20\n  base:\n    path: https://ibmbcert.npci.org.in\n  endpoint:\n    reqtxninit: /ReqTxnInit/1.0/urn \n  health:\n    retry: \n      timeout: 20\n  txn:\n    retry:\n      timeout: 20\n  sbi:\n    private-key-path: /nbbl-certs/sbi_private_key\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":null,"name":"payment-config","namespace":"dev-transaction"}}
+[osuser@bastion ~]$ oc get secret nbbl-cert payment-upivpaqr custom-certs-payment -n dev-transaction \
+>   -o go-template='{{range .items}}{{.metadata.name}}:{{range $k,$v := .data}} {{$k}}{{end}}{{"\n"}}{{end}}'
+nbbl-cert: ibmbcert_npci_org_in_new_24Dec.crt nbbl_client.jks sbi_private_key
+payment-upivpaqr: 0x1D883787-pub.asc 0x1D883787-sec.asc EIS_ENC_UAT.cer SBI0000000032588_UAT_1224_PublicKey.asc SBIEPAY_NEW.key SBI_private.key iobsigner.cer keystore.p12 sbiPublic.cer sbiepay_newpg.jks
+custom-certs-payment: SBI_private.key bridgeuat_csccloud_in.crt csccloud.in.crt epaycert.cer merchant.sbiuat.bank.in.crt sms.cer
+[osuser@bastion ~]$ kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+-bash: /usr/local/bin/kubectl: Permission denied
+[osuser@bastion ~]$
+[osuser@bastion ~]$ sudo su -
+[root@bastion ~]# kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
+Defaulting debug container name to debugger-w94cv.
+If you don't see a command prompt, try pressing enter.
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+>         -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Entry for alias mykey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+sh-5.1$ curl -kv \
+  --proxy http://serverswg.sbi.co.in:9090 \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  -d '{
+  "payload" : "BPNST1JMiyzxCkCq49111biacXU3HXqm48k+hjI2gxBU59l8pRHp/+QKkGzrDZqSMaLWsJznRJ6bU52JJ596c+LDxsSuZLTWpQLuXLVbqd7muK/cvf4zv7jlpIPlqiw4uPw7ji+xIiobcYEfIO0c8qYo5oPtW7q2Qd965Vv9LdIb8jibBwn3TZALAXSiO1QxTsndDHgC9ogqMyTl3Nda0ZYCks0/cAcRZktoVX6JVBrwZ7isHQshuwT2T1PtSrY+J32Ky11wXWwy3dIDRrpL9Sx2fDK+mKFz20tyAUfpIcJ58NP+mt3sS6FqiYkxOxA202YLYDRwJHXeZ2KWYS7RPmmooBZBBzbT3ZOGhX9TL7qwtJGAApeSu4+1wd1DdtBsWnRR0tu3fL9pYM8AYweHKThHR8C5OQQjd0AAjAv+PzWxaRO57Ko3AX22ui9CbMB9mhX+gUmzjt44S1gAr7lAXhbAnRHh3pAAApXY7kDY1zH4TnGwhiuxnvxbizqpjk4Zh1M3T65exoUSJr+yM5wxnIRUT7EGfMyFXTUHUZmyStMXIhDVFm42opssBpOwwG5TvmOE4RZzCMee+VNiIdinG0PdO3Ip9KmWR2fpcGGSNi/fZCvEXi8PikOP7WdqpBLIrkzfa7USVp+QANYGAj9KgC0+twsiPqiF7SWhEwEHJhbrOkgQlmReN8tdCGqHnazYHi6ciNNU5S3buDJSww/BGA7jjgHe3qKbobs4IoHegeXdTgpdplVbThWDDjTXM7fAXiSFciECRs0GUpahg5Yy1feRlO/w0q0lfQoa762Vixrpzm3Eg1jYfMdUASK1J2oVlsWa2jNowTiJAf0XDfAaS78/fc/nSHvgIehLkuggeXZRpqQoyAtyotRkVEo6b/NLAuByYT6Y6tCOALg6dqbmG8syLlhOjbdqmEako9eIShycTm2eFKUDYesCdxGc8M7z7wO39CAw1gwodoOHkP2+pPNmt1jpuVshDsNl6v2iiohaO9/J1LhE3ishmZkmJZTmE5Kf0H7406J/WIQRusiv797p4P/xlC7O6LkJNL8fvKp8gzZG4z8Arymb0fUzd86tGuBlJ4ZF/zsc8ihr0TDXNzFi5LBJJqtP2i7awtzNVV/qjn6Gqd4nhxHH4JioZAZ4NXD/lT8YEMPCVPIC0jWmrANoPW1/A5ybVWXOFfBgDPeypNecnNOU",
+  "signature" : {
+    "signature" : "MEUCIQCeHEk6wXliliXSttGqGG6G1duRX3WFDmiZMiq+leTgJQIgUrwSNPMaHRdkL8ico2nJ5i2joZUe+EmGVPLMzVHz/+M=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcxNTE1MDAwIixleHBpcmVzPSIxNzkwMTcxNjk1MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"
+
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1602
+>
+* Empty reply from server
+* Closing connection 0
+* TLSv1.2 (OUT), TLS header, Unknown (21):
+curl: (52) Empty reply from server
+sh-5.1$ which keytool
+sh: which: command not found
+sh-5.1$ ls -l /proc/1/root/nbbl-certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 41 Sep 28 07:00 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 nbbl_client.jks -> ..data/nbbl_client.jks
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 sbi_private_key -> ..data/sbi_private_key
+sh-5.1$ keytool -list -v -keystore /tmp/npci-client.p12 -storetype PKCS12 -storepass 'sbi@123' | grep -E 'Alias|Entry type|Owner|Issuer|Valid'
+Alias name: mykey
+Entry type: PrivateKeyEntry
+Owner: CN=uat.sbiepay.sbi, O=STATE BANK OF INDIA, L=Mumbai, ST=Maharashtra, C=IN
+Issuer: EMAILADDRESS=infosec@npci.org.in, CN=NPCI_IBMB_UAT_ROOT_EXT_1, OU=Infosec, O=National Payments Corporation Of India, L=Mumbai, ST=Maharastra, C=IN
+Valid from: Tue Dec 10 06:29:36 UTC 2024 until: Wed Dec 10 06:29:36 UTC 2025
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  -d '{"payload":"","signature":{"signature":"","protected":""}}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST" 2>&1 | grep -E 'CERT verify|alert|SSL connection|HTTP/|Empty reply|error'
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+< HTTP/1.1 200 Connection established
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST HTTP/1.1
+< HTTP/1.1 200 OK
+* TLSv1.2 (OUT), TLS alert, close notify (256):
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"
+
+Warning: Couldn't read data from file "/tmp/req.json", this makes an empty
+Warning: POST.
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 0
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 400 Bad Request
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< date: Tue, 29 Sep 2026 05:56:25 GMT
+< x-backend-app: waap01
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0dd50e79cd2b9fe352602fa065d689c3e424e817f3130d9cca514bdf88844a454a6b9078dd0e335872c37f8ce55907207a; Path=/; Domain=.ibmbcert.npci.org.in
+< Transfer-Encoding: chunked
+<
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"timestamp":"2026-09-29T05:56:25.929+00:00","status":400,"error":"Bad Request","path":"/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ curl -kv \
+
+  --proxy http://serverswg.sbi.co.in:9090 \
+
+  --cert-type P12 \
+
+  --cert "/tmp/npci-client.p12:test@123" \
+
+  -H "Content-Type: application/json" \
+
+  -H "User-Agent: Java/17.0.11" \
+
+  -d '{
+
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+
+  "signature" : {
+
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+
+  }
+
+}' \
+
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+
+curl: no URL specified!
+curl: try 'curl --help' for more information
+sh: --proxy: command not found
+sh: --cert-type: command not found
+sh: --cert: command not found
+sh: -H: command not found
+sh: -H: command not found
+sh: -d: command not found
+sh: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN: No such file or directory
+sh-5.1$ curl -kv \
+  --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 \
+  --cert "/tmp/npci-client.p12:test@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  -d '{
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+  "signature" : {
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+* Closing connection 0
+curl: (58) could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"<fresh payload>","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
+EOF
+sh-5.1$ ^C
+
+sh-5.1$ ~^C
+
+sh-5.1$ ^C
+
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"PSE096266OBPUSUMUDZS","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
+EOF
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"...","signature":{"signature":"MEUC...","protected":"a2V5SWQ9..."}}
+EOF
+sh-5.1$ {
+
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+
+  "signature" : {
+
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+
+  }
+
+}
+
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+
+  -H "Content-Type: application/json" \
+
+  -H "User-Agent: Java/17.0.11" \
+
+  --data @/tmp/req.json \
+
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+
+sh: payload: command not found
+sh: signature: command not found
+sh: signature: command not found
+sh: protected: command not found
+sh: syntax error near unexpected token `}'
+curl: no URL specified!
+curl: try 'curl --help' for more information
+sh: --cert-type: command not found
+sh: -H: command not found
+sh: -H: command not found
+sh: --data: command not found
+sh: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM: No such file or directory
+sh-5.1$ {
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+  "signature" : {
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+sh: payload: command not found
+sh: signature: command not found
+sh: signature: command not found
+sh: protected: command not found
+sh: syntax error near unexpected token `}'
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 79
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 191
+< date: Tue, 29 Sep 2026 06:11:41 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0dd8061f0b4f3daa541b150368069003745c6bc1fb18fb7a774cbfab6ac2dcd96fa8cfc0f6ac5f51ae631724a2e348ff74; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272NPCHNLIEJPM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T11:41:42+05:30"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+  "signature" : {
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 191
+< date: Tue, 29 Sep 2026 06:15:40 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0d03930344bcaeea6700b0a754a33ba6d283882f5312ea9d9700ecd1e6be04f04bb74b40c8a3f83c0e9ae26296a8f70d71; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272NPCHNLIEJPM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T11:45:40+05:30"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/shared_pub.pem <<'EOF'
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
+EOF
+
+head -1 /proc/1/root/nbbl-certs/sbi_private_key          # just the format header, not the key
+openssl pkey -in /proc/1/root/nbbl-certs/sbi_private_key -pubout -out /tmp/app_pub.pem
+diff /tmp/app_pub.pem /tmp/shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+-----BEGIN PRIVATE KEY-----
+sh: openssl: command not found
+sh: diff: command not found
+MISMATCH
+sh-5.1$ cat > /tmp/KeyCheck.java <<'EOF'
+import java.nio.file.*; import java.security.*; import java.security.spec.*; import java.util.Base64;
+public class KeyCheck {
+  static byte[] pem(String f) throws Exception {
+    String s = Files.readString(Path.of(f)).replaceAll("-----[A-Z ]+-----", "").replaceAll("\\s", "");
+    return Base64.getDecoder().decode(s);
+  }
+  public static void main(String[] a) throws Exception {
+    KeyFactory kf = KeyFactory.getInstance("EC");
+    PrivateKey priv = kf.generatePrivate(new PKCS8EncodedKeySpec(pem(a[0])));
+    PublicKey  pub  = kf.generatePublic(new X509EncodedKeySpec(pem(a[1])));
+    byte[] msg = "keycheck".getBytes();
+    Signature s = Signature.getInstance("SHA256withECDSA"); s.initSign(priv); s.update(msg); byte[] sig = s.sign();
+    Signature v = Signature.getInstance("SHA256withECDSA"); v.initVerify(pub); v.update(msg);
+    System.out.println(v.verify(sig) ? "MATCH - private key pairs with shared public key" : "MISMATCH - keys do NOT pair");
+  }
+}
+EOF
+java /tmp/KeyCheck.java /proc/1/root/nbbl-certs/sbi_private_key /tmp/shared_pub.pem
+MISMATCH - keys do NOT pair
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/CertCheck.java <<'EOF'
+import java.nio.file.*; import java.security.cert.*; import java.util.*; import java.io.*;
+public class CertCheck {
+  public static void main(String[] a) throws Exception {
+    X509Certificate c = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(new FileInputStream(a[0]));
+    String s = Files.readString(Path.of(a[1])).replaceAll("-----[A-Z ]+-----","").replaceAll("\\s","");
+    System.out.println("Cert subject: " + c.getSubjectX500Principal());
+    System.out.println("Cert valid until: " + c.getNotAfter() + "  key alg: " + c.getPublicKey().getAlgorithm());
+    System.out.println(Arrays.equals(c.getPublicKey().getEncoded(), Base64.getDecoder().decode(s))
+      ? "Shared key == NPCI IBMB cert key" : "Shared key != NPCI IBMB cert key");
+  }
+}
+EOF
+java /tmp/CertCheck.java /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt /tmp/shared_pub.pem
+Exception in thread "main" java.security.cert.CertificateException: Could not parse certificate: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:103)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+Caused by: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:99)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)
+sh-5.1$
+Using username "osuser".
+Pre-authentication banner message from server:
+| This system is restricted to authorized users. Individuals attempting unautho
+> rized access will be prosecuted. If unauthorized, terminate access now! Click
+> ing on OK indicates your acceptance of the information in the background.
+|
+End of banner message from server
+This system is restricted to authorized users. Individuals attempting unauthorized access will be prosecuted. If unauthorized, terminate access now! Clicking on OK indicates your acceptance of the information in the background.
+
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: rhc connect
+
+Example:
+# rhc connect --activation-key <key> --organization <org>
+
+The rhc client and Red Hat Insights will enable analytics and additional
+management capabilities on your system.
+View your connected systems at https://console.redhat.com/insights
+
+You can learn more about how to register your system
+using rhc at https://red.ht/registration
+Last login: Tue Sep 29 11:17:49 2026 from 10.30.64.125
+[osuser@bastion ~]$ oc logs payment-paymentservice-7c9dbb55b7-pxbnj -c paymentservice -n dev-transaction --since=5m \
+>   | grep -iE -A15 'ReqTxnInit|referenceId|"payload"' | tail -60
+[osuser@bastion ~]$ oc logs payment-paymentservice-7c9dbb55b7-pxbnj -c paymentservice -n dev-transaction --since=5m   | grep -iE -A15 'ReqTxnInit|referenceId|"payload"' | tail -30
+[osuser@bastion ~]$ cat > /tmp/req.json <<'EOF'
+> {"payload":"...","signature":{"signature":"MEUC...","protected":"a2V5SWQ9..."}}
+> EOF
+[osuser@bastion ~]$ oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.metadata.creationTimestamp}{"\n"}{range .metadata.managedFields[*]}{.manager}{" "}{.operation}{" "}{.time}{"\n"}{end}'
+2026-09-24T10:34:25Z
+Mozilla Update 2026-09-24T13:44:41Z
+[osuser@bastion ~]$
+[osuser@bastion ~]$ oc get secret nbbl-cert -n dev-transaction -o yaml > nbbl-cert-backup-$(date +%F).yaml
+[osuser@bastion ~]$ oc get secret nbbl-cert -n dev-transaction -o yaml
+apiVersion: v1
+data:
+  ibmbcert_npci_org_in_new_24Dec.crt: TUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFU2xrdzREd3JUSmNxeVltN3hZaG9YQjBpYXhDUC9kK3BVa2lxeXVxbHV5ZkxLTkh0MmdOV25kU0pGWXIxdk9nRnM2TUFxejZZd3BuQjczOUM4dUhpcnc9PQ==
+  nbbl_client.jks: /u3+7QAAAAIAAAABAAAAAQAFbXlrZXkAAAGTzja9XwAABQIwggT+MA4GCisGAQQBKgIRAQEFAASCBOoGXn1qNWrmiwnPvOy4C3Otvq0ScEHT7rH7VBFZzkgNro38DAeVx6knt1piKMB91WhukktrcBfpTqeJiBk395IrYbOtyXpC2PgIItRCeML7+OlOM21uc3FjZpSLIR6l64Ew4V8RzWwwS3KLIF4YIogSxuSwNLf7Dk6v/H0UzMNT8xPEwn4k5XHvHEME0ukDOl938wzOtKgXi2R7qgCTJaZGg+Gk5xfJ+4p9A0v3y7bdZL/yTnM0/jJ3S8SDApY7qMSsXxdRAji3QkcyLK9AfC1L3K5pOE+QjajMIhYP4yLuckRF3ybFqi7vBfWp7JVIgS39Yh3Zbg+tpeR3OxzDTqQqVvUM0M3D5civ9vzrW2kO/Ip4I9CTRZ4iZNIYMl8gyCIseTHTADkdP+svEpBv0OSFUT5+eyjlI27SJYSfZn80igAvJQ/3C3eyMRdX6O4vZL/K0FnXpvWNLuIZmh4PAtqnOID00f8Csrt7Ap1PjY+UJnc1vjAT60cl6Lq6eNG+kMgCUn+CR1uefxnAG1lPiV/An9mAZ6hv5yqgUOm/ggaHetTrXTmvAmMwH13n3pZES/87xLaSgjo/iajXQ8j07gGWOg8NprpGA7FrvJQgtLzEJXyBqeZFPqSIf94wuB8/o7TmL4UVj4hr414Vx7lHZcjFQlIOK8zYVE+MiiVBh3iSqdeYn2+T8gUt5Xi/X0KWwzxFMk59SFo+N160hzLLDWP7jGL+mXlqqdV1wGuOlRxfnVL7DSWgAgCzM0W9LFHpXlLZ2FXNbXMNSLvBuk0Tk/3df8VjbRNyhC0Osm48NNvc7F3tXRepxpMMIDuIySgisN5cRKlhgNAYsePB4IuyK6ZfC1uIGr3zD0EYwqQxWOwVaOCCzFQETaZRhayLzwgihcSqaX9JbL+PJYbXcR5leyUCcCgoi7RiHmcXDFmcmSnD87gCKsCiC42SqMqSkYx3NZ9daIh1s//8rVkHhP+smK7kwsGosh65xxvWNtsz8r5xmlzZLLT7xkZVwhYcp1MiRXkFKg6AQahp6L5jNtAVmGZfj5mlk13qhXB67ZIu2LL2e9tvImwuZzZXUL9WKeoiTQ6Q0GFbCj7jIb/Qj5Op+WBWry/OJQresYAJCW/hb5V0I/MQG6S4Fy3rXTlAic6MYnaeHODaD+7yzDevKIfKpWFCWXfVdRoe7ud9dlo09uKkRBLaPuQMNO05r+GmcyVh8fQdwsTHQB/dy7f5vV9qhd4OVT3HTBbFKtk/UNfXNLf2Qmrc9Pdj85qgdZEYuQ+w6+uPXwJ3Vs4H0KaDwBqs3hAJJQJmH1wfJul/o5dvRVWb63VaqAgAy5PQKfgva4b4yXcMKSEvEfOcbnWUPWUX2FZgUP06Qjlsoq9dIxEa6PyMSjKDGK5bBYqXdYjCl9CkwukJOCkGtYj12X1i82YpL4vTlhTxFdtHnpqBC84SYvOKrLeLXd1sxE9hobKKvgCP7Y1SMTvq9kuPSQcQgJ7PhF5wnXgXPNeR/kf57pOgGyOBoMnTpxR4MoGXIDbIxod5Zhr1ibrY/uM5pRS201ZfZmOWfvWZhHI0qWPGTrpTSRJi9FOm4h0uhlgPMZ3+8+cgdFGfiYglyyHDWLYj4F1CrCO6RSFw4X9LF3TYTng/tAfVinIsNNKbkn6ptZVgm/VUYsJV5thIcN4Y1A2DAAAAAQAFWC41MDkAAAPaMIID1jCCAr6gAwIBAgIUCq1vdkuFhzMdEiggQ+3Rs3zv+MowDQYJKoZIhvcNAQELBQAwgb0xCzAJBgNVBAYTAklOMRMwEQYDVQQIDApNYWhhcmFzdHJhMQ8wDQYDVQQHDAZNdW1iYWkxLzAtBgNVBAoMJk5hdGlvbmFsIFBheW1lbnRzIENvcnBvcmF0aW9uIE9mIEluZGlhMRAwDgYDVQQLDAdJbmZvc2VjMSEwHwYDVQQDDBhOUENJX0lCTUJfVUFUX1JPT1RfRVhUXzExIjAgBgkqhkiG9w0BCQEWE2luZm9zZWNAbnBjaS5vcmcuaW4wHhcNMjQxMjEwMDYyOTM2WhcNMjUxMjEwMDYyOTM2WjBsMQswCQYDVQQGEwJJTjEUMBIGA1UECBMLTWFoYXJhc2h0cmExDzANBgNVBAcTBk11bWJhaTEcMBoGA1UEChMTU1RBVEUgQkFOSyBPRiBJTkRJQTEYMBYGA1UEAxMPdWF0LnNiaWVwYXkuc2JpMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxRCSNNCVfwntJanvb1+bYeAXQC6C60cOnkjrbsWUM4h9WJgbhR+awf1yNRfy5pswW1XIey4I5zDBYl9aE2wpCk0WCpI0K5V6wH5RIfDmtsGUwsBtmTpaFUHdLn3GmAPAA0+52n90o1V1WrLuPNp4huyYbCtdgaR47uzGc3ho0Fc0Z/kZ+30sx7J6sLTT0qRLFL2yk61dGPcv5lZ1lfuxAMOIDWGvZ6dWmOhXYYVoYGm2nUaVfncQgGb9XXLXy16AYNiJJcLWTfD6ZSKt4wRQRWTHF2loEZJ0gCs9QY3oi+sjvp/PB+SpF0YTTHnq3Md/Og+RsUx/OrWZpJoANgCcrQIDAQABox4wHDAaBgNVHREEEzARgg91YXQuc2JpZXBheS5zYmkwDQYJKoZIhvcNAQELBQADggEBAHAY1eIB7E5GzPiNzLeHovmJf+QI7JER8p1Vs00vF4zgn5qvM+c7lA3/MktMjYo0ovGDkbzv59oNqtJ31ljmmxxlsZbk1M1m7GqjlPwIFDfl1bdfzcX1SQCfBc6TDju3Q81nmRTloz3Gy/voydZpkFzBd5Mhsn8rHKMb8wnvE79cUVAKLlYQCX6rodj7Dn1xe+imuXZ7dJrprUtOgzJo/c78u6KP1ArFOq08uVhanvCm5Ng1BHPxHy7IRQf/2bcSUY7DleRvhqidQ4tv88KNKvQ7JgLGkjdLRsnIH4bHCIVYwrIClk7NBTi3oqkjMIZ8motzruO7dq2rYxmCfyyxI8xcWlDSCnnJJAMuabAK/+ttON+oNA==
+  sbi_private_key: LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR0hBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJHMHdhd0lCQVFRZ3VhdzcxSlI2TVNERTRtWjkKSnpSeVRTM0VvRVdZWnYwYmVyL00yTFUvdTFLaFJBTkNBQVI1eGtGNW9Ob09VTWI4MDBhSklRb2Z0bnU5c1RRdgoxZ2NtSVV6VHB1M1JpRHBqV0lBdStWS3BoVXZBMVY1L0NQaTRxVWwvTm5hay9sbzMvQkZtZTF4UAotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0t
+kind: Secret
+metadata:
+  creationTimestamp: "2026-09-24T10:34:25Z"
+  name: nbbl-cert
+  namespace: dev-transaction
+  resourceVersion: "1025462231"
+  uid: 39479228-f37f-4840-ae72-31873b2d1959
+type: Opaque
+[osuser@bastion ~]$ ll
+total 2559964
+drwxrwxrwx  2 root   root         4096 Jun  3 17:58  10.177.142.133_OUTOFSCOPE_EPAY2.0
+drwxr-xr-x  2 root   root         4096 Apr 29 18:21  10.177.142.133_PCIDSS_29042026
+-rw-r--r--  1 root   root     64117640 May 30  2025  Agent-Core-RedHat_EL8-20.0.2-12010.x86_64.rpm
+-rw-r--r--  1 root   root     64117640 May 30  2025  Agent-PGPCore-RedHat_EL8-20.0.2-12010.x86_64.rpm
+drwxr-x---  2 osuser osuser         58 Sep 10 13:20  Ant-Build
+drwxr-x---  4 osuser osuser         96 Dec 12  2025  anuj
+drwxr-x---  2 osuser osuser       4096 Aug 14 14:19  api-probe
+-rwxr-x---  1 osuser osuser       1481 Aug 14 13:52  api-probe.sh
+-rw-r-----  1 osuser osuser  278993408 Sep 16 14:46  api-security-2.tar
+-rwxr-x---  1 osuser osuser  215129573 Jun 18 08:11  argocd-linux-amd64
+-rw-r-----  1 osuser osuser   84223617 Sep  7 18:48  argocd-linux-amd64.tar.gz
+-rw-r-----  1 osuser osuser        376 Sep 10 16:05  argocd-rbac-dev-admin1.yaml
+-rw-r-----  1 osuser osuser        300 Sep 10 16:03  argocd-rbac-dev-admin.yaml
+-rw-r-----  1 osuser osuser        376 Sep 12 11:20  argocd-rbac-sit-admin.yaml
+-rw-r-----  1 osuser osuser        376 Sep 13 10:33  argocd-rbac-uat-admin.yaml
+-rw-r-----  1 osuser osuser     225035 Apr 29 17:53  ca.crt
+drwxr-x---  2 osuser osuser         74 Nov 10  2025  cert
+drwxr-x---  2 osuser osuser       4096 Jul  4 18:16  Cert
+drwxrwxrwx  2 root   root         4096 Mar  5  2026 'certificate dev & preprod'
+-rwxr-xr-x  1 osuser osuser        666 Jan 20  2026  check-url-status.sh
+-rw-r-----  1 osuser osuser       1854 Jan 12  2026  cluster-ca.crt
+-rw-------  1 root   root        62580 Aug  4 13:47  config
+-rw-r-----  1 osuser osuser       5554 Aug 18 12:08  custom-ca-updated.crt
+drwxr-x---  4 osuser osuser         51 Jun 15 15:18  custom-ci-images
+-rwxr-x---  1 osuser osuser       6730 Jun 29 17:47  db_handshake_probe.sh
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Desktop
+-rwxr-x---  1 osuser osuser      15090 Jul 20 14:24  dev-kafka-health-check.sh
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Documents
+drwxr-s---  2 root   root            6 Jul 11  2025  download
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Downloads
+-rw-r-----  1 osuser osuser        878 Sep 12 11:24  epay-admin-sit-application.yaml
+-rw-r-----  1 osuser osuser       6004 Sep 10 19:35  epay-dev-admin-backup.yaml
+drwxr-x---  3 osuser osuser       4096 Oct  8  2025  epay_deven
+-rw-r-----  1 osuser osuser 1120780800 Apr 30 14:48  epay-rbac-automation.tar
+drwxr-x---  2 osuser osuser          6 Jul  2 22:35  get
+drwxr-x--- 12 osuser osuser       4096 Jun  8 15:34  gitlab-export
+drwxr-x---  2 osuser osuser        166 Jun 24 13:22  Gradle
+drwxr-x---  3 osuser osuser         68 Jun 24 14:27  Gradle_8.9
+-rw-r-----  1 osuser osuser  136114148 Jun 24 13:25  gradle-8.9-bin.zip
+drwxr-x---  3 osuser osuser        108 May  4 17:27  Gradle_9.3
+drwxr-x---  2 osuser osuser       4096 Sep 24  2025  Istio_Int
+drwxr-x---  2 osuser osuser         34 Jul 29 18:44  jforgpullsecret
+-rw-r-----  1 osuser osuser  387451904 Sep 19 12:11  jf.tar
+drwxr-x---  2 osuser osuser          6 Nov 14  2025  Kafka_certs
+drwxr-x---  2 osuser osuser        130 Aug 19 09:53  kafka-health-logs
+-rw-r-----  1 osuser osuser   52441410 Sep  7 18:30  kubectl-argo-rollouts-linux-amd64.tar.gz
+-rwxr-x---  1 osuser osuser       1042 Aug 14 14:18  master-l7.sh
+drwxr-x---  2 root   root           56 Aug 28  2025  META-INF
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Music
+-rw-r-----  1 osuser osuser          0 Aug 18 11:28  -n
+drwxr-x---  7 osuser osuser       4096 Sep 28 17:48  namdev
+-rw-r-----  1 osuser osuser       3911 Sep 29 12:14  nbbl-cert-backup-2026-09-29.yaml
+drwxr-xr-x  2 root   root         4096 Jun  6 15:04  NEW_10.177.142.133_OUTOFSCOPE_EPAY2.0
+-rw-r-----  1 osuser osuser      24576 Jun  6 11:25 '-n openshift-operators amq-streams-cluster-operator-v3.0.1-2-98c8d5f6-z4tmn --since=24h | grep -iE "rolling|reconcil|restart|podset|certificate|connect|controller"'
+-rw-r-----  1 osuser osuser          0 Jun  5 16:08  -o
+drwxrwxrwx  3 root   root           31 Nov 27  2025  ocphealthcheck
+drwxrwxrwx  4 root   root           28 May 20 17:00  Out_Of_Scope_Nmap_20052026
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Pictures
+drwxr-x---  2 osuser osuser          6 Jul  2 22:35  po
+drwxr-x---  4 osuser osuser        162 Sep 27  2025  poc
+-rwxr-xr-x  1 root   root         4889 Jan 21  2026  precheck.sh
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Public
+drwxr-x---  3 osuser osuser         26 May  6 11:52  Rashmi
+-rw-r-----  1 osuser osuser          0 Aug 18 11:28 '--restart=Never'
+drwxr-x---  2 root   root         4096 Sep 12 13:24  rhel_health_check
+-rwxr-xr-x  1 root   root         6349 Mar 27  2026  RHEL_HEALTH_CHECK.sh
+-rw-r-----  1 osuser osuser          0 Aug 18 11:28  --rm
+drwxr-x---  2 osuser osuser         31 Sep 30  2025  RSCD231-LIN64
+drwxr-x---  2 osuser osuser         39 Feb 11  2026  saadi
+-rw-------  1 osuser osuser        411 Sep 18 17:45  sbiepay1_jboss_deploy
+-rw-r-----  1 osuser osuser        100 Sep 18 17:45  sbiepay1_jboss_deploy.pub
+-rw-r-----  1 osuser osuser       1261 Aug 18 12:04  SBI-Prod-RootCA.crt
+drwxrwxrwx  6   1005   1005        166 Aug 18 17:10  Secret_Management_NP
+-rw-r-----  1 osuser osuser   80905728 Sep 15 17:36  secrets-6.tar
+-rw-r-----  1 osuser osuser          0 Jul 13 15:22 '--since=1h'
+drwxr-x---  2 root   root           65 Jun 25 23:32  SPLUNK_10.4
+drwxrwxrwx  2 root   root           60 Apr 18 23:24  splunk_9.4.8
+-rw-r-----  1 osuser osuser  136631304 Aug 10 21:58  splunkforwarder-10.4.2-33c3bf42cd73-linux-amd64.tgz
+drwxr-x---  2 osuser osuser         24 Nov  3  2025  Suraj
+drwxr-x---  7 osuser osuser       4096 Sep  9 12:54  tariq
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Templates
+drwxr-x---  2 osuser osuser         29 Jul 31 13:02  testwebsite
+drwxrwxrwx  3 osuser osuser        174 Aug 27  2025  TMSensorAgent_Linux
+drwxr-x---  2 osuser osuser          6 Sep  6  2025  Videos
+[osuser@bastion ~]$ cd saadi/
+[osuser@bastion saadi]$ ll
+total 4
+-rwxr-x--- 1 osuser osuser 254 Oct  9  2025 spark_resource_delete1.sh
+[osuser@bastion saadi]$ cd ..
+[osuser@bastion ~]$ cd ~/nbbl-keys
+-bash: cd: /home/osuser/nbbl-keys: No such file or directory
+[osuser@bastion ~]$ mkdir nbbl-keys
+[osuser@bastion ~]$ cd ~/nbbl-keys
+[osuser@bastion nbbl-keys]$ grep -m1 BEGIN *.pem
+grep: *.pem: No such file or directory
+[osuser@bastion nbbl-keys]$ pwd
+/home/osuser/nbbl-keys
+[osuser@bastion nbbl-keys]$ oc login -u v1021008
+Console URL: https://api.dev.sbiepay.sbi:6443/console
+Authentication required for https://api.dev.sbiepay.sbi:6443 (openshift)
+Username: v1021008
+Password:
+Login successful.
+
+You have access to 216 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+Using project "uat2-simulators".
+[osuser@bastion nbbl-keys]$ grep -m1 BEGIN *.pem
+nbbl-hpy-key.pem:-----BEGIN PRIVATE KEY-----
+secp256r1-hpy-key.pem:-----BEGIN EC PRIVATE KEY-----
+[osuser@bastion nbbl-keys]$ openssl pkey -in nbbl-hpy-key.pem -pubout
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
+[osuser@bastion nbbl-keys]$ openssl pkey -in secp256r1-hpy-key.pem -pubout
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
+[osuser@bastion nbbl-keys]$ cp nbbl-hpy-key.pem sbi_private_key
+[osuser@bastion nbbl-keys]$ oc create secret generic nbbl-cert -n dev-transaction \
+>   --from-file=nbbl_client.jks=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.nbbl_client\.jks}' | base64 -d) \
+>   --from-file=ibmbcert_npci_org_in_new_24Dec.crt=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.ibmbcert_npci_org_in_new_24Dec\.crt}' | base64 -d) \
+>   --from-file=sbi_private_key=./sbi_private_key \
+>   --dry-run=client -o yaml | oc apply -f -
+Warning: resource secrets/nbbl-cert is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by oc apply. oc apply should only be used on resources created declaratively by either oc create --save-config or oc apply. The missing annotation will be patched automatically.
+secret/nbbl-cert configured
+[osuser@bastion nbbl-keys]$ oc rollout restart deployment/payment-paymentservice -n dev-transaction
+deployment.apps/payment-paymentservice restarted
+[osuser@bastion nbbl-keys]$ oc get pods -n dev-transaction
+NAME                                             READY   STATUS             RESTARTS           AGE
+otherinb-otherinbservice-565869f6fb-qs5fk        1/2     CrashLoopBackOff   1287 (3m57s ago)   4d17h
+payment-paymentservice-7c9dbb55b7-pxbnj          2/2     Terminating        0                  23h
+payment-paymentservice-d5b98dc94-gnjnh           2/2     Running            0                  11s
+txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                  6d1h
+txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                  18h
+[osuser@bastion nbbl-keys]$ oc get pods -n dev-transaction
+NAME                                             READY   STATUS    RESTARTS          AGE
+otherinb-otherinbservice-565869f6fb-qs5fk        2/2     Running   1288 (5m7s ago)   4d17h
+payment-paymentservice-d5b98dc94-gnjnh           2/2     Running   0                 81s
+txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running   0                 6d1h
+txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running   0                 18h
+[osuser@bastion nbbl-keys]$ cat > shared_pub.pem <<'EOF'
+> -----BEGIN PUBLIC KEY-----
+> MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+> ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+> -----END PUBLIC KEY-----
+> EOF
+[osuser@bastion nbbl-keys]$ openssl pkey -in sbi_private_key -pubout | diff - shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+MATCH
+[osuser@bastion nbbl-keys]$
+[osuser@bastion nbbl-keys]$ kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+-bash: /usr/local/bin/kubectl: Permission denied
+[osuser@bastion nbbl-keys]$ sudo su -
+[root@bastion ~]# kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
+Defaulting debug container name to debugger-ctk6s.
+If you don't see a command prompt, try pressing enter.
+sh-5.1$ wc -c /proc/1/root/nbbl-certs/..data/*
+ 124 /proc/1/root/nbbl-certs/..data/ibmbcert_npci_org_in_new_24Dec.crt
+2338 /proc/1/root/nbbl-certs/..data/nbbl_client.jks
+ 241 /proc/1/root/nbbl-certs/..data/sbi_private_key
+2703 total
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+           -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Entry for alias mykey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+sh-5.1$ cat /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt; echo
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESlkw4DwrTJcqyYm7xYhoXB0iaxCP/d+pUkiqyuqluyfLKNHt2gNWndSJFYr1vOgFs6MAqz6YwpnB739C8uHirw==
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BIdeWHCuKw+T8IWvGa31by5F7HTrSw2eJqeRxnM1r/7v8+y4ayR9XMkS9XUin1CKh0Ob7zCrmUGlv5wJqgu30FCLQ9nJei5YAFz7z1t5MUw7Kk1UzWUNemaau9qXWUwoikZgVaQCx2y8XZQtKdI8snEsXvHOI46k8NdG0d3xoWjd9Gri0ET3cnsWkY+QxadSavTsB5G6tZNwNp7E+kgW2oXzxVTd7MoiHl+ly8+lsBBViFiTjruw6CDw46UD5UciD3CVw31FuaD7Atjx9QIU5V7gUv8rz6++pHb/+AFcFwudaMOuHgbhGLOsg6o2qg7pGGdy9xmhkfWu8HP7IGqB6cVoabcDMlBiFU/RuN8mY84PvGZ3LpXrqKqroCgmuFqv25pQC2QNm6ql/FVg0LpJO+3xfyN4bwdg3AzK08hK7PKDfz4tXDT/DxH5WEzCXK+Y3ZN2Nfi8U1ZYiSl5To0nSzHc2MGIToYIYkMAonWUyvBU5kLPiQOHyMS9QFzAeokNnyp3FxKAsxQimW2IeQDP5WjuAMXyvuZPe0IbDf1pQvF2o4rV0fjRWNaHT1bL8P8cgX5ct4YuVNa8nWRbiWpg+VaVmnTHa9uKRUBj/6CHtNNIwzdfp0oc6+6JPRo31PNLnWxK858Dh7lq9ZxBIeuLhA34WkxVT2cakbZ/uMwGJAwX/fEHdC11Iw0nYmjDey7NCfTdH7tnsIEDP6xWu8NgLFNfFFu8KOG/pFwXTN0S3Lu6tm/kAXZgPZpkCzu4wKiiuDRPDc1/ivmU4RosjeCA/g9lCxiL8Y+WxjezN6dX9/ZEft61VCkK2zoNsWWSQgOwXsudgJFseVBjO4+by3JD7/AiYBe4SXEYC9TsQLOkr0xwxvhms71u4f0ZEGb2lh/OK8al3WD+edNlG+4CmmDd++uod591PF0fP6nYaPLr3eUEcOfzM3kBaL8l3XVhf76rdlkzNnQQ4hFYRx8uoZJLyf6vIqbOIBTIweKCL4fJi9TA0sEXZs78c4wLlMUA8muXUXuYIQG/v634ZGdFPpddMdwa2yhaA3enzUOQn5TKAyyqiQCiOlszHZpG2wtfmSl7bxsg8HbrS8j2paEtWjFsZnJojzz4oJStR03rT4IzA96VFvguEJtcJPs9y4v59pImnMBHfeJ/51Ww7UP7WWFLjqeZi2Kv1g==",
+  "signature" : {
+    "signature" : "MEYCIQCQC2OFerNKLqQ44rF4RqTGtmdm0mM0TEe91uuvcV29GwIhAIYV2s7+lH+TI1k7dq7q9dya35eLdUqaTXSVxtlHzi1b",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY1MjM2MDAwIixleHBpcmVzPSIxNzkwNjY1NDE5MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272KZQTJXKRMGS"
+>
+> "
+> '
+>
+sh: warning: here-document at line 6 delimited by end-of-file (wanted `EOF')
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BIdeWHCuKw+T8IWvGa31by5F7HTrSw2eJqeRxnM1r/7v8+y4ayR9XMkS9XUin1CKh0Ob7zCrmUGlv5wJqgu30FCLQ9nJei5YAFz7z1t5MUw7Kk1UzWUNemaau9qXWUwoikZgVaQCx2y8XZQtKdI8snEsXvHOI46k8NdG0d3xoWjd9Gri0ET3cnsWkY+QxadSavTsB5G6tZNwNp7E+kgW2oXzxVTd7MoiHl+ly8+lsBBViFiTjruw6CDw46UD5UciD3CVw31FuaD7Atjx9QIU5V7gUv8rz6++pHb/+AFcFwudaMOuHgbhGLOsg6o2qg7pGGdy9xmhkfWu8HP7IGqB6cVoabcDMlBiFU/RuN8mY84PvGZ3LpXrqKqroCgmuFqv25pQC2QNm6ql/FVg0LpJO+3xfyN4bwdg3AzK08hK7PKDfz4tXDT/DxH5WEzCXK+Y3ZN2Nfi8U1ZYiSl5To0nSzHc2MGIToYIYkMAonWUyvBU5kLPiQOHyMS9QFzAeokNnyp3FxKAsxQimW2IeQDP5WjuAMXyvuZPe0IbDf1pQvF2o4rV0fjRWNaHT1bL8P8cgX5ct4YuVNa8nWRbiWpg+VaVmnTHa9uKRUBj/6CHtNNIwzdfp0oc6+6JPRo31PNLnWxK858Dh7lq9ZxBIeuLhA34WkxVT2cakbZ/uMwGJAwX/fEHdC11Iw0nYmjDey7NCfTdH7tnsIEDP6xWu8NgLFNfFFu8KOG/pFwXTN0S3Lu6tm/kAXZgPZpkCzu4wKiiuDRPDc1/ivmU4RosjeCA/g9lCxiL8Y+WxjezN6dX9/ZEft61VCkK2zoNsWWSQgOwXsudgJFseVBjO4+by3JD7/AiYBe4SXEYC9TsQLOkr0xwxvhms71u4f0ZEGb2lh/OK8al3WD+edNlG+4CmmDd++uod591PF0fP6nYaPLr3eUEcOfzM3kBaL8l3XVhf76rdlkzNnQQ4hFYRx8uoZJLyf6vIqbOIBTIweKCL4fJi9TA0sEXZs78c4wLlMUA8muXUXuYIQG/v634ZGdFPpddMdwa2yhaA3enzUOQn5TKAyyqiQCiOlszHZpG2wtfmSl7bxsg8HbrS8j2paEtWjFsZnJojzz4oJStR03rT4IzA96VFvguEJtcJPs9y4v59pImnMBHfeJ/51Ww7UP7WWFLjqeZi2Kv1g==",
+  "signature" : {
+    "signature" : "MEYCIQCQC2OFerNKLqQ44rF4RqTGtmdm0mM0TEe91uuvcV29GwIhAIYV2s7+lH+TI1k7dq7q9dya35eLdUqaTXSVxtlHzi1b",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY1MjM2MDAwIixleHBpcmVzPSIxNzkwNjY1NDE5MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272KZQTJXKRMGS"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272KZQTJXKRMGS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 279
+< date: Tue, 29 Sep 2026 07:03:15 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0d314478c08391d79520acef6e7dc82694c1c1934c38611ac4980215df2e20c95d96de02a1c6f95241b4571985f0725b25; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272KZQTJXKRMGS","msgID":"JMXKAKSHFOWAQBJJMKZBKMKENPW62721230","result":"FAILURE","errReason":[{"errorCd":"IBMBMER009","errorDtl":"Merchant mcc code from DB is missing or does not match with the Request"}],"ts":"2026-09-29T12:33:15+05:30"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BMjwnSpO4/MVKlju/h8X95IaNrTjjP8amCjFKSoSlTixBOiyD2IQWF3W1LefWOw8rGz34yKWXRPNhKhPE4CEJxx0FZQVL35YHTVLiB+qg+5xpvi/8BI8IP4SyuIDPulpukQchgKZv+v34yFvhe28sJq6yvYaS5vfL5UoBLN6ryMc62nmG9ky/0uJtLm0FLr10IqPZ9mIycAOZqW+4VALEH5+exxJSfWWJUJSYcVv/smJ7cIkrYRICT8IybnwLg/ACvcXgoZCXmV5jPg4ZsD6HI+D7NaaIMyqpy1JeYEJJHuQY6DvHWtk8MalLE0E9me961cJ7U4Vf4C5e91u+Eo5w1+7ZBK8BB1fig4dW4XpX+kGZ/sHsrr5prb8iqywKCFQDD9b23XrHGK2opRBeBeDB26b2heWDMRAlJCahqID4ug4YMDgwWiP1dXujYQlKPufeXOlDjcr9CMtfweFvlHJDO0rvRdDxhRwOSpazv5JZm+JrQ4sv5+KdPY2F9gn43eZcptca37vX5iQwJopFgylBtNp6gbU4IMWCbO+bsSvwmFafMpiJBWlB+FHT7bmKYE+TdbfqceobqGPXHXWxI43dCkfWS8QlnKsiX8z9uMV3tCQIgYKdZELpy+aQBJVvXUXyvNeZQJG6FnXX1ITn7+hnImy3ym4u0DIEnjLL+GQOyXKHTZru/fGT5jj3c8vtuTJkvVM3yApHn++9gv4+EKdoWR6ufPzSnXCgea/FbMIweToSWgg+Eb2gihMGK73MTJfhSdMLTTUtFFx680VVZQ9UHGtRscXS0Jm9M+I5LIV8n+O1BoLt5KlxchRddnmoYw3ZvWJFiphvR5AlAQtsuljjomPIBkGvFWczykXXummw88x0TCb2g0clAq4Jsx5xinTVc/AQE7avs/GxwGgtgrKOSwYH7L4PeiUsjbMqtaS7y0qThHqJkfzNc9orRZUJBPiH+wVC+/vf2ijVHYQNWsyFaIBlswVGfHnStdG50J5e6IqUXaTDU1792KhmWH26N7cvVznkdqCe6r9umdOS5hSUaNK55Eswn//ZknlIBszJvMNcHRFb4aEoLeZS+RvafFBrXDSCH2G9Lz8kMnpT+/wyT1SDfS0Gos0WtgpKLqZLdBOE1/zl2LvSxpl9F10t58EM3xdv3cop1mvhae+KVrP0wqeJzzpkQ==",
+  "signature" : {
+    "signature" : "MEQCIGy7sh6I8kIlaf1naZSSYYeks0yUZ2asnSC1rljMotgSAiB1bOsZpEj3kIDOvdqb63WHa73EItHNNzrIK3M0DZxoOw==",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY1NTkyMDAwIixleHBpcmVzPSIxNzkwNjY1NzczMDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272ZCRASVXYFCV"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272ZCRASVXYFCV HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 155
+< date: Tue, 29 Sep 2026 07:07:42 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0db61402cff4680e78aa8f9a21346ac59ee34c363856f5e72dace6c3a44beaa52791a9432e6afa6fd2ef7ffb5f90cb6477; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272ZCRASVXYFCV","msgID":"AIKDTNPYLZNXVAQLJMMJSEOEMSY62721236","result":"SUCCESS","ts":"2026-09-29T12:37:42+05:30"}sh-5.1$
+
+
+
+
+
+
+
+
+
+
+
+
+888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888888
+
+
+Using username "osuser".
+Pre-authentication banner message from server:
+| This system is restricted to authorized users. Individuals attempting unautho
+> rized access will be prosecuted. If unauthorized, terminate access now! Click
+> ing on OK indicates your acceptance of the information in the background.
+|
+End of banner message from server
+This system is restricted to authorized users. Individuals attempting unauthorized access will be prosecuted. If unauthorized, terminate access now! Clicking on OK indicates your acceptance of the information in the background.
+
+Activate the web console with: systemctl enable --now cockpit.socket
+
+Register this system with Red Hat Insights: rhc connect
+
+Example:
+# rhc connect --activation-key <key> --organization <org>
+
+The rhc client and Red Hat Insights will enable analytics and additional
+management capabilities on your system.
+View your connected systems at https://console.redhat.com/insights
+
+You can learn more about how to register your system
+using rhc at https://red.ht/registration
+Last login: Tue Sep 29 11:03:39 2026 from 10.30.64.59
+[osuser@bastion ~]$ oc get cm payment-config -n dev-transaction -o yaml | grep -n -iE 'ibmb|nbbl|npci|jks|p12|keystore|proxy'
+37:    \   session:\n      cookie:\n        secure: true\nhttps_protocols: \"TLSv1.2\"\nhttps_proxySet:
+38:    true\nhttps_proxyHost: \"serverswg.sbi.co.in\"\nhttps_proxyPort: 9090\ntransaction:\n
+88:    \     USD: 840\n      proxySet: true\n      browserAgent: \"TestMerchant/26.5.0.100
+102:    \     proxyip: \"\"\n      proxyport: \"\"\n      tlsversion: \"\"\n    other_inb_key_browser:
+130:    \ client_jks_filename: \"sbiepay_newpg.jks\"\n  client_jks_file_pwd: \"keystore\"\n
+132:    \"wibmo_pk\"\n  proxy:\n    required: \"Y\"\n  client_jks_filename_intl: \"keys/sbiepay_newpg_intl.jks\"\n
+133:    \ client_jks_filename_rupay: \"keys/sbiepay_newpg_rupay.jks\"\n  client_jks_file_pwd_rupay:
+136:    \ client_jks_file_pwd_intl: \"keystore\"\n  client_alias_name_intl: \"client_keypair\"\n
+169:    /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n    urls: \"/webjars/, /actuator/, /swagger-resources/,
+171:    /api/transaction/v1/actuator/health/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n
+176:    /paypal/sbi/**,  /sbi/ibmb/**, /ibmb/**\"\njwt:\n  secret:\n    key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\nexternal:\n
+214:    \ mId-list: 1000857\n\nibmb:\n  \n  ssl:\n    key-store: /nbbl-certs/nbbl_client.jks\n
+215:    \   public-key-path: /nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt\n    return-url:
+216:    https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback\n    key-store-pwd: sbi@123\n
+217:    \   key-store-type: JKS\n    timeout:\n      connection: 20\n      response: 20\n
+218:    \ base:\n    path: https://ibmbcert.npci.org.in\n  endpoint:\n    reqtxninit:
+220:    \     timeout: 20\n  sbi:\n    private-key-path: /nbbl-certs/sbi_private_key\n"
+226:      {"apiVersion":"v1","data":{"application.yaml":"#\nspring:\n  application:\n    name: \"epay_payment_service\"\n  jpa:\n    show-sql: true\n    properties:\n      hibernate:\n        show_sql: true\n        format_sql: true\n    hibernate:\n      ddl-auto: \"none\"\n  web:\n    resources:\n      static-locations: \"classpath:/,file:/non-existent-folder\"\n  datasource:\n    url: \"jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=epaydbscandev.sbiepay.sbi)(PORT=1524))(CONNECT_DATA= (SERVER=DEDICATED) (SERVICE_NAME=epaydbdev.sbiepay.sbi)))\"\n    username: ${DB_USERNAME}\n    password: ${DB_PASSWORD}\n    driver-class-name: \"oracle.jdbc.OracleDriver\"\n    hikari:\n      maximum-pool-size: 10\n      minimum-idle: 5\n      idle-timeout: 30000\n      max-lifetime: 2000000\n      connection-timeout: 30000\n  messages:\n    basename: \"errors,messages\"\n  liquibase:\n    change-log: \"classpath:db/changelog/db.changelog-master.xml\"\n    enabled: false\n    drop-first: false\n  profiles:\n    active: \"dev\"\n  kafka:\n    bootstrapServers: \"dev-kafka-cluster-kafka-bootstrap.dev-kafka.svc.cluster.local:9092\"\n    properties:\n      security:\n        protocol: \"PLAINTEXT\"\n    consumer:\n      groupId: \"payment-consumers\"\n      enableAutoCommit: true\n      autoCommitInterval: 100\n      sessionTimeoutMS: 300000\n      requestTimeoutMS: 420000\n      fetchMaxWaitMS: 200\n      maxPollRecords: 5\n      autoOffsetReset: \"latest\"\n      keyDeserializer: \"org.apache.kafka.common.serialization.StringDeserializer\"\n      valueDeserializer: \"org.apache.kafka.common.serialization.StringDeserializer\"\n      retryMaxAttempts: 3\n      retryBackOffInitialIntervalMS: 10000\n      retryBackOffMaxIntervalMS: 30000\n      numberOfConsumers: 1\n      auto-offset-reset: \"earliest\"\n    producer:\n      acks: \"all\"\n      retries: 3\n      batchSize: 1000\n      lingerMs: 1\n      bufferMemory: 33554432\n      keyDeserializer: \"org.apache.kafka.common.serialization.StringSerializer\"\n      valueDeserializer: \"org.apache.kafka.common.serialization.StringSerializer\"\n    topic:\n      payment:\n        notification:\n          sms: \"payment_sms_notification_topic\"\n          email: \"payment_email_notification_topic\"\n          cashstatusquery: \"payment_cashstatusquery_notification_topic\"\n        push:\n          verification: \"payment_push_verification_topic\"\n        cashstatusquery:\n          cron_time: \"0/180 * * * * *\"\n      partitions: 4\n      replicationFactor: 1\n  mail:\n    host: \"10.177.210.181\"\n    port: 587\n    username: \"sbitestclient\"\n    password: \"sbitestclient_7f827c4b3aa6cd1f08d6b9cce2c0c80e\"\n    smtp:\n      ssl:\n        protocols: \"TLSv1.3\"\n    properties:\n      mail:\n        smtp:\n          ssl:\n            protocols: \"TLSv1.3\"\n            trust: \"*\"\n            checkserveridentity: false\n          starttls:\n            enable: true\nserver:\n  port: 9093\n  servlet:\n    context-path: \"/api/payments/v1/\"\n    session:\n      cookie:\n        secure: true\nhttps_protocols: \"TLSv1.2\"\nhttps_proxySet: true\nhttps_proxyHost: \"serverswg.sbi.co.in\"\nhttps_proxyPort: 9090\ntransaction:\n  token:\n    expiry:\n      time: 30\nlogging:\n  level:\n    liquibase: \"INFO\"\n    com:\n      epay:\n        sbi: \"INFO\"\n        payment: \"INFO\"\n    org:\n      apache:\n        kafka: \"ERROR\"\n        geode: \"ERROR\"\n      springframework: \"ERROR\"\nkey:\n  aek: \"BiIZ5feKr16Td3XSpVywqXlwRNfSy9Gtis04WqEbD/0=\"\nepay:\n  payment:\n    card:\n      pvReqURL_intl: \"https://3ds2-api-3dsserver-intg.pc.enstage-sas.com/3dsserverapi/v5/pVrq/8642/\"\n      saleAuthURL_intl: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/sale\"\n      checkbin_Url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/checkbin\"\n      initiate_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/initiate\"\n      generateOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/generateOtp\"\n      resendOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/resendOtp\"\n      verifyOtp_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/verifyOtp\"\n      authorize_url_intl: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/authorize\"\n      reverse_url_intl: \"https://areionsbi.pc.enstage-sas.com/authentication/web/v1/parseRupayResponse\"\n      token_url_intl: \"https://cardvault-azure.pc.enstage-sas.com/tokenVault/v3/tokenize\"\n      api_key_intl: \"41b52a74-92f0-4c05-9487-8d0e01238170\"\n      clientId_intl: \"175f0289-0272-4cd2-bffa-51fc9b6c4101\"\n      clientApiUser_intl: \"100001-HDFC-2lP6tK9sB7\"\n      clientApiKey_intl: \"HDFC5nN2pO3aR5\"\n      tokenSecretKey_intl: \"f3a81ff0-e139-4e6a-8888-9709a0407713\"\n      tokenSecretKey_1_intl: \"c19215e2-c2a4-4630-937b-a3bfd764c96b\"\n      merchantId_Token_intl: \"hdfctestmid1\"\n      tokenRequesterId_MC_intl: \"7D6D61B2-0BF9-4763-885F-6E9D7516C00E\"\n      tokenRequesterId_VS_intl: \"DFFFAC4C-B2D8-4CEA-BEBB-E7EB1716A348\"\n      tokenRequesterId_R_intl: 77799966611\n      acquiringBankId_intl: 93734895\n      acquireInstanceId_intl: \"93954c92-58ed-4912-8648-0948d5becc69\"\n      acquirerMerchantId_intl: \"PAYUGCMID1\"\n      callback_url: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/visamaster/callback\"\n      callbackg_url_rupay: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/rupay/callback\"\n      callback_url_intl: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/intl/visamaster/callback\"\n      callbackg_url_rupay_intl: \"https://dev.epay.sbi/api/payments/v1/cards/sbi/intl/rupay/callback\"\n      pvReqURL: \"https://3ds2-api-3dsserver-intg.pc.enstage-sas.com/3dsserverapi/v5/pVrq/8642/\"\n      saleAuthURL: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/sale\"\n      checkbin_Url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/checkbin\"\n      initiate_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/initiate\"\n      generateOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/generateOtp\"\n      resendOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/resendOtp\"\n      verifyOtp_url: \"https://areionsbi.pc.enstage-sas.com/authentication/api/v1/verifyOtp\"\n      authorize_url: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/authorize\"\n      reverse_url: \"https://areionsbi.pc.enstage-sas.com/authentication/web/v1/parseRupayResponse\"\n      preAuth_url: \"https://areionsbi.pc.enstage-sas.com/saleservice/api/v1/preauth\"\n      token_url: \"https://cardvault-azure.pc.enstage-sas.com/tokenVault/v3/tokenize\"\n      api_key: \"41b52a74-92f0-4c05-9487-8d0e01238170\"\n      clientId: \"175f0289-0272-4cd2-bffa-51fc9b6c4101\"\n      clientApiUser: \"100001-HDFC-2lP6tK9sB7\"\n      clientApiKey: \"HDFC5nN2pO3aR5\"\n      tokenSecretKey: \"f3a81ff0-e139-4e6a-8888-9709a0407713\"\n      tokenSecretKey_1: \"c19215e2-c2a4-4630-937b-a3bfd764c96b\"\n      merchantId_Token: \"hdfctestmid1\"\n      tokenRequesterId_MC: \"7D6D61B2-0BF9-4763-885F-6E9D7516C00E\"\n      tokenRequesterId_VS: \"DFFFAC4C-B2D8-4CEA-BEBB-E7EB1716A348\"\n      tokenRequesterId_R: 77799966611\n      acquiringBankId: 93734895\n      acquireInstanceId: \"93954c92-58ed-4912-8648-0948d5becc69\"\n      acquirerMerchantId: \"PAYUGCMID1\"\n      pgInstanceId_1: 8642\n      pgInstanceId: 72702415\n      pgInstanceId_2: 72702415\n      acquirerBIN_MASTER: 597291\n      acquirerBIN_VISA: 401934\n      acquirerID: 8642\n      MCC: 4900\n      transactionTypeCode: 9003\n      deviceCategory: 0\n      deviceChannel: \"02\"\n      p_messageVersion: \"2.1.0\"\n      messageCategory: \"01\"\n      vaultId: 100001\n      INR: 356\n      USD: 840\n      proxySet: true\n      browserAgent: \"TestMerchant/26.5.0.100 (Android/13/SM-S908E)\"\n      paymentsRedirectUrl: \"https://dev.epay.sbi/ui/channel/card/sbi/\"\n      cardOnboardURL: \"/card\"\n      api_key_new: \"\"\n      pgInstanceId_3: 9999\n      mle_ver: 1\n      checkbin_New_Url: \"https://areionpg.pc.enstage-sas.com/binservice/v1/bins\"\n      finalResponse_Url: \"/callback\"\n    sbiinb:\n      sbiinbKey: \"resources/keys/SBI_EPAY.key\"\n      bankURL: \"https://merchant.sbiuat.bank.in\"\n      bankbrowserurl: \"https://merchant.sbiuat.bank.in/merchant/merchantprelogin.htm\"\n      bankdvurl: \"https://merchantuat.onlinesbi.sbi/thirdparties/doubleverification.htm\"\n      keyvalue: \"encdata\"\n      merchantcode: \"SBIEPAY2\"\n      paymentsRedirectUrl: \"/api/payments/v1/sbi/inb/responseRedirect?status=\"\n      devredirecturl: \"https://dev.epay.sbi/ui/channel/inb/sbi/\"\n      gtwmapid: 7\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/inb/sbi/callback\"\n      sbiredirecturl: \"https://dev.epay.sbi/api/payments/v1/inb/sbi/callback\"\n      otherinbstatusquery: \"https://epay.sbiuat.bank.in/payagg/otherINBstatusQuery/getTxnStatusQuery\"\n    otherinb:\n      success:\n        base:\n          path: \"https://dev.epay.sbi/api/payments/v1/other-inb/sbi/callback\"\n      fail:\n        base:\n          path: \"https://dev.epay.sbi/api/payments/v1/other-inb/sbi/callback\"\n      proxyip: \"\"\n      proxyport: \"\"\n      tlsversion: \"\"\n    other_inb_key_browser: \"cs7rDrDAB1e2ZCNYn58xO/wqT4RuTd5hmhhftFO8bd0=\"\n    other_inb_key: \"cs7rDrDAB1e2ZCNYn58xO/wqT4RuTd5hmhhftFO8bd0=\"\n    merchant_post_url: \"https://epay.sbiuat.bank.in/secure/MerchantHostedListener\"\n    cscwallet:\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/csccallback\"\n      keyvalue: \"message\"\n    cscwallet_sbiredirectdvurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/csccallback\"\n    wallet:\n      cscbankbrowserurl: \"https://payuat.csccloud.in/v1/payment/\"\n      cscbankdvurl: \"https://bridgeuat.csccloud.in/cscbridge/v2/transaction/status/format/json\"\n      apiKey: \"5dc9302c9f3dbe952e31e73406bd45a6\"\n      productid: 1751396615\n      merchantid: 17513\n      cscid: 500100100014\n      bridgePrivateKey: \"LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tDQpNSUlDZHdJQkFEQU5CZ2txaGtpRzl3MEJBUUVGQUFTQ0FtRXdnZ0pkQWdFQUFvR0JBTHY4TXVjTUJSSC9NNGd2DQp3UXJDOUZocUtSYklsU2dwZyt4R0s1WUxpeWFiT0lpSmlzMXNUY1F2UmlZcEtLSU5qakd5UjRJNXprSFFEUmhDDQo2eHBoZVd1Yk5neVQxcVg5ZS9INmdNZTk1K2lGajFxM3BJMWNtL3RFRFB2Y2ppTDVJaURGU01MeHd3cFJFaWF2DQpHTkF5ZUp6cWpkTHhYK0dzVWVPUkRLQytHM0ZCQWdNQkFBRUNnWUFZRDF0a2Z3RlhJRmEwSTRpTm5BNHlFc1JYDQppaXl0QzBNN1JtL2xzR3lLOEdyMzdzSzVNQmR6K0tqOTBWN0YvdjRvRmkxWTJaVXdqelJkMnBMRXVaMFVsRklSDQpVTVhyZFl4SGlXWHFkNGdUa1h2bXd3TlVFZm1mcS9HY0FUd25pTlA4QnBmNmpSelJhaDN1bEJ6QnVicGNhOE1YDQpiUWRLYUt3c1puMnUrWHBYQVFKQkFQQTBrSVpCOHNUQzIzQUJEM2hKSzV2ZTFpejl0a05ScUZRT2RXN215T0V1DQpkU1pMMnZHWHFBazBCSGxxanVuY3ZXdFViU3EzL210M1RmMXB1SUdFb21rQ1FRRElXSmxqTG9OQ3ZkRG5tZGxQDQpyTTMwMEozM21zaEpsUHgxSkx6SjhOSHgvL2x0eWpWZGxFdDhBL1Q2WHRqend0OXVvdVlUMlZqUkVwWDcxQTl6DQpIazBaQWtFQWtSK0E3Y3hzU3hwYkQ1bGtha3p5enZKYnZjVHZXRTYrZjBKWkNzN2VNTVlydXg1N1FobFpTVzRuDQpBZUF5UmZLNmNsMElzNVdFWGhNdmlGcFdRZElMZVFKQkFJenBmQ0U5WXNjN21NWjgrRkxJMlNkYTMvQjZabXNTDQpwaXFDaDJLRnhqU3U5TEhhNm9RQ1BNRmlTeGthUXYvWVRheVVXTDBYUHhmMk9aV2hScWlTWkdrQ1FCTkRrbG1iDQo4SVNLL2JCeTl3OWFZZUdKTEZpaVFxQUlwR29vbEZRc2xOU1A0cyt1eCtnNS9BdEZJbVd4OEhKaGp3aDlNc2l3DQplcHoyZE9GcjU4WWdFTDQ9DQotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0t\"\n      bridgePublicKey: \"LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0NCk1JR2ZNQTBHQ1NxR1NJYjNEUUVCQVFVQUE0R05BRENCaVFLQmdRREU2L3dTbzl5VVZiakZQempXOERYekRXOEUNCmZEWERKMVFBc1pPb3BueENOajJwTkJOcC9hY3k4MlEraTVaMmxESzNvS3UzcGlFekNhVWhFdGRJRXJBMU11ZTANCm52cEVBMG9DMEV0b0RVK3BrZ01waUh3UkVPV1YzL1UyZFNqMGMvajFUUTQybDVwNUZ2ay9kbWtVRWFXRmo1WUYNCkR3azZBOGZvaDhiV09vWXFCUUlEQVFBQg0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0t\"\n      cancelurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/mobikwikcallback\"\n      bankbrowserurl: \"https://test.mobikwik.com/encwallet\"\n      bankdvurl: \"https://test.mobikwik.com/enccheckstatus\"\n      mid: \"MBK1034202\"\n      cell: 7039262141\n      email: \"punam.rajput.cedge@sbi.co.in\"\n      merchantname: \"SBIEPAY2\"\n      secretkey: \"ju6tygh7u7tdg554k098ujd5468o\"\n      encryptionkey: 1234567890123456\n      Statuscode: 0\n      statusmessage: \"The payment has been successfully collected\"\n      refid: 838731552\n    wallet_sbiredirectdvurl: \"https://dev.epay.sbi/api/payments/v1/wallet/sbi/mobikwikcallback\"\n    cash:\n      begin: \"-----BEGIN PRIVATE KEY-----\"\n      end: \"-----END PRIVATE KEY-----\"\n    paypal:\n      authentication: \"https://api-m.sandbox.paypal.com/v1/oauth2/token\"\n      create:\n        orders: \"https://api-m.sandbox.paypal.com/v2/checkout/orders\"\n      client_id: \"AbY9leIuwTWw_rBS4YHOwM_cpY5o5B6544HlLRqPEUm4idOUCwjxLtRYbrnzNrZ_vAJW55hyaMRNdBdv\"\n      client_secret: \"EHOdoXAg2MTsqfmbzhLKUj9-EqL76Jt1Z1E0P0n7dL3EcCgLSTtcEgzGf0pkCHkRpt0yyyjTaq-zygDF\"\n      capture:\n        orders: \"https://api-m.sandbox.paypal.com/v2/checkout/orders/\"\n      return_url: \"https://dev.epay.sbi/api/payments/v1/paypal/sbi/callback/success\"\n      cancel_url: \"https://dev.epay.sbi/api/payments/v1/paypal/sbi/callback/cancel\"\n      clientApiKey: \"HDFC5nN2pO3aR5\"\n      paymentsRedirectUrl: \"https://dev.epay.sbi/ui/channel/paypal/sbi\"\n    testbank:\n      post_url: \"http://stubs-stubsservice.dev-simulators.svc.cluster.local:9099/stubs/payments/v1/other-inb/testbank-PostURL\"\nwibmo:\n  client_jks_filename: \"sbiepay_newpg.jks\"\n  client_jks_file_pwd: \"keystore\"\n  client_alias_name: \"client_keypair\"\n  client_alias_pwd: \"password\"\n  server_pk_alias_name: \"wibmo_pk\"\n  proxy:\n    required: \"Y\"\n  client_jks_filename_intl: \"keys/sbiepay_newpg_intl.jks\"\n  client_jks_filename_rupay: \"keys/sbiepay_newpg_rupay.jks\"\n  client_jks_file_pwd_rupay: \"Wibmo@123\"\n  client_alias_name_rupay: \"Wibmo3dss\"\n  client_alias_pwd_rupay: \"Wibmo@123\"\n  server_pk_alias_name_rupay: \"de95d081-ce9c-4af7-aff6-121ce2fe58e4\"\n  client_jks_file_pwd_intl: \"keystore\"\n  client_alias_name_intl: \"client_keypair\"\n  client_alias_pwd_intl: \"password\"\n  server_pk_alias_name_intl: \"wibmo_pk\"\ncardConfigDeatils: \"\"\nUPI:\n  UPI_CLIENT_ID: \"SBIEPAY_MID_2.0\"\n  SECRETKEY: \"f65e8f0a484d45babd33c10b4535ef66\"\n  OAUTH_USERNAME: \"oauth2-api-merweb-SBI0000000032588\"\n  OAUTH_PASSWORD: \"05B6948CCFCA37A74B3DDDD15F9482040A998019ED67D2C77B4F5554DCB48B13\"\n  UPI_SBI_PUBLIC_KEY_PATH: \"/certs/SBI0000000032588_UAT_1224_PublicKey.asc\"\n  EPAY_PVT_KEY_PATH: \"/certs/0x1D883787-sec.asc\"\n  PACKET_ENCRYPTION_KEY: \"25dea54b392d9b24803d95e2df4d11d8\"\n  OAUTH_TOKEN_URL: \"https://uatupionline.sbi/upi2/oauth/token\"\n  VALIDATE_VPA_CHECK_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/validateVPAWeb\"\n  VPA_COLLECT_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/meCollectInitiateWeb\"\n  TXN_STATUS_ENQUIRY_URL: \"https://uatupionline.sbi/upi2/upi/web/v2.0/meTranStatusQueryWeb\"\n  UPI_CALLBACK_URL: \"https://epay.sbiuat.bank.in/secure/upiProcessingServlet\"\n  UPICONFIG:\n    URL: \"http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/v1/merchant/gatewayconfigdetails\"\n  TXN_STATUS_ENQUIRY_API_URL: \"\"\n  VPA_CHECK_API_URL: \"\"\n  INTENT_API_URL: \"https://uatupionline.sbi/upi2/upi/mandate/signVerifyIntent\"\n  UPI_CONFIG_DEATILS_URL: \"http://localhost:9097/api/admin/v1/merchant/upi/getUpiConfigDeatils\"\n  HANDSHAKE_API_URL: \"https://uatupionline.sbi/upi2/upi/oauth2-web-handshake\"\n  UPIPRICING:\n    URL: \"/merchant/upiPricing\"\nPG:\n  UPI_MERCHANT_ID: \"SBI0000000032588\"\nUPI_PVT_KEY_PWD: \"Uat@Sbiepay\"\nupi:\n  upiGatewayConfigDetailsUrl: \"/merchant/gateway\"\n  server:\n    private:\n      key:\n        path: \"0x1D883787-sec.asc\"\n    public:\n      key:\n        path: \"SBI0000000032588_UAT_1224_PublicKey.asc\"\nUPI_category: \"01\"\nUPI_intentMode: \"05\"\nUPI_ivtoken: \"2F70CBBDFAE8DBA95F46CEB68A970673\"\nUPI_keyid: 10\nUPI_mode: \"05\"\nUPI_purpose: \"00\"\nUPI_qrMedium: \"06\"\nUPI_ver: \"01\"\nUPI_cu: \"INR\"\nUPI_tier: \"TIER1\"\nUPI2_mode: 16\nUPI2_category: \"02\"\nUPI_upiQrVpa: \"sbiepay2.1000003@sbi\"\nUPI_businessName: \"TestMerchant\"\nUPI_mccCode: 6012\nupiqr:\n  private:\n    key:\n      path: \"/certs/0x1D883787-sec.asc\"\n      password: \"Uat@Sbiepay\"\n  sbi:\n    public:\n      key:\n        path: \"/certs/SBI0000000032588_UAT_1224_PublicKey.asc\"\nUPI2:\n  INTENT_API_URL: \"https://uatupionline.sbi/upi3/upi/mandate/generateQrIntent\"\ncors:\n  origin: \"*\"\nsecurity:\n  cors:\n    origin: \"*\"\n    allowed:\n      origins: \"*\"\n      methods: \"GET,POST\"\n      headers: \"\\\"Authorization, Origin, X-Correlation-Id, Content-Type, Accept, Content-Disposition\\\"\"\n    max:\n      age: 3600\n  whitelist:\n    url: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/cards/sbi/** ,/inb/sbi/**, /upi/sbi/**, /other-inb/sbi/**, /cashchallan/sbi/**, /neft-rtgs/sbi/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n    urls: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/payments/v1/sbi,/sbi/inb,/cards/sbi/**,/inb/sbi/**,/other-inb/sbi/**,/upi/sbi/**,/cashchallan/sbi/**,/neft-rtgs/sbi/**,/actuator/health/**, /api/transaction/v1/actuator/health/**, /paypal/sbi/**, /sbi/ibmb/**, /ibmb/**\"\n  jwt:\n    secret:\n      key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\n      issuer: \"sbi.epay\"\nwhitelisted:\n  endpoints: \"/webjars/, /actuator/, /swagger-resources/, /v3/api-docs, /swagger-ui/, /swagger-ui.html, /token,/downtime/api,/s1/fetch-data,/cards/sbi/** ,/inb/sbi/**, /upi/sbi/**, /other-inb/sbi/**, /cashchallan/sbi/**, /neft-rtgs/sbi/**, /paypal/sbi/**,  /sbi/ibmb/**, /ibmb/**\"\njwt:\n  secret:\n    key: \"gdjfgskjfhsdjkhkflkdlksdlfkskfwperip3ke3le3lmldrnkfnhiewjfejfokepfkldkfoikfokork3dklwedlsvflvkfkvlkdfvodkvcdokro3\"\nexternal:\n  api:\n    admin:\n      services:\n        base:\n          path: \"http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1\"\n    transaction:\n      services:\n        base:\n          path: \"http://txn-transactionservice.dev-transaction.svc.cluster.local:9092/api/transaction/v1\"\n    ui:\n      service:\n        redirectView: \"https://dev.epay.sbi/ui/channel/sbi\"\n    paymentCallBackUrl: \"https://dev.epay.sbi/demo/\"\n    sms:\n      gateway:\n        base:\n          path: \"https://smsapipprod.sbi.co.in:9443\"\n        url: \"/bmg/sms/epaypgotpdom\"\n        user: \"epaypgotpdom\"\n        password: \"Ep@y1Dpt\"\n      body:\n        country:\n          code: \"DOM\"\n        content:\n          type: \"text\"\n        sender:\n          id: \"SBIBNK\"\n        int:\n          flag: 0\n        charging: 0\n    kms:\n      services:\n        base:\n          path: \"https://dev.epay.sbi/api/kms/v1\"\nneft:\n  kafka:\n    outbound:\n      topic: \"neft.outbound.kafka.topic\"\n    inbound:\n      topic: \"neft.inbound.kafka.topic\"\n    inbound-topic: \"neft.inbound.kafka.topic\"\n    outbound-topic: \"neft.outbound.kafka.topic\"\n  outbound:\n    kafka:\n      topic: \"neft.outbound.kafka.topic\"\n  inbound:\n    kafka:\n      topic: \"neft.inbound.kafka.topic\"\n  mis:\n    outbound:\n      kafka:\n        topic: \"neft.mis.outbound.kafka.topic\"\n    inbound:\n      kafka:\n        topic: \"neft.mis.inbound.kafka.topic\"\n  pdf:\n    challan:\n      accountnumber: \"SBIEPY\"\n      beneficiaryname: \"SBIePAY NEFT\"\n      branchname: \"FINANCIAL INSTITUTIONS BRANCH\"\n      ifsccode: \"SBIN0011777\"\nrtgs:\n  mis:\n    inbound:\n      kafka:\n        topic: \"rtgs.mis.inbound.kafka.topic\"\n    outbound:\n      kafka:\n        topic: \"rtgs.mis.outbound.kafka.topic\"\n  kafka:\n    outbound:\n      topic: \"rtgs.outbound.kafka.topic\"\n    inbound:\n      topic: \"rtgs.inbound.kafka.topic\"\n  outbound:\n    kafka:\n      topic: \"rtgs.outbound.kafka.topic\"\n  inbound:\n    kafka:\n      topic: \"rtgs.inbound.kafka.topic\"\nemail:\n  recipient: \"ebms_uat_receiver@sbiuat.bank.in\"\n  from: \"ebms_uat_sender@sbiuat.bank.in\"\nkms:\n  service:\n    base-url: \"http://kms-kmsservice.dev-kms.svc.cluster.local:9093/api/kms/v1\"\n    cors-origin: \"https://dev.epay.sbi\"\ncashchallan:\n  api:\n    eis:\n      services:\n        publickey:\n          path: \"/certs/EIS_ENC_UAT.cer\"\n        privatekey:\n          path: \"/etc/custom-certs-payment/SBI_private.key\"\n        gateway:\n          enquiry: \"https://eissiuat.sbi.co.in/gen6/gateway/payments/Dr1Cr2MR/enquiry\"\n          branchcode: \"05049\"\n          sourceid: \"E2\"\n          sbisourceid: \"SBIE2\"\n    maxlength:\n      otherdetails: 1000\naws:\n  s3:\n    key: \"IDHJO1513FFMMNLPR9BC\"\n    secret: \"avXqEPv5B_QqqPK0D1VJzP3pSyAA4x31Zu_KucQ9\"\n    region: \"ap-south-1\"\n    url: \"https://s3store.bank.sbi/\"\n    bucket: epay-nonprod-s3bucket\n    bucket.report: epay-nonprod-s3bucket\n    bucket.ops: ${aws.s3.bucket.report}\nchallan:\n  pdf:\n    regeneration:\n      link: \"https://dev.epay.sbi/\"\nscheduler:\n  cron:\n    expression:\n      paypal-token: \"0 */5 * * * *\"\n  time:\n    zone: \"Asia/Kolkata\"\n  paypal-token:\n    lockAtLeastFor: \"PT30S\"\n    lockAtMostFor: \"PT4M\"\nstandard:\n  mId-list: 1000857\n\nibmb:\n  \n  ssl:\n    key-store: /nbbl-certs/nbbl_client.jks\n    public-key-path: /nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt\n    return-url: https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback\n    key-store-pwd: sbi@123\n    key-store-type: JKS\n    timeout:\n      connection: 20\n      response: 20\n  base:\n    path: https://ibmbcert.npci.org.in\n  endpoint:\n    reqtxninit: /ReqTxnInit/1.0/urn \n  health:\n    retry: \n      timeout: 20\n  txn:\n    retry:\n      timeout: 20\n  sbi:\n    private-key-path: /nbbl-certs/sbi_private_key\n"},"kind":"ConfigMap","metadata":{"annotations":{},"creationTimestamp":null,"name":"payment-config","namespace":"dev-transaction"}}
+[osuser@bastion ~]$ oc get secret nbbl-cert payment-upivpaqr custom-certs-payment -n dev-transaction \
+>   -o go-template='{{range .items}}{{.metadata.name}}:{{range $k,$v := .data}} {{$k}}{{end}}{{"\n"}}{{end}}'
+nbbl-cert: ibmbcert_npci_org_in_new_24Dec.crt nbbl_client.jks sbi_private_key
+payment-upivpaqr: 0x1D883787-pub.asc 0x1D883787-sec.asc EIS_ENC_UAT.cer SBI0000000032588_UAT_1224_PublicKey.asc SBIEPAY_NEW.key SBI_private.key iobsigner.cer keystore.p12 sbiPublic.cer sbiepay_newpg.jks
+custom-certs-payment: SBI_private.key bridgeuat_csccloud_in.crt csccloud.in.crt epaycert.cer merchant.sbiuat.bank.in.crt sms.cer
+[osuser@bastion ~]$ kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+-bash: /usr/local/bin/kubectl: Permission denied
+[osuser@bastion ~]$
+[osuser@bastion ~]$ sudo su -
+[root@bastion ~]# kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
+Defaulting debug container name to debugger-w94cv.
+If you don't see a command prompt, try pressing enter.
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+>         -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Entry for alias mykey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+sh-5.1$ curl -kv \
+  --proxy http://serverswg.sbi.co.in:9090 \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  -d '{
+  "payload" : "BPNST1JMiyzxCkCq49111biacXU3HXqm48k+hjI2gxBU59l8pRHp/+QKkGzrDZqSMaLWsJznRJ6bU52JJ596c+LDxsSuZLTWpQLuXLVbqd7muK/cvf4zv7jlpIPlqiw4uPw7ji+xIiobcYEfIO0c8qYo5oPtW7q2Qd965Vv9LdIb8jibBwn3TZALAXSiO1QxTsndDHgC9ogqMyTl3Nda0ZYCks0/cAcRZktoVX6JVBrwZ7isHQshuwT2T1PtSrY+J32Ky11wXWwy3dIDRrpL9Sx2fDK+mKFz20tyAUfpIcJ58NP+mt3sS6FqiYkxOxA202YLYDRwJHXeZ2KWYS7RPmmooBZBBzbT3ZOGhX9TL7qwtJGAApeSu4+1wd1DdtBsWnRR0tu3fL9pYM8AYweHKThHR8C5OQQjd0AAjAv+PzWxaRO57Ko3AX22ui9CbMB9mhX+gUmzjt44S1gAr7lAXhbAnRHh3pAAApXY7kDY1zH4TnGwhiuxnvxbizqpjk4Zh1M3T65exoUSJr+yM5wxnIRUT7EGfMyFXTUHUZmyStMXIhDVFm42opssBpOwwG5TvmOE4RZzCMee+VNiIdinG0PdO3Ip9KmWR2fpcGGSNi/fZCvEXi8PikOP7WdqpBLIrkzfa7USVp+QANYGAj9KgC0+twsiPqiF7SWhEwEHJhbrOkgQlmReN8tdCGqHnazYHi6ciNNU5S3buDJSww/BGA7jjgHe3qKbobs4IoHegeXdTgpdplVbThWDDjTXM7fAXiSFciECRs0GUpahg5Yy1feRlO/w0q0lfQoa762Vixrpzm3Eg1jYfMdUASK1J2oVlsWa2jNowTiJAf0XDfAaS78/fc/nSHvgIehLkuggeXZRpqQoyAtyotRkVEo6b/NLAuByYT6Y6tCOALg6dqbmG8syLlhOjbdqmEako9eIShycTm2eFKUDYesCdxGc8M7z7wO39CAw1gwodoOHkP2+pPNmt1jpuVshDsNl6v2iiohaO9/J1LhE3ishmZkmJZTmE5Kf0H7406J/WIQRusiv797p4P/xlC7O6LkJNL8fvKp8gzZG4z8Arymb0fUzd86tGuBlJ4ZF/zsc8ihr0TDXNzFi5LBJJqtP2i7awtzNVV/qjn6Gqd4nhxHH4JioZAZ4NXD/lT8YEMPCVPIC0jWmrANoPW1/A5ybVWXOFfBgDPeypNecnNOU",
+  "signature" : {
+    "signature" : "MEUCIQCeHEk6wXliliXSttGqGG6G1duRX3WFDmiZMiq+leTgJQIgUrwSNPMaHRdkL8ico2nJ5i2joZUe+EmGVPLMzVHz/+M=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcxNTE1MDAwIixleHBpcmVzPSIxNzkwMTcxNjk1MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"
+
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1602
+>
+* Empty reply from server
+* Closing connection 0
+* TLSv1.2 (OUT), TLS header, Unknown (21):
+curl: (52) Empty reply from server
+sh-5.1$ which keytool
+sh: which: command not found
+sh-5.1$ ls -l /proc/1/root/nbbl-certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 41 Sep 28 07:00 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 nbbl_client.jks -> ..data/nbbl_client.jks
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 sbi_private_key -> ..data/sbi_private_key
+sh-5.1$ keytool -list -v -keystore /tmp/npci-client.p12 -storetype PKCS12 -storepass 'sbi@123' | grep -E 'Alias|Entry type|Owner|Issuer|Valid'
+Alias name: mykey
+Entry type: PrivateKeyEntry
+Owner: CN=uat.sbiepay.sbi, O=STATE BANK OF INDIA, L=Mumbai, ST=Maharashtra, C=IN
+Issuer: EMAILADDRESS=infosec@npci.org.in, CN=NPCI_IBMB_UAT_ROOT_EXT_1, OU=Infosec, O=National Payments Corporation Of India, L=Mumbai, ST=Maharastra, C=IN
+Valid from: Tue Dec 10 06:29:36 UTC 2024 until: Wed Dec 10 06:29:36 UTC 2025
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  -d '{"payload":"","signature":{"signature":"","protected":""}}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST" 2>&1 | grep -E 'CERT verify|alert|SSL connection|HTTP/|Empty reply|error'
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+< HTTP/1.1 200 Connection established
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST HTTP/1.1
+< HTTP/1.1 200 OK
+* TLSv1.2 (OUT), TLS alert, close notify (256):
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"
+
+Warning: Couldn't read data from file "/tmp/req.json", this makes an empty
+Warning: POST.
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 0
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 400 Bad Request
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< date: Tue, 29 Sep 2026 05:56:25 GMT
+< x-backend-app: waap01
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0dd50e79cd2b9fe352602fa065d689c3e424e817f3130d9cca514bdf88844a454a6b9078dd0e335872c37f8ce55907207a; Path=/; Domain=.ibmbcert.npci.org.in
+< Transfer-Encoding: chunked
+<
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"timestamp":"2026-09-29T05:56:25.929+00:00","status":400,"error":"Bad Request","path":"/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ curl -kv \
+
+  --proxy http://serverswg.sbi.co.in:9090 \
+
+  --cert-type P12 \
+
+  --cert "/tmp/npci-client.p12:test@123" \
+
+  -H "Content-Type: application/json" \
+
+  -H "User-Agent: Java/17.0.11" \
+
+  -d '{
+
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+
+  "signature" : {
+
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+
+  }
+
+}' \
+
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+
+curl: no URL specified!
+curl: try 'curl --help' for more information
+sh: --proxy: command not found
+sh: --cert-type: command not found
+sh: --cert: command not found
+sh: -H: command not found
+sh: -H: command not found
+sh: -d: command not found
+sh: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN: No such file or directory
+sh-5.1$ curl -kv \
+  --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 \
+  --cert "/tmp/npci-client.p12:test@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  -d '{
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+  "signature" : {
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+* Closing connection 0
+curl: (58) could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"<fresh payload>","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
+EOF
+sh-5.1$ ^C
+
+sh-5.1$ ~^C
+
+sh-5.1$ ^C
+
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"PSE096266OBPUSUMUDZS","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
+EOF
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"...","signature":{"signature":"MEUC...","protected":"a2V5SWQ9..."}}
+EOF
+sh-5.1$ {
+
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+
+  "signature" : {
+
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+
+  }
+
+}
+
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+
+  -H "Content-Type: application/json" \
+
+  -H "User-Agent: Java/17.0.11" \
+
+  --data @/tmp/req.json \
+
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+
+sh: payload: command not found
+sh: signature: command not found
+sh: signature: command not found
+sh: protected: command not found
+sh: syntax error near unexpected token `}'
+curl: no URL specified!
+curl: try 'curl --help' for more information
+sh: --cert-type: command not found
+sh: -H: command not found
+sh: -H: command not found
+sh: --data: command not found
+sh: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM: No such file or directory
+sh-5.1$ {
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+  "signature" : {
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+sh: payload: command not found
+sh: signature: command not found
+sh: signature: command not found
+sh: protected: command not found
+sh: syntax error near unexpected token `}'
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 79
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 191
+< date: Tue, 29 Sep 2026 06:11:41 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0dd8061f0b4f3daa541b150368069003745c6bc1fb18fb7a774cbfab6ac2dcd96fa8cfc0f6ac5f51ae631724a2e348ff74; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272NPCHNLIEJPM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T11:41:42+05:30"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+  "signature" : {
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 191
+< date: Tue, 29 Sep 2026 06:15:40 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0d03930344bcaeea6700b0a754a33ba6d283882f5312ea9d9700ecd1e6be04f04bb74b40c8a3f83c0e9ae26296a8f70d71; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272NPCHNLIEJPM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T11:45:40+05:30"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/shared_pub.pem <<'EOF'
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
+EOF
+
+head -1 /proc/1/root/nbbl-certs/sbi_private_key          # just the format header, not the key
+openssl pkey -in /proc/1/root/nbbl-certs/sbi_private_key -pubout -out /tmp/app_pub.pem
+diff /tmp/app_pub.pem /tmp/shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+-----BEGIN PRIVATE KEY-----
+sh: openssl: command not found
+sh: diff: command not found
+MISMATCH
+sh-5.1$ cat > /tmp/KeyCheck.java <<'EOF'
+import java.nio.file.*; import java.security.*; import java.security.spec.*; import java.util.Base64;
+public class KeyCheck {
+  static byte[] pem(String f) throws Exception {
+    String s = Files.readString(Path.of(f)).replaceAll("-----[A-Z ]+-----", "").replaceAll("\\s", "");
+    return Base64.getDecoder().decode(s);
+  }
+  public static void main(String[] a) throws Exception {
+    KeyFactory kf = KeyFactory.getInstance("EC");
+    PrivateKey priv = kf.generatePrivate(new PKCS8EncodedKeySpec(pem(a[0])));
+    PublicKey  pub  = kf.generatePublic(new X509EncodedKeySpec(pem(a[1])));
+    byte[] msg = "keycheck".getBytes();
+    Signature s = Signature.getInstance("SHA256withECDSA"); s.initSign(priv); s.update(msg); byte[] sig = s.sign();
+    Signature v = Signature.getInstance("SHA256withECDSA"); v.initVerify(pub); v.update(msg);
+    System.out.println(v.verify(sig) ? "MATCH - private key pairs with shared public key" : "MISMATCH - keys do NOT pair");
+  }
+}
+EOF
+java /tmp/KeyCheck.java /proc/1/root/nbbl-certs/sbi_private_key /tmp/shared_pub.pem
+MISMATCH - keys do NOT pair
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ cat > /tmp/CertCheck.java <<'EOF'
+import java.nio.file.*; import java.security.cert.*; import java.util.*; import java.io.*;
+public class CertCheck {
+  public static void main(String[] a) throws Exception {
+    X509Certificate c = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(new FileInputStream(a[0]));
+    String s = Files.readString(Path.of(a[1])).replaceAll("-----[A-Z ]+-----","").replaceAll("\\s","");
+    System.out.println("Cert subject: " + c.getSubjectX500Principal());
+    System.out.println("Cert valid until: " + c.getNotAfter() + "  key alg: " + c.getPublicKey().getAlgorithm());
+    System.out.println(Arrays.equals(c.getPublicKey().getEncoded(), Base64.getDecoder().decode(s))
+      ? "Shared key == NPCI IBMB cert key" : "Shared key != NPCI IBMB cert key");
+  }
+}
+EOF
+java /tmp/CertCheck.java /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt /tmp/shared_pub.pem
+Exception in thread "main" java.security.cert.CertificateException: Could not parse certificate: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:103)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+Caused by: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:99)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)
+sh-5.1$ Session ended, the ephemeral container will not be restarted but may be reattached using 'kubectl attach payment-paymentservice-7c9dbb55b7-pxbnj -c debugger-w94cv -i -t' if it is still running
+[root@bastion ~]#
+
