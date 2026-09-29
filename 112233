@@ -1,103 +1,28 @@
-ibmb.ssl.key-store=D:/nbbl_keys_Cert/keys/uat_sbi_jks_keystore.jks
-ibmb.ssl.public-key-path=D:/nbbl_keys_Cert/keys/ibmbcert_npci_org_in_new_24Dec.crt
-ibmb.ssl.return-url= https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback
-ibmb.sbi.private-key-path=D:/nbbl_keys_Cert/keys/nbbl-hpy-key.pem
+Her local folder: D:\nbbl_keys_Cert\keys\
 
+1. mTLS client keystore
+   Property : ibmb.ssl.key-store
+   Local    : D:/nbbl_keys_Cert/keys/uat_sbi_jks_keystore.jks
+   Pod      : /nbbl-certs/nbbl_client.jks
 
--------------
+2. NPCI public key (payload encryption)
+   Property : ibmb.ssl.public-key-path
+   Local    : D:/nbbl_keys_Cert/keys/ibmbcert_npci_org_in_new_24Dec.crt
+   Pod      : /nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt
+   Pod value: MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESlkw4DwrTJcqyYm7xYhoXB0iaxCP/d+pUkiqyuqluyfLKNHt2gNWndSJFYr1vOgFs6MAqz6YwpnB739C8uHirw==
 
+3. SBI signing private key (NEW rotated key -> gives IBMBSIG001)
+   Property : ibmb.sbi.private-key-path
+   Local    : D:/nbbl_keys_Cert/keys/nbbl-hpy-key.pem
+   Pod      : /nbbl-certs/sbi_private_key
 
-cat > /tmp/req.json <<'EOF'
-{
-  "payload" : "BO4YikKWl3BC5b7BkGb7k8lmom2mjx+GfL6TLsVz2C3JJwSnvLDOJtutkVKivPnYxtUJfGDDd5AZao3fs0I+/UI+96kuibG3d6/qj6zxS7+XBPlP9nj8vn7g/tpbiuSR7V2wYopXiACMlUId2EvF2q7ZjdxZ8N/72UPoDwh509nLd7Nlw2K1VYF7D9rzDTF3kx0x5W55EkQw+S6Kk0PBGHFB6EOUMd4xwnZ0Jy8T5h4IULsrAljEILG7EURXpOhJ4L8aalQ0ffZRugt1WLJfP65ALHBKqbskD1UxKSNkGoj2pFyJa0LOmPDyM6eZhOKf9szp6f3gHclqcXxv86ltQeuU8H8KRaKAg1Xxg4fKyDQPSNJu1D7HdetvNTyZGylN5SiMGxBQiDfOTyRfXhpPC1cgDH3JWOt08yuMBcItxmRQCXVx7mPnu0L97Siox9jnuUAMGAFHOuE8sUeNFlI+vL/UXqhBPOFnCtVnbnX8+/Ior9WsYLIqh8SZdpNNDr234ffI5B4XkIluzSdQAdqqb6nGpa8gSWuciZ4T+NGuKk/AyTo3se4HzO2gvZP2dlvFJo2N27mEhGTW+oPqrV20CDsZHb/fVOR89X4K5v0os4KY6Tv8sxQBT48NBpl52e9ChFRVtzF4p3rWoTcLD+knQWR+mJ6SZ3saTZuQOdvOkCnLrSyqJmK0c6VWoIFNTTfmil1kVphGeQrG2qE7m6YrqW6WJ2ZdN0596KYI2MtpY4zOMhwof5B+mHYYqLzMIC2B76XlybkzhpQVdc00BdCVoy8//jssxwJ/rGT6akNRqk9O2H3xqnjXaG3sCIXXxTSrkBNXWrsJlS+O3nbLVmbvJGYGeqIKAaON27HAja+cYXaO5Sk/OZ1THSgwPfL8JE/HD2+7P+0GZndykSzwWgXZZI355kfEiWF3iC9XHsDx7GLco0YJGtJ1CMAvplxcJxJFVWvYAoEEmKV5vBTPEl2dRKZb8Oyl524Nd3t0ymj+TvG+AfMrmbcm+U/sb+D/Duo87MLt2A5Ca6m2+vH9OxmCYJ4duBsafANffbYmdjdqEt6u0ghcBXbRfq+Bl0D7AqGbrbsenNsvKJYSfXO5hDmvmbFmiN65TeGEd+0qs4iK2M+YCU9VsObp7tRUJBJhP8WCrxl2CEDE69qLVi2uJ5xnOUyEmAs39A==",
-  "signature" : {
-    "signature" : "MEYCIQCKHW/+n/OqjnPvoL9QC9ag6hvPLiL79cH7+yqH3be23wIhAOBVTMwJZJ9/QSq1Yd3OxXICLN3fGHUD5C9JOC5Z3C0X",
-    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjgwNTcwMDU3IixleHBpcmVzPSIxNzkwNjgwNzUwMDU3IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
-  }
-}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272GOLUVKIBDRT"
-1583 /tmp/req.json
-*   Trying 10.191.191.39:9090...
-* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
-* allocate connect buffer!
-* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-> Host: ibmbcert.npci.org.in:443
-> User-Agent: curl/7.76.1
-> Proxy-Connection: Keep-Alive
->
-< HTTP/1.1 200 Connection established
-<
-* Proxy replied 200 to CONNECT request
-* CONNECT phase completed!
-* ALPN, offering h2
-* ALPN, offering http/1.1
-*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
-* TLSv1.0 (OUT), TLS header, Certificate Status (22):
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-* CONNECT phase completed!
-* CONNECT phase completed!
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Certificate (11):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Request CERT (13):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server finished (14):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Certificate (11):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
-* TLSv1.2 (OUT), TLS header, Finished (20):
-* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Finished (20):
-* TLSv1.2 (IN), TLS header, Finished (20):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Finished (20):
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
-* ALPN, server did not agree to a protocol
-* Server certificate:
-*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
-*  start date: Jan 16 00:00:00 2026 GMT
-*  expire date: Feb 16 23:59:59 2027 GMT
-*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
-*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
-*  SSL certificate verify ok.
-* TLSv1.2 (OUT), TLS header, Unknown (23):
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272GOLUVKIBDRT HTTP/1.1
-> Host: ibmbcert.npci.org.in
-> Accept: */*
-> Content-Type: application/json
-> User-Agent: Java/17.0.11
-> Content-Length: 1576
->
-* TLSv1.2 (IN), TLS header, Unknown (23):
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< allow: POST, GET, PUT
-< content-security-policy: default-src 'self'
-< x-content-type-options: nosniff
-< x-frame-options: DENY
-< x-xss-protection: 1; mode=block
-< content-type: application/json
-< content-length: 192
-< date: Tue, 29 Sep 2026 11:18:14 GMT
-< x-backend-app: waap02
-< x-incoming-ip:
-< strict-transport-security: max-age=31536000; includeSubdomains; preload
-< Set-Cookie: TS01723025=0179480d0d48f3baf0ebd505a814862066e276a1af34338540632f50d83a271fa8455c3d1c3a5e92776ec14c72926bd2dfb03bcbc0; Path=/; Domain=.ibmbcert.npci.org.in
-<
-* Connection #0 to host serverswg.sbi.co.in left intact
-{"api":"REQUEST_TXN_INIT","refID":"PSE096272GOLUVKIBDRT","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T11:18:14.601152324Z"}sh-5.1$
+4. SBI signing private key (OLD key -> gave SUCCESS)
+   Property : ibmb.sbi.private-key-path (value before today's change)
+   Local    : ??? - please share the file name
+   Pod      : needs to go into /nbbl-certs/sbi_private_key
+
+Questions for Ujawala:
+- What file name did ibmb.sbi.private-key-path point to before nbbl-hpy-key.pem?
+- What is the first line of that file? (BEGIN PRIVATE KEY / BEGIN EC PRIVATE KEY)
+- Does your local ibmbcert_npci_org_in_new_24Dec.crt match the pod value above?
+- Is uat_sbi_jks_keystore.jks the same cert as the pod's nbbl_client.jks (CN=uat.sbiepay.sbi)?
