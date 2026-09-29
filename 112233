@@ -4,43 +4,23 @@ otherinb-otherinbservice-565869f6fb-qs5fk        1/2     CrashLoopBackOff   1321
 payment-paymentservice-7cbbdfb77f-khhj4          2/2     Running            0                  7m14s
 txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                  6d4h
 txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                  21h
-[osuser@bastion ~]$
-
-
-sh-5.1$ cat > /tmp/req.json <<'EOF'
-{
-  "payload" : "BG8eIW3wb749MOcDsO24tggFFFya7Bc7nIK4UlkGF0fHmx3UOur2HdZHIeMVD+GUNRdWvYu1nokHYlrviCj7cY1Og8ONb7cSPP7U19izTkl0KAZbyN/ybvwCOBFnua8TAHh1fz95OaSo85Kx5kgcubJ8kPlx/4uWjTGhZfQihhKDAeQFjjHZ/oAdtup/i0fVhcF3v7+6MHKjcKeN5yPA09ZBhw64xo5Akc264AnX8DcslDR5CfRZc5lsFFO8izuNWRK9qVCx1A8L1hQetfLgNxiigzp3O0upWkrMbAtoSd4Tc5RmNLOtqhBfomy3SYcs+I1soya2s/dQjDEZrZaiQJyl8bPy8rOkxdvO9nEI+pEfWCoXjOB0ra+tk42pS9u69qzcL0fxli+qUFHw4HnznHiwjvUKbf6vGyWokhaKAsbXAnrXot78lXr2xBTe652EylmtAo1tQYd9fZZ+EKmzG5YydzGmhLbiNdZ0KlV1F4gWi2WP+/x0LMxVgAFj+X1Y8t6sX1cS6QUbkB5/KaXbH5V+eE5mfSNaJHwaQFU2wGMyksiz5EsjDeM561bYF16kZrjPdUX+lXfrntLTPQxbYtpq//GIYR0o+dN7+5XYQ+wNbcxQNh7CVa6iPvKKSo24R9uWMc4Gpg04ndBrR4YaPlX/r1eepLF++OF1RTO/a7K071IvICs8syOKSUlkFD/X32scYiwN96IvnQcgeIhFv1Jhs3R0CA5/Wwc9C0KGhq0iZh7B4nA5cjHk9AmFv1mr+ndqnL+leohPc9syOoDsQT96od5v/3Kxxz8csKnSxcnymFlf2PokXa13oM/PsB/Evk2OQOjiqtag0zjPmYy6ieXsWrilvZodbxdMeRGoBCD7rQAP+YY+apzXIKPVmXoEAz/qEExynb24zMw2hP2nQNPp5vIaWjIBgX5pqwWhov+rGmcv+YzlomQO4OmF1vLqueOIv1mfg0jGNde6fsinI0xHtQ699mx40X4m2hA0x5vo1eEpqpX1Czv3krxzeL3EjEmUZsVP+sl1DHUVVPhvb15Myz3trssOrn+96ESP/BKiOzgcOEg1jjWzs3f2TkTvMjOFCT/yf+zz7yNMBbOKUaa2vVUmuTKME78FM0evGAbmLrzx1AOzHWoJRfJ3nhyxsoQOG5TtEYduBOHdvaBTxuN3Im5AJQ==",
-  "signature" : {
-    "signature" : "MEYCIQCML4nl+gyCFoCS2ksOMVhJ5AoYRGUTGkXbKB9QmjLG9AIhALvJCwIrz1WlNxxfYd6H8Z9i4M1tz3yN++VF5fYD8Ekh",
-    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjcyMjc5MTI0IixleHBpcmVzPSIxNzkwNjcyNDU5MTI0IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
-  }
-}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272OLEOFALYQGJ"
-1583 /tmp/req.json
-*   Trying 10.191.191.39:9090...
-* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
-* allocate connect buffer!
-* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-> Host: ibmbcert.npci.org.in:443
-> User-Agent: curl/7.76.1
-> Proxy-Connection: Keep-Alive
->
-< HTTP/1.1 200 Connection established
-<
-* Proxy replied 200 to CONNECT request
-* CONNECT phase completed!
-* ALPN, offering h2
-* ALPN, offering http/1.1
-* could not open PKCS12 file '/tmp/npci-client.p12'
-* Closing connection 0
-curl: (58) could not open PKCS12 file '/tmp/npci-client.p12'
+[osuser@bastion ~]$ sudo su -
+[root@bastion ~]# kubectl debug -it payment-paymentservice-7cbbdfb77f-khhj4 -n dev-transaction \
+  --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+  --target=paymentservice -- /bin/sh
+Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
+Defaulting debug container name to debugger-6s6sf.
+If you don't see a command prompt, try pressing enter.
+sh-5.1$ wc -c /proc/1/root/nbbl-certs/..data/*
+ 124 /proc/1/root/nbbl-certs/..data/ibmbcert_npci_org_in_new_24Dec.crt
+2338 /proc/1/root/nbbl-certs/..data/nbbl_client.jks
+ 241 /proc/1/root/nbbl-certs/..data/sbi_private_key
+2703 total
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+  -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Entry for alias mykey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+sh-5.1$ ls -l /tmp/npci-client.p12
+-rw-r--r--. 1 1001190000 root 2822 Sep 29 09:57 /tmp/npci-client.p12
 sh-5.1$
-
-
