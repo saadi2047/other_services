@@ -1,12 +1,33 @@
-ls -l /tmp/npci-client.p12 || keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
-  -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+sh-5.1$ curl -s -o /tmp/r.html -w 'HTTP=%{http_code} CT=%{content_type}\n' --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: ReactorNetty/1.2.0" \
+  -d '{}' "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r.html; echo
+HTTP=000 CT=
+head: cannot open '/tmp/r.html' for reading: No such file or directory
 
-# A) WebClient-style User-Agent, via proxy, with cert
-curl -sS -o /tmp/r.html -w 'HTTP=%{http_code} CT=%{content_type}\n' --proxy http://serverswg.sbi.co.in:9090 \
+sh-5.1$ curl -s -o /tmp/r2.html -m 15 -w 'HTTP=%{http_code} CT=%{content_type}\n' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r2.html; echo
+HTTP=000 CT=
+head: cannot open '/tmp/r2.html' for reading: No such file or directory
+
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ ls -l /tmp/npci-client.p12 || keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+  -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+ls: cannot access '/tmp/npci-client.p12': No such file or directory
+sh: keytool: command not found
+sh-5.1$ curl -sS -o /tmp/r.html -w 'HTTP=%{http_code} CT=%{content_type}\n' --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: ReactorNetty/1.2.0" \
   -d '{}' "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r.html 2>/dev/null; echo
+curl: (58) could not open PKCS12 file '/tmp/npci-client.p12'
+HTTP=000 CT=
 
-# B) No proxy
-curl -sS -o /tmp/r2.html -m 15 -w 'HTTP=%{http_code} CT=%{content_type}\n' \
+sh-5.1$ curl -sS -o /tmp/r2.html -m 15 -w 'HTTP=%{http_code} CT=%{content_type}\n' \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r2.html 2>/dev/null; echo
+curl: (6) Could not resolve host: ibmbcert.npci.org.in
+HTTP=000 CT=
+
+sh-5.1$
