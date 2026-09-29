@@ -1,4 +1,62 @@
-CONNECT from the SBI ePay OpenShift (dev) segment via serverswg.sbi.co.in:9090 to ibmb.npci.org.in:443 (NPCI IBMB production) returns 503 Network Error (tcp_error).
-Transaction ID: 792ed69a28d00ee8-0000000039f70b24-000000006abb700c, 29 Sep 2026 ~13:30 IST.
-The same proxy works for ibmbcert.npci.org.in:443 (NPCI UAT).
-Please confirm whether the proxy → NPCI prod route and firewall are open, and share the proxy egress IP so NPCI can whitelist it if required.
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in:443
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmb.npci.org.in:443
+> CONNECT ibmb.npci.org.in:443 HTTP/1.1
+> Host: ibmb.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 503 Service Unavailable
+< Cache-Control: no-cache
+< X-XSS-Protection: 1
+< Connection: close
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 988
+< Pragma: no-cache
+<
+* Received HTTP code 503 from proxy after CONNECT
+* CONNECT phase completed!
+* Closing connection 0
+curl: (56) Received HTTP code 503 from proxy after CONNECT
+sh-5.1$ curl -v --proxy https://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in:443
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* (5454) (IN), , Unknown (72):
+* TLSv1.0 (OUT), TLS header, Unknown (21):
+* TLSv1.3 (OUT), TLS alert, record overflow (534):
+* error:0A0000C6:SSL routines::packet length too long
+* Closing connection 0
+curl: (35) error:0A0000C6:SSL routines::packet length too long
+sh-5.1$ curl -vk --proxy https://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in:443
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* (5454) (IN), , Unknown (72):
+* TLSv1.0 (OUT), TLS header, Unknown (21):
+* TLSv1.3 (OUT), TLS alert, record overflow (534):
+* error:0A0000C6:SSL routines::packet length too long
+* Closing connection 0
+curl: (35) error:0A0000C6:SSL routines::packet length too long
+sh-5.1$ curl -kv --proxy https://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in:443
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* (5454) (IN), , Unknown (72):
+* TLSv1.0 (OUT), TLS header, Unknown (21):
+* TLSv1.3 (OUT), TLS alert, record overflow (534):
+* error:0A0000C6:SSL routines::packet length too long
+* Closing connection 0
+curl: (35) error:0A0000C6:SSL routines::packet length too long
+sh-5.1$
