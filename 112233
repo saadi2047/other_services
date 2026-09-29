@@ -1,2 +1,11 @@
-2026-09-29 09:58:43.402 INFO | com.epay.payment.service.IbmbPaymentService:179 | principal=NA | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=df69030c-a3e8-4c7e-85c8-fa29e06fa754 | methodName=createNbblInitTxnReq | response:::::::::::::<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: <45325279617247430><br><br><a href='javascript:history.back();'>[Go Back]</body></html>
-2026-09-29 09:58:43.403 INFO | com.epay.payment.service.IbmbPaymentService:182 | principal=NA | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=df69030c-a3e8-4c7e-85c8-fa29e06fa754 | methodName=createNbblInitTxnReq | Response from IBMB :::::::::::::::::<html><head><title>Request Rejected</title></head><body>The requested URL was rejected. Please consult with your administrator.<br><br>Your support ID is: <45325279617247430><br><br><a href='javascript:history.back();'>[Go Back]</body></html>
+String body = objectMapper.writeValueAsString(signatureRequest);   // serialize first → fixed length
+
+webClient.post()
+    .uri(url)
+    .header(HttpHeaders.USER_AGENT, "Java/17.0.11")
+    .header(HttpHeaders.CONTENT_TYPE, "application/json")
+    .header(HttpHeaders.ACCEPT, "*/*")
+    .contentLength(body.getBytes(StandardCharsets.UTF_8).length)
+    .bodyValue(body)
+    .retrieve()
+    .bodyToMono(String.class);   // read as String first, so HTML errors don't crash parsing
