@@ -1,4 +1,18 @@
-cat > /tmp/KeyCheck.java <<'EOF'
+sh-5.1$ cat > /tmp/shared_pub.pem <<'EOF'
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
+EOF
+
+head -1 /proc/1/root/nbbl-certs/sbi_private_key          # just the format header, not the key
+openssl pkey -in /proc/1/root/nbbl-certs/sbi_private_key -pubout -out /tmp/app_pub.pem
+diff /tmp/app_pub.pem /tmp/shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+-----BEGIN PRIVATE KEY-----
+sh: openssl: command not found
+sh: diff: command not found
+MISMATCH
+sh-5.1$ cat > /tmp/KeyCheck.java <<'EOF'
 import java.nio.file.*; import java.security.*; import java.security.spec.*; import java.util.Base64;
 public class KeyCheck {
   static byte[] pem(String f) throws Exception {
@@ -17,3 +31,5 @@ public class KeyCheck {
 }
 EOF
 java /tmp/KeyCheck.java /proc/1/root/nbbl-certs/sbi_private_key /tmp/shared_pub.pem
+MISMATCH - keys do NOT pair
+sh-5.1$
