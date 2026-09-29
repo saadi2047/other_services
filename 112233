@@ -1,3 +1,12 @@
+ibmb.ssl.key-store=D:/nbbl_keys_Cert/keys/uat_sbi_jks_keystore.jks
+ibmb.ssl.public-key-path=D:/nbbl_keys_Cert/keys/ibmbcert_npci_org_in_new_24Dec.crt
+ibmb.ssl.return-url= https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback
+ibmb.sbi.private-key-path=D:/nbbl_keys_Cert/keys/nbbl-hpy-key.pem
+
+
+-------------
+
+
 cat > /tmp/req.json <<'EOF'
 {
   "payload" : "BO4YikKWl3BC5b7BkGb7k8lmom2mjx+GfL6TLsVz2C3JJwSnvLDOJtutkVKivPnYxtUJfGDDd5AZao3fs0I+/UI+96kuibG3d6/qj6zxS7+XBPlP9nj8vn7g/tpbiuSR7V2wYopXiACMlUId2EvF2q7ZjdxZ8N/72UPoDwh509nLd7Nlw2K1VYF7D9rzDTF3kx0x5W55EkQw+S6Kk0PBGHFB6EOUMd4xwnZ0Jy8T5h4IULsrAljEILG7EURXpOhJ4L8aalQ0ffZRugt1WLJfP65ALHBKqbskD1UxKSNkGoj2pFyJa0LOmPDyM6eZhOKf9szp6f3gHclqcXxv86ltQeuU8H8KRaKAg1Xxg4fKyDQPSNJu1D7HdetvNTyZGylN5SiMGxBQiDfOTyRfXhpPC1cgDH3JWOt08yuMBcItxmRQCXVx7mPnu0L97Siox9jnuUAMGAFHOuE8sUeNFlI+vL/UXqhBPOFnCtVnbnX8+/Ior9WsYLIqh8SZdpNNDr234ffI5B4XkIluzSdQAdqqb6nGpa8gSWuciZ4T+NGuKk/AyTo3se4HzO2gvZP2dlvFJo2N27mEhGTW+oPqrV20CDsZHb/fVOR89X4K5v0os4KY6Tv8sxQBT48NBpl52e9ChFRVtzF4p3rWoTcLD+knQWR+mJ6SZ3saTZuQOdvOkCnLrSyqJmK0c6VWoIFNTTfmil1kVphGeQrG2qE7m6YrqW6WJ2ZdN0596KYI2MtpY4zOMhwof5B+mHYYqLzMIC2B76XlybkzhpQVdc00BdCVoy8//jssxwJ/rGT6akNRqk9O2H3xqnjXaG3sCIXXxTSrkBNXWrsJlS+O3nbLVmbvJGYGeqIKAaON27HAja+cYXaO5Sk/OZ1THSgwPfL8JE/HD2+7P+0GZndykSzwWgXZZI355kfEiWF3iC9XHsDx7GLco0YJGtJ1CMAvplxcJxJFVWvYAoEEmKV5vBTPEl2dRKZb8Oyl524Nd3t0ymj+TvG+AfMrmbcm+U/sb+D/Duo87MLt2A5Ca6m2+vH9OxmCYJ4duBsafANffbYmdjdqEt6u0ghcBXbRfq+Bl0D7AqGbrbsenNsvKJYSfXO5hDmvmbFmiN65TeGEd+0qs4iK2M+YCU9VsObp7tRUJBJhP8WCrxl2CEDE69qLVi2uJ5xnOUyEmAs39A==",
