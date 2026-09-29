@@ -1,18 +1,4 @@
-sh-5.1$ exec 3<>/dev/tcp/serverswg.sbi.co.in/9090
-printf 'CONNECT ibmb.npci.org.in:443 HTTP/1.1\r\nHost: ibmb.npci.org.in:443\r\n\r\n' >&3
-timeout 5 cat <&3 | sed 's/<[^>]*>//g' | grep -v '^\s*$'
-exec 3>&-
-HTTP/1.1 503 Service Unavailable
-Cache-Control: no-cache
-X-XSS-Protection: 1
-Connection: close
-Content-Type: text/html; charset=utf-8
-Content-Length: 1004
-Pragma: no-cache
-Network Error
-Network Error (tcp_error)
-A communication error occurred: "No additional information available"
-The Web Server may be down, too busy, or experiencing other problems preventing it from responding to requests. You may wish to try again at a later time.
-Transaction ID: 792ed69a28d00ee8-0000000039f70b24-000000006abb700c
-This site is currently not available. For assistance, Please contact CIA HelpDesk Team Email ID:helpdesk.proxy@sbi.co.in.
-sh-5.1$
+CONNECT from the SBI ePay OpenShift (dev) segment via serverswg.sbi.co.in:9090 to ibmb.npci.org.in:443 (NPCI IBMB production) returns 503 Network Error (tcp_error).
+Transaction ID: 792ed69a28d00ee8-0000000039f70b24-000000006abb700c, 29 Sep 2026 ~13:30 IST.
+The same proxy works for ibmbcert.npci.org.in:443 (NPCI UAT).
+Please confirm whether the proxy → NPCI prod route and firewall are open, and share the proxy egress IP so NPCI can whitelist it if required.
