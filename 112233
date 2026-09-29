@@ -1,1 +1,1 @@
-grep -o '"protected" *: *"[^"]*"' /tmp/req.json | cut -d'"' -f4 | base64 -d; echo; date +%s
+sed 's/.*"protected" *: *"\([^"]*\)".*/\1/' /tmp/req.json | tr -d '\n ' | base64 -d; echo; date +%s
