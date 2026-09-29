@@ -1,11 +1,22 @@
-cat /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt; echo
-
-cat > /tmp/req.json <<'EOF'
-{"payload":"<paste>","signature":{"signature":"<paste MEUC...>","protected":"<paste a2V5SWQ9...>"}}
-EOF
+sh-5.1$ cat /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt; echo
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAESlkw4DwrTJcqyYm7xYhoXB0iaxCP/d+pUkiqyuqluyfLKNHt2gNWndSJFYr1vOgFs6MAqz6YwpnB739C8uHirw==
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BIdeWHCuKw+T8IWvGa31by5F7HTrSw2eJqeRxnM1r/7v8+y4ayR9XMkS9XUin1CKh0Ob7zCrmUGlv5wJqgu30FCLQ9nJei5YAFz7z1t5MUw7Kk1UzWUNemaau9qXWUwoikZgVaQCx2y8XZQtKdI8snEsXvHOI46k8NdG0d3xoWjd9Gri0ET3cnsWkY+QxadSavTsB5G6tZNwNp7E+kgW2oXzxVTd7MoiHl+ly8+lsBBViFiTjruw6CDw46UD5UciD3CVw31FuaD7Atjx9QIU5V7gUv8rz6++pHb/+AFcFwudaMOuHgbhGLOsg6o2qg7pGGdy9xmhkfWu8HP7IGqB6cVoabcDMlBiFU/RuN8mY84PvGZ3LpXrqKqroCgmuFqv25pQC2QNm6ql/FVg0LpJO+3xfyN4bwdg3AzK08hK7PKDfz4tXDT/DxH5WEzCXK+Y3ZN2Nfi8U1ZYiSl5To0nSzHc2MGIToYIYkMAonWUyvBU5kLPiQOHyMS9QFzAeokNnyp3FxKAsxQimW2IeQDP5WjuAMXyvuZPe0IbDf1pQvF2o4rV0fjRWNaHT1bL8P8cgX5ct4YuVNa8nWRbiWpg+VaVmnTHa9uKRUBj/6CHtNNIwzdfp0oc6+6JPRo31PNLnWxK858Dh7lq9ZxBIeuLhA34WkxVT2cakbZ/uMwGJAwX/fEHdC11Iw0nYmjDey7NCfTdH7tnsIEDP6xWu8NgLFNfFFu8KOG/pFwXTN0S3Lu6tm/kAXZgPZpkCzu4wKiiuDRPDc1/ivmU4RosjeCA/g9lCxiL8Y+WxjezN6dX9/ZEft61VCkK2zoNsWWSQgOwXsudgJFseVBjO4+by3JD7/AiYBe4SXEYC9TsQLOkr0xwxvhms71u4f0ZEGb2lh/OK8al3WD+edNlG+4CmmDd++uod591PF0fP6nYaPLr3eUEcOfzM3kBaL8l3XVhf76rdlkzNnQQ4hFYRx8uoZJLyf6vIqbOIBTIweKCL4fJi9TA0sEXZs78c4wLlMUA8muXUXuYIQG/v634ZGdFPpddMdwa2yhaA3enzUOQn5TKAyyqiQCiOlszHZpG2wtfmSl7bxsg8HbrS8j2paEtWjFsZnJojzz4oJStR03rT4IzA96VFvguEJtcJPs9y4v59pImnMBHfeJ/51Ww7UP7WWFLjqeZi2Kv1g==",
+  "signature" : {
+    "signature" : "MEYCIQCQC2OFerNKLqQ44rF4RqTGtmdm0mM0TEe91uuvcV29GwIhAIYV2s7+lH+TI1k7dq7q9dya35eLdUqaTXSVxtlHzi1b",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY1MjM2MDAwIixleHBpcmVzPSIxNzkwNjY1NDE5MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}EOF
 wc -c /tmp/req.json
 curl -v --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<new refId>"
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272KZQTJXKRMGS"
+>
+> "
+> '
+>
+sh: warning: here-document at line 6 delimited by end-of-file (wanted `EOF')
+sh-5.1$
