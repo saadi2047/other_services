@@ -1,290 +1,41 @@
-sh-5.1$ cat > /tmp/req.json <<'EOF'
-{
-  "payload" : "BMjwnSpO4/MVKlju/h8X95IaNrTjjP8amCjFKSoSlTixBOiyD2IQWF3W1LefWOw8rGz34yKWXRPNhKhPE4CEJxx0FZQVL35YHTVLiB+qg+5xpvi/8BI8IP4SyuIDPulpukQchgKZv+v34yFvhe28sJq6yvYaS5vfL5UoBLN6ryMc62nmG9ky/0uJtLm0FLr10IqPZ9mIycAOZqW+4VALEH5+exxJSfWWJUJSYcVv/smJ7cIkrYRICT8IybnwLg/ACvcXgoZCXmV5jPg4ZsD6HI+D7NaaIMyqpy1JeYEJJHuQY6DvHWtk8MalLE0E9me961cJ7U4Vf4C5e91u+Eo5w1+7ZBK8BB1fig4dW4XpX+kGZ/sHsrr5prb8iqywKCFQDD9b23XrHGK2opRBeBeDB26b2heWDMRAlJCahqID4ug4YMDgwWiP1dXujYQlKPufeXOlDjcr9CMtfweFvlHJDO0rvRdDxhRwOSpazv5JZm+JrQ4sv5+KdPY2F9gn43eZcptca37vX5iQwJopFgylBtNp6gbU4IMWCbO+bsSvwmFafMpiJBWlB+FHT7bmKYE+TdbfqceobqGPXHXWxI43dCkfWS8QlnKsiX8z9uMV3tCQIgYKdZELpy+aQBJVvXUXyvNeZQJG6FnXX1ITn7+hnImy3ym4u0DIEnjLL+GQOyXKHTZru/fGT5jj3c8vtuTJkvVM3yApHn++9gv4+EKdoWR6ufPzSnXCgea/FbMIweToSWgg+Eb2gihMGK73MTJfhSdMLTTUtFFx680VVZQ9UHGtRscXS0Jm9M+I5LIV8n+O1BoLt5KlxchRddnmoYw3ZvWJFiphvR5AlAQtsuljjomPIBkGvFWczykXXummw88x0TCb2g0clAq4Jsx5xinTVc/AQE7avs/GxwGgtgrKOSwYH7L4PeiUsjbMqtaS7y0qThHqJkfzNc9orRZUJBPiH+wVC+/vf2ijVHYQNWsyFaIBlswVGfHnStdG50J5e6IqUXaTDU1792KhmWH26N7cvVznkdqCe6r9umdOS5hSUaNK55Eswn//ZknlIBszJvMNcHRFb4aEoLeZS+RvafFBrXDSCH2G9Lz8kMnpT+/wyT1SDfS0Gos0WtgpKLqZLdBOE1/zl2LvSxpl9F10t58EM3xdv3cop1mvhae+KVrP0wqeJzzpkQ==",
-  "signature" : {
-    "signature" : "MEQCIGy7sh6I8kIlaf1naZSSYYeks0yUZ2asnSC1rljMotgSAiB1bOsZpEj3kIDOvdqb63WHa73EItHNNzrIK3M0DZxoOw==",
-    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY1NTkyMDAwIixleHBpcmVzPSIxNzkwNjY1NzczMDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
-  }
-}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272ZCRASVXYFCV"
-1583 /tmp/req.json
-*   Trying 10.191.191.39:9090...
-* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
-* allocate connect buffer!
-* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-> Host: ibmbcert.npci.org.in:443
-> User-Agent: curl/7.76.1
-> Proxy-Connection: Keep-Alive
->
-< HTTP/1.1 200 Connection established
-<
-* Proxy replied 200 to CONNECT request
-* CONNECT phase completed!
-* ALPN, offering h2
-* ALPN, offering http/1.1
-*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
-* TLSv1.0 (OUT), TLS header, Certificate Status (22):
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-* CONNECT phase completed!
-* CONNECT phase completed!
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Certificate (11):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Request CERT (13):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server finished (14):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Certificate (11):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
-* TLSv1.2 (OUT), TLS header, Finished (20):
-* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Finished (20):
-* TLSv1.2 (IN), TLS header, Finished (20):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Finished (20):
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
-* ALPN, server did not agree to a protocol
-* Server certificate:
-*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
-*  start date: Jan 16 00:00:00 2026 GMT
-*  expire date: Feb 16 23:59:59 2027 GMT
-*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
-*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
-*  SSL certificate verify ok.
-* TLSv1.2 (OUT), TLS header, Unknown (23):
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272ZCRASVXYFCV HTTP/1.1
-> Host: ibmbcert.npci.org.in
-> Accept: */*
-> Content-Type: application/json
-> User-Agent: Java/17.0.11
-> Content-Length: 1576
->
-* TLSv1.2 (IN), TLS header, Unknown (23):
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< allow: POST, GET, PUT
-< content-security-policy: default-src 'self'
-< x-content-type-options: nosniff
-< x-frame-options: DENY
-< x-xss-protection: 1; mode=block
-< content-type: application/json
-< content-length: 155
-< date: Tue, 29 Sep 2026 07:07:42 GMT
-< x-backend-app: waap02
-< x-incoming-ip:
-< strict-transport-security: max-age=31536000; includeSubdomains; preload
-< Set-Cookie: TS01723025=0179480d0db61402cff4680e78aa8f9a21346ac59ee34c363856f5e72dace6c3a44beaa52791a9432e6afa6fd2ef7ffb5f90cb6477; Path=/; Domain=.ibmbcert.npci.org.in
-<
-* Connection #0 to host serverswg.sbi.co.in left intact
-{"api":"REQUEST_TXN_INIT","refID":"PSE096272ZCRASVXYFCV","msgID":"AIKDTNPYLZNXVAQLJMMJSEOEMSY62721236","result":"SUCCESS","ts":"2026-09-29T12:37:42+05:30"}sh-5.1$
-sh-5.1$
-sh-5.1$
-sh-5.1$
-sh-5.1$
-sh-5.1$ cat > /tmp/req.json <<'EOF'
-{
-    "payload": "BAwRFEY2EMJdmC3lFj5lfyEYMRkyO/U9cEvZcjVJd9ekNQknwnRwSaFhxgFFohb9r8G/t52gESuMbNC3SfVuEjG0RZCSsCPOFrB0o5qL5EH0Jwjmfsel4S51x3tcqmrN4NyLqvTrLf9YzFuFqb7aX5kw+oILUeHdYWGOTRf0eCtN2C1/hWS2OyYG62RRGZn3iNBgV3U4q/nb++N44UIyLrIAkKlS1FyRD5zUyDMYCej6uAFeeqA30O6TJv5uv4Y01YnM5FFTE3CCz6ZZKtgTlTXT27kE5iBU9RstuMCqI+6FD0wlAe2nO9FvyA0+OPlx2UB5K/SpNgjd6lLl5XykQnPysqWjwwtrSeF6v1HQg0vwF73Qw3NRCrdBd8t0IK+WC1gOL+XnU5rex+RAWZhEME2j9JLP8WqMLK1B5AY6l2hCKO14a4LLtX9JE+nIDr6IL+OpHv4si2COoQNWblrRniC740VX9Y0FRqVhMqLtab1rY9IpmI850zpEnBEuxCt60SNsRJFkDDTXVpL9m1wChb8q+wZ3K/4r6Yr5B18lEItd8EsPD2/VZerDYFAQ6v87rCsb8Ul6+3QPCXgVkOttSxwmV54XDuTP2qN8VeaRLi5t0QW+gwqmdLMm5G0qNGR3NJOwo4Cjaqr8C0T18wDQXKclklZ8NC1Qy/YkdFLIJxpZ8nzQ/mqSqbK9kr+EdWFJ25Z/ASL7vO4X8HZM0N+W4KxAslfhMZXROLwKjNQDn1PDTUAcZpriLwIcDsS+7/LUq+KxMc8pkpqZE1vlE5hmLRvpYDa1LhA+vntDrv+knCf+wMk+FnXsjGhuZX87AmXOCDF0jBMSq7Dcr5+9tTuOcGTJKDBZrA3AGCHkR4eHJ9Q6CXO38SqHe6rC5Tbg2sBkaDSfsirjujf7w/FDfZjlWlFeyC9Hl0kEI/P2XaGmTlPZsfwl1Urpjz4s6hgMdJeib5ADMHIpdhxwYmHILUVhTsx4vIPGCmXCUMwA2ZB0B8uOlHkJdO1uhE7naqDfZv5II1e+4vsfQAIKW++jVZqdJg2Y9wOm4/SRfSzyQHhpmCrV9QDW3cSRyI2eGmsKppvB2JB/UmUiT8lYYUE/HdR8ZtwmO24X2oJ2Unw16LUhyNsqTc8WcGx63DR9/Otmw9gV2rgIVxsdGnn7QOkZGZmFzy6+p1RAFmKYmw8TWXY=",
-    "signature": {
-        "signature": "MEUCIQCavmWNw3+8vXJCD8c5P7Wh9KpJhjTvWjy8Fi7voERxMQIgG9EymOmbRbRH7dCvCmt+SJHdPEpVMRUxefOG0qkvVmA=",
-        "protected": "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY3OTE2MDAwIixleHBpcmVzPSIxNzkwNjY4MDk2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
-    }
-}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272CLJAWFVHOAG"
-
-1601 /tmp/req.json
-*   Trying 10.191.191.39:9090...
-* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
-* allocate connect buffer!
-* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-> Host: ibmbcert.npci.org.in:443
-> User-Agent: curl/7.76.1
-> Proxy-Connection: Keep-Alive
->
-< HTTP/1.1 200 Connection established
-<
-* Proxy replied 200 to CONNECT request
-* CONNECT phase completed!
-* ALPN, offering h2
-* ALPN, offering http/1.1
-*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
-* TLSv1.0 (OUT), TLS header, Certificate Status (22):
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-* CONNECT phase completed!
-* CONNECT phase completed!
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Certificate (11):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Request CERT (13):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server finished (14):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Certificate (11):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
-* TLSv1.2 (OUT), TLS header, Finished (20):
-* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Finished (20):
-* TLSv1.2 (IN), TLS header, Finished (20):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Finished (20):
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
-* ALPN, server did not agree to a protocol
-* Server certificate:
-*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
-*  start date: Jan 16 00:00:00 2026 GMT
-*  expire date: Feb 16 23:59:59 2027 GMT
-*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
-*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
-*  SSL certificate verify ok.
-* TLSv1.2 (OUT), TLS header, Unknown (23):
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272CLJAWFVHOAG HTTP/1.1
-> Host: ibmbcert.npci.org.in
-> Accept: */*
-> Content-Type: application/json
-> User-Agent: Java/17.0.11
-> Content-Length: 1594
->
-* TLSv1.2 (IN), TLS header, Unknown (23):
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< allow: POST, GET, PUT
-< content-security-policy: default-src 'self'
-< x-content-type-options: nosniff
-< x-frame-options: DENY
-< x-xss-protection: 1; mode=block
-< content-type: application/json
-< content-length: 192
-< date: Tue, 29 Sep 2026 07:47:21 GMT
-< x-backend-app: waap01
-< x-incoming-ip:
-< strict-transport-security: max-age=31536000; includeSubdomains; preload
-< Set-Cookie: TS01723025=0179480d0d6b85129b188f3f9fb1977eaab61c5a3cd18acd78de7046cc03b5eb96dbf0f3039a7814566c92201f32ff1bf71998d9b5; Path=/; Domain=.ibmbcert.npci.org.in
-<
-* Connection #0 to host serverswg.sbi.co.in left intact
-{"api":"REQUEST_TXN_INIT","refID":"PSE096272CLJAWFVHOAG","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T07:47:21.561920216Z"}sh-5.1$
-sh-5.1$
-sh-5.1$
-sh-5.1$
-sh-5.1$ cat > /tmp/req.json <<'EOF'
-{"payload":"BCYHcd921KR4fYCtRh76cyuzHjaO8lT3hL7eY+CtyoNkDPI94lKSV0VLU3aOc6/K+AaHT2aZslRxn7iPoopsD21cfZmAMwCoTB6lYxo2QDzKc6NEWOnxU8l2N/gozxxuZ9x6Nx6vkKlcPoK+WMvcMOl4aSn2tAN15e77BCgYf83KHlaz70uKlIMW3pghx+mW1j/qaKuX4SJHPqJZ09pljb+E7MiZf3sgso7XsVhLaIJ894fE1aTpkD/33Npc2TOqYmV9ShzC+BzFZwJgRAD2EyIlEDzEY82nwgHlZDAfnIZJY8YVXcilCP3phmUX7ZbC4rz9awTlsQiXf7fLyLPQPQmq3FveayzsxJifRbsrE19dD0OtOWub7vpJQIbWoY3MC58M9fJMeWwWh+1IsdCsZETTz2U54HT4VhE/vkqxahBcKYPm7sFWjORvhoRlM9aCs2oWDnL5AKaO0kR8a+c1OWVLc3TR8Ag0VvKywO9mGxLhTKXYHtd5v/9CGPkcYjGxkALuhPLqM2YSCGyUWZi762mubAqjb4QhSMhBBMa2uBEBVDKNbPK4ndBpu0yqMnbR7Ct8Jpl2QI+RNV+bU9qs1f/potdU3w2VqL5t3jYvNpQdEynRmoZS4xZZxvY70NUY8aAWWJ/enxRxAF+VFJTwgyQ85U8xVhhghAPtrdCNiskkFQChly7Mw2K5TCAz2s4R6Bpm9PUOE4QTIz3DlmMRTRcBEuLOrIAkVJL8YMM18LuCHzNLneLOk42XjSuYMsECl2plv8orL+cOJ/rRRKKNXZU5hqjW6GP+hC3jmiAezUS9qMiXzaV4sccNL2L1wmlHZyDqVARdn4W9sDUxhEHUPNt6u6FyTRHqcxuCMu16kA0T6AlLD1VY25xa7M44A1g9Ny4WCOEZTnbT/q5uNKVKPWqfswkiXRjAfxeAvT0dAQ001dN/Q8Ey48VGW7dkex4BAJ/kNG6KqKiPtzxbKHDGVVvWDRJAwM83BlkXId3V+e4NaReT6ZgIu+H/iN+twJXFAPLVyz6RF7KXdDhAio+DNXULd0/4+XRMuEzWCdh7gjebWVhJ8xifJfS9TQRTm43Iwtny7vrGQvJ9kwey4epT8wNjJyNuP7mhjo8A49Xxd4QbqCdyWIa06s56bHd5Pl1zit+/ynQmu+NNcZFpGvlJ12C73o4FXlNvUDqpOQ4=","signature":{"signature":"MEUCIGhV0od+koMtP+IW5cC3y2la9BPR355WlMTuh5EhW3Q4AiEAgtVK1LhWtRrfbcQRvBxQ/UcvzXiDbg5i1aDVJ0NB3M8=","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY4MDgzMDAwIixleHBpcmVzPSIxNzkwNjY4MjYzMDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272WBYPKFWJFUC"
-1563 /tmp/req.json
-*   Trying 10.191.191.39:9090...
-* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
-* allocate connect buffer!
-* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-> Host: ibmbcert.npci.org.in:443
-> User-Agent: curl/7.76.1
-> Proxy-Connection: Keep-Alive
->
-< HTTP/1.1 200 Connection established
-<
-* Proxy replied 200 to CONNECT request
-* CONNECT phase completed!
-* ALPN, offering h2
-* ALPN, offering http/1.1
-*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
-* TLSv1.0 (OUT), TLS header, Certificate Status (22):
-* TLSv1.3 (OUT), TLS handshake, Client hello (1):
-* CONNECT phase completed!
-* CONNECT phase completed!
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.3 (IN), TLS handshake, Server hello (2):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Certificate (11):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Request CERT (13):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Server finished (14):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Certificate (11):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
-* TLSv1.2 (OUT), TLS header, Finished (20):
-* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
-* TLSv1.2 (OUT), TLS header, Certificate Status (22):
-* TLSv1.2 (OUT), TLS handshake, Finished (20):
-* TLSv1.2 (IN), TLS header, Finished (20):
-* TLSv1.2 (IN), TLS header, Certificate Status (22):
-* TLSv1.2 (IN), TLS handshake, Finished (20):
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
-* ALPN, server did not agree to a protocol
-* Server certificate:
-*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
-*  start date: Jan 16 00:00:00 2026 GMT
-*  expire date: Feb 16 23:59:59 2027 GMT
-*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
-*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
-*  SSL certificate verify ok.
-* TLSv1.2 (OUT), TLS header, Unknown (23):
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272WBYPKFWJFUC HTTP/1.1
-> Host: ibmbcert.npci.org.in
-> Accept: */*
-> Content-Type: application/json
-> User-Agent: Java/17.0.11
-> Content-Length: 1562
->
-* TLSv1.2 (IN), TLS header, Unknown (23):
-* Mark bundle as not supporting multiuse
-< HTTP/1.1 200 OK
-< allow: POST, GET, PUT
-< content-security-policy: default-src 'self'
-< x-content-type-options: nosniff
-< x-frame-options: DENY
-< x-xss-protection: 1; mode=block
-< content-type: application/json
-< content-length: 192
-< date: Tue, 29 Sep 2026 07:49:18 GMT
-< x-backend-app: waap01
-< x-incoming-ip:
-< strict-transport-security: max-age=31536000; includeSubdomains; preload
-< Set-Cookie: TS01723025=0179480d0dbe8fcb06cd6608d408df5f7b2e20fdda4d9bd3c768489c1a5c7b0aeaf63c15792b65b316562a43343ca7beaa131dc406; Path=/; Domain=.ibmbcert.npci.org.in
-<
-* Connection #0 to host serverswg.sbi.co.in left intact
-{"api":"REQUEST_TXN_INIT","refID":"PSE096272WBYPKFWJFUC","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T07:49:18.810627414Z"}sh-5.1$
 sh-5.1$ nslookup ibmb.npci.org.in
 sh: nslookup: command not found
+sh-5.1$ ls -l /proc/1/root/nbbl-certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 41 Sep 29 06:55 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 nbbl_client.jks -> ..data/nbbl_client.jks
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 sbi_private_key -> ..data/sbi_private_key
+sh-5.1$ ls -l /proc/1/root/certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 25 Sep 29 06:55 0x1D883787-pub.asc -> ..data/0x1D883787-pub.asc
+lrwxrwxrwx. 1 root 1001190000 25 Sep 29 06:55 0x1D883787-sec.asc -> ..data/0x1D883787-sec.asc
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 EIS_ENC_UAT.cer -> ..data/EIS_ENC_UAT.cer
+lrwxrwxrwx. 1 root 1001190000 46 Sep 29 06:55 SBI0000000032588_UAT_1224_PublicKey.asc -> ..data/SBI0000000032588_UAT_1224_PublicKey.asc
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 SBIEPAY_NEW.key -> ..data/SBIEPAY_NEW.key
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 SBI_private.key -> ..data/SBI_private.key
+lrwxrwxrwx. 1 root 1001190000 20 Sep 29 06:55 iobsigner.cer -> ..data/iobsigner.cer
+lrwxrwxrwx. 1 root 1001190000 19 Sep 29 06:55 keystore.p12 -> ..data/keystore.p12
+lrwxrwxrwx. 1 root 1001190000 20 Sep 29 06:55 sbiPublic.cer -> ..data/sbiPublic.cer
+lrwxrwxrwx. 1 root 1001190000 24 Sep 29 06:55 sbiepay_newpg.jks -> ..data/sbiepay_newpg.jks
+sh-5.1$ ls -l /proc/1/root/etc/custom-certs-payment/
+total 0
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 SBI_private.key -> ..data/SBI_private.key
+lrwxrwxrwx. 1 root 1001190000 32 Sep 29 06:55 bridgeuat_csccloud_in.crt -> ..data/bridgeuat_csccloud_in.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 29 06:55 csccloud.in.crt -> ..data/csccloud.in.crt
+lrwxrwxrwx. 1 root 1001190000 19 Sep 29 06:55 epaycert.cer -> ..data/epaycert.cer
+lrwxrwxrwx. 1 root 1001190000 34 Sep 29 06:55 merchant.sbiuat.bank.in.crt -> ..data/merchant.sbiuat.bank.in.crt
+lrwxrwxrwx. 1 root 1001190000 14 Sep 29 06:55 sms.cer -> ..data/sms.cer
+sh-5.1$ ls -l /proc/1/root/cacerts/data/
+total 172
+-rw-rw----. 1 1001190000 1001190000 172803 Sep 29 06:55 cacerts
+sh-5.1$ ls -lL /proc/1/root/nbbl-certs/
+total 12
+-rw-rwxr--. 1 root 1001190000  124 Sep 29 06:55 ibmbcert_npci_org_in_new_24Dec.crt
+-rw-rwxr--. 1 root 1001190000 2338 Sep 29 06:55 nbbl_client.jks
+-rw-rwxr--. 1 root 1001190000  241 Sep 29 06:55 sbi_private_key
+sh-5.1$ wc -c /proc/1/root/nbbl-certs/..data/*
+ 124 /proc/1/root/nbbl-certs/..data/ibmbcert_npci_org_in_new_24Dec.crt
+2338 /proc/1/root/nbbl-certs/..data/nbbl_client.jks
+ 241 /proc/1/root/nbbl-certs/..data/sbi_private_key
+2703 total
 sh-5.1$
-
-
-
