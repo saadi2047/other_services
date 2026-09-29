@@ -1,6 +1,5 @@
-oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.metadata.creationTimestamp}{"\n"}{range .metadata.managedFields[*]}{.manager}{" "}{.operation}{" "}{.time}{"\n"}{end}'
-
-cat > /tmp/CertCheck.java <<'EOF'
+sh-5.1$
+sh-5.1$ cat > /tmp/CertCheck.java <<'EOF'
 import java.nio.file.*; import java.security.cert.*; import java.util.*; import java.io.*;
 public class CertCheck {
   public static void main(String[] a) throws Exception {
@@ -14,3 +13,36 @@ public class CertCheck {
 }
 EOF
 java /tmp/CertCheck.java /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt /tmp/shared_pub.pem
+Exception in thread "main" java.security.cert.CertificateException: Could not parse certificate: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:103)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+Caused by: java.io.IOException: Empty input
+        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:99)
+        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
+        at CertCheck.main(CertCheck.java:4)
+        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
+        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)
+        at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)
+sh-5.1$
+
+
+
+[osuser@bastion ~]$ oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.metadata.creationTimestamp}{"\n"}{range .metadata.managedFields[*]}{.manager}{" "}{.operation}{" "}{.time}{"\n"}{end}'
+2026-09-24T10:34:25Z
+Mozilla Update 2026-09-24T13:44:41Z
+[osuser@bastion ~]$
+[osuser@bastion ~]$
+
+
+
+
+
+
+
+
+
+
+
