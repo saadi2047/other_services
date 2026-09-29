@@ -1,48 +1,12 @@
-sh-5.1$
-sh-5.1$ cat > /tmp/CertCheck.java <<'EOF'
-import java.nio.file.*; import java.security.cert.*; import java.util.*; import java.io.*;
-public class CertCheck {
-  public static void main(String[] a) throws Exception {
-    X509Certificate c = (X509Certificate) CertificateFactory.getInstance("X.509").generateCertificate(new FileInputStream(a[0]));
-    String s = Files.readString(Path.of(a[1])).replaceAll("-----[A-Z ]+-----","").replaceAll("\\s","");
-    System.out.println("Cert subject: " + c.getSubjectX500Principal());
-    System.out.println("Cert valid until: " + c.getNotAfter() + "  key alg: " + c.getPublicKey().getAlgorithm());
-    System.out.println(Arrays.equals(c.getPublicKey().getEncoded(), Base64.getDecoder().decode(s))
-      ? "Shared key == NPCI IBMB cert key" : "Shared key != NPCI IBMB cert key");
-  }
-}
-EOF
-java /tmp/CertCheck.java /proc/1/root/nbbl-certs/ibmbcert_npci_org_in_new_24Dec.crt /tmp/shared_pub.pem
-Exception in thread "main" java.security.cert.CertificateException: Could not parse certificate: java.io.IOException: Empty input
-        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:103)
-        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
-        at CertCheck.main(CertCheck.java:4)
-Caused by: java.io.IOException: Empty input
-        at java.base/sun.security.provider.X509Factory.engineGenerateCertificate(X509Factory.java:99)
-        at java.base/java.security.cert.CertificateFactory.generateCertificate(CertificateFactory.java:355)
-        at CertCheck.main(CertCheck.java:4)
-        at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:103)
-        at java.base/java.lang.reflect.Method.invoke(Method.java:580)
-        at jdk.compiler/com.sun.tools.javac.launcher.Main.execute(Main.java:484)
-        at jdk.compiler/com.sun.tools.javac.launcher.Main.run(Main.java:208)
-        at jdk.compiler/com.sun.tools.javac.launcher.Main.main(Main.java:135)
-sh-5.1$
+oc get secret nbbl-cert -n dev-transaction -o yaml > nbbl-cert-backup-$(date +%F).yaml
 
+oc create secret generic nbbl-cert -n dev-transaction \
+  --from-file=nbbl_client.jks=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.nbbl_client\.jks}' | base64 -d) \
+  --from-file=sbi_private_key=./sbi_private_key \
+  --from-file=ibmbcert_npci_org_in_new_24Dec.crt=./ibmbcert_npci_org_in_new_24Dec.crt \
+  --dry-run=client -o yaml | oc apply -f -
 
+oc rollout restart deployment/payment-paymentservice -n dev-transaction
 
-[osuser@bastion ~]$ oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.metadata.creationTimestamp}{"\n"}{range .metadata.managedFields[*]}{.manager}{" "}{.operation}{" "}{.time}{"\n"}{end}'
-2026-09-24T10:34:25Z
-Mozilla Update 2026-09-24T13:44:41Z
-[osuser@bastion ~]$
-[osuser@bastion ~]$
-
-
-
-
-
-
-
-
-
-
-
+wc -c /proc/1/root/nbbl-certs/..data/*                                          # no 0-byte files
+java /tmp/KeyCheck.java /proc/1/root/nbbl-certs/sbi_private_key /tmp/shared_pub.pem   # expect MATCH
