@@ -13,3 +13,15 @@ curl -v --proxy http://serverswg.sbi.co.in:9090 \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<refId>"
+
+
+
+ls -l /proc/1/root/nbbl-certs/
+ls -l /proc/1/root/certs/
+ls -l /proc/1/root/etc/custom-certs-payment/
+ls -l /proc/1/root/cacerts/data/
+
+ls -lL /proc/1/root/nbbl-certs/
+wc -c /proc/1/root/nbbl-certs/..data/*
+
+oc set volume deployment/payment-paymentservice -n dev-transaction
