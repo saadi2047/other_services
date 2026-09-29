@@ -1,4 +1,10 @@
+cat > /tmp/shared_pub.pem <<'EOF'
 -----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
 ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
 -----END PUBLIC KEY-----
+EOF
+
+head -1 /proc/1/root/nbbl-certs/sbi_private_key          # just the format header, not the key
+openssl pkey -in /proc/1/root/nbbl-certs/sbi_private_key -pubout -out /tmp/app_pub.pem
+diff /tmp/app_pub.pem /tmp/shared_pub.pem && echo "MATCH" || echo "MISMATCH"
