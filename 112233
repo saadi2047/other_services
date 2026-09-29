@@ -1,4 +1,27 @@
-oc logs payment-paymentservice-7c4b8f6bb5-7l75z -c paymentservice -n dev-transaction --since=10m | grep "Response from IBMB"
-
-openssl pkey -in ~/nbbl-old-keys/old_sbi_private_key.pem -pubout > ~/nbbl-old-keys/old_pub.pem
-
+[osuser@bastion nbbl-old-keys]$ oc get pod -n dev-transaction
+NAME                                             READY   STATUS             RESTARTS           AGE
+otherinb-otherinbservice-565869f6fb-qs5fk        1/2     CrashLoopBackOff   1343 (4m45s ago)   4d22h
+payment-paymentservice-7c4b8f6bb5-7l75z          2/2     Running            0                  12s
+payment-paymentservice-8bc9bd4b4-hhbmc           2/2     Terminating        0                  90m
+txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                  6d6h
+txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                  23h
+[osuser@bastion nbbl-old-keys]$ oc logs payment-paymentservice-7c4b8f6bb5-7l75z -c paymentservice -n dev-transaction --since=10m | grep "Response from IBMB"
+[osuser@bastion nbbl-old-keys]$ oc logs payment-paymentservice-7c4b8f6bb5-7l75z -c paymentservice -n dev-transaction --since=10m | grep "Response from IBMB"
+[osuser@bastion nbbl-old-keys]$ openssl pkey -in ~/nbbl-old-keys/old_sbi_private_key.pem -pubout > ~/nbbl-old-keys/old_pub.pem
+[osuser@bastion nbbl-old-keys]$ ll
+total 36
+-rw------- 1 osuser osuser  124 Sep 29 16:18 local_npci.crt
+-rw-r----- 1 osuser osuser 7835 Sep 29 17:22 nbbl-cert-backup-newkey-2026-09-29-1722.yaml
+-rw------- 1 osuser osuser  241 Sep 29 17:11 nbbl-hpy-key.pem
+-rw-r----- 1 osuser osuser  178 Sep 29 17:24 old_pub.pem
+-rw------- 1 osuser osuser  241 Sep 29 16:18 old_sbi_private_key.pem
+-rw------- 1 osuser osuser  241 Sep 29 17:22 sbi_private_key
+-rw------- 1 osuser osuser  227 Sep 29 17:11 secp256r1-hpy-key.pem
+-rw------- 1 osuser osuser  178 Sep 29 17:11 shared_pub.pem
+[osuser@bastion nbbl-old-keys]$ oc get pod -n dev-transaction
+NAME                                             READY   STATUS             RESTARTS         AGE
+otherinb-otherinbservice-565869f6fb-qs5fk        1/2     CrashLoopBackOff   1344 (70s ago)   4d22h
+payment-paymentservice-7c4b8f6bb5-7l75z          2/2     Running            0                118s
+txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                6d6h
+txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                23h
+[osuser@bastion nbbl-old-keys]$
