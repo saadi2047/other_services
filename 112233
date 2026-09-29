@@ -1,9 +1,1 @@
-cat > /tmp/req.json <<'EOF'
-{"payload":"BCYHcd921KR4fYCtRh76cyuzHjaO8lT3hL7eY+CtyoNkDPI94lKSV0VLU3aOc6/K+AaHT2aZslRxn7iPoopsD21cfZmAMwCoTB6lYxo2QDzKc6NEWOnxU8l2N/gozxxuZ9x6Nx6vkKlcPoK+WMvcMOl4aSn2tAN15e77BCgYf83KHlaz70uKlIMW3pghx+mW1j/qaKuX4SJHPqJZ09pljb+E7MiZf3sgso7XsVhLaIJ894fE1aTpkD/33Npc2TOqYmV9ShzC+BzFZwJgRAD2EyIlEDzEY82nwgHlZDAfnIZJY8YVXcilCP3phmUX7ZbC4rz9awTlsQiXf7fLyLPQPQmq3FveayzsxJifRbsrE19dD0OtOWub7vpJQIbWoY3MC58M9fJMeWwWh+1IsdCsZETTz2U54HT4VhE/vkqxahBcKYPm7sFWjORvhoRlM9aCs2oWDnL5AKaO0kR8a+c1OWVLc3TR8Ag0VvKywO9mGxLhTKXYHtd5v/9CGPkcYjGxkALuhPLqM2YSCGyUWZi762mubAqjb4QhSMhBBMa2uBEBVDKNbPK4ndBpu0yqMnbR7Ct8Jpl2QI+RNV+bU9qs1f/potdU3w2VqL5t3jYvNpQdEynRmoZS4xZZxvY70NUY8aAWWJ/enxRxAF+VFJTwgyQ85U8xVhhghAPtrdCNiskkFQChly7Mw2K5TCAz2s4R6Bpm9PUOE4QTIz3DlmMRTRcBEuLOrIAkVJL8YMM18LuCHzNLneLOk42XjSuYMsECl2plv8orL+cOJ/rRRKKNXZU5hqjW6GP+hC3jmiAezUS9qMiXzaV4sccNL2L1wmlHZyDqVARdn4W9sDUxhEHUPNt6u6FyTRHqcxuCMu16kA0T6AlLD1VY25xa7M44A1g9Ny4WCOEZTnbT/q5uNKVKPWqfswkiXRjAfxeAvT0dAQ001dN/Q8Ey48VGW7dkex4BAJ/kNG6KqKiPtzxbKHDGVVvWDRJAwM83BlkXId3V+e4NaReT6ZgIu+H/iN+twJXFAPLVyz6RF7KXdDhAio+DNXULd0/4+XRMuEzWCdh7gjebWVhJ8xifJfS9TQRTm43Iwtny7vrGQvJ9kwey4epT8wNjJyNuP7mhjo8A49Xxd4QbqCdyWIa06s56bHd5Pl1zit+/ynQmu+NNcZFpGvlJ12C73o4FXlNvUDqpOQ4=","signature":{"signature":"MEUCIGhV0od+koMtP+IW5cC3y2la9BPR355WlMTuh5EhW3Q4AiEAgtVK1LhWtRrfbcQRvBxQ/UcvzXiDbg5i1aDVJ0NB3M8=","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjY4MDgzMDAwIixleHBpcmVzPSIxNzkwNjY4MjYzMDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272WBYPKFWJFUC"
+grep -o '"protected" *: *"[^"]*"' /tmp/req.json | cut -d'"' -f4 | base64 -d; echo; date +%s
