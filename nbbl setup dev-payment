@@ -40,3 +40,90 @@ sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
 < HTTP/1.1 200 OK
 * TLSv1.2 (OUT), TLS alert, close notify (256):
 sh-5.1$
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"
+
+Warning: Couldn't read data from file "/tmp/req.json", this makes an empty
+Warning: POST.
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 0
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 400 Bad Request
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< date: Tue, 29 Sep 2026 05:56:25 GMT
+< x-backend-app: waap01
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0dd50e79cd2b9fe352602fa065d689c3e424e817f3130d9cca514bdf88844a454a6b9078dd0e335872c37f8ce55907207a; Path=/; Domain=.ibmbcert.npci.org.in
+< Transfer-Encoding: chunked
+<
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"timestamp":"2026-09-29T05:56:25.929+00:00","status":400,"error":"Bad Request","path":"/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"}sh-5.1$
