@@ -1,0 +1,18 @@
+# the real app config: where it points for IBMB and which keystore it loads
+oc get cm payment-config -n dev-transaction -o yaml | grep -n -iE 'ibmb|nbbl|npci|jks|p12|keystore|proxy'
+
+# what's inside the cert secrets (key names only)
+oc get secret nbbl-cert payment-upivpaqr custom-certs-payment -n dev-transaction \
+  -o go-template='{{range .items}}{{.metadata.name}}:{{range $k,$v := .data}} {{$k}}{{end}}{{"\n"}}{{end}}'
+
+# confirm the live deployment matches Git (dev may have been hand-edited)
+oc set volume deployment/payment-paymentservice -n dev-transaction
+
+kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+  --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+  --target=paymentservice -- /bin/sh
+
+ls -l /proc/1/root/nbbl-certs/ /proc/1/root/certs/
+keytool -list -keystore /proc/1/root/nbbl-certs/<file>.jks     # check it has a PrivateKeyEntry
+keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/<file>.jks -srcstoretype JKS \
+        -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12
