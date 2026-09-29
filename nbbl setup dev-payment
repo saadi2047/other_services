@@ -1,2 +1,8 @@
-which keytool
-ls -l /proc/1/root/nbbl-certs/
+sh-5.1$ which keytool
+sh: which: command not found
+sh-5.1$ ls -l /proc/1/root/nbbl-certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 41 Sep 28 07:00 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 nbbl_client.jks -> ..data/nbbl_client.jks
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 sbi_private_key -> ..data/sbi_private_key
+sh-5.1$
