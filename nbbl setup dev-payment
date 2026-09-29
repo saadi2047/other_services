@@ -6,3 +6,9 @@ oc create secret generic nbbl-cert -n dev-transaction \
   --from-file=sbi_private_key=./sbi_private_key \
   --dry-run=client -o yaml | oc apply -f -
 oc rollout restart deployment/payment-paymentservice -n dev-transaction
+
+
+cd ~/nbbl-keys
+grep -m1 BEGIN *.pem
+openssl pkey -in nbbl-hpy-key.pem -pubout
+openssl pkey -in secp256r1-hpy-key.pem -pubout
