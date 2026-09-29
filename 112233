@@ -1,2 +1,26 @@
-D":"PSE096272AJQINVEFNGF","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:43.842586973Z"}
-2026-09-29 10:31:43.871 INFO | com.epay.payment.service.IbmbPaymentService:182 | principal=NA | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | Response from IBMB :::::::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272AJQINVEFNGF","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:43.842586973Z"}
+// in IbmbPaymentService: pass the already-built string
+String body = finalInitTxnSignatureToString;   // the one that's logged
+ibmbWebClient.post(url, body);
+
+// in IbmbWebClient.post(String url, String body)
+return webClient.post()
+        .uri(url)
+        .header(HttpHeaders.CONTENT_TYPE, "application/json")
+        .header(HttpHeaders.ACCEPT, "*/*")
+        .header(HttpHeaders.USER_AGENT, "Java/17.0.11")
+        .contentLength(body.getBytes(StandardCharsets.UTF_8).length)
+        .bodyValue(body)                         // String, not SignatureRequest
+        .exchangeToMono(resp -> {
+            log.info("IBMB status={} backend={}", resp.statusCode(),
+                     resp.headers().asHttpHeaders().getFirst("x-backend-app"));
+            return resp.bodyToMono(String.class);
+        })
+        .block();
+
+@JsonProperty("protected")
+private String signProtected;
+
+HttpClient httpClient = HttpClient.create()
+        .protocol(HttpProtocol.HTTP11)
+        .wiretap("reactor.netty.http.client.HttpClient", LogLevel.DEBUG, AdvancedByteBufFormat.TEXTUAL);
+        // keep existing .proxy(...) and .secure(... nbbl_client.jks ...) settings
