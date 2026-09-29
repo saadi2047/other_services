@@ -4,3 +4,9 @@ kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
 
 keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
         -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<fresh refId>"
