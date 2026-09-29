@@ -1,1 +1,26 @@
-curl -v --proxy http://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in -o /dev/null
+
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 https://ibmb.npci.org.in -o /dev/null
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmb.npci.org.in:443
+> CONNECT ibmb.npci.org.in:443 HTTP/1.1
+> Host: ibmb.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 503 Service Unavailable
+< Cache-Control: no-cache
+< X-XSS-Protection: 1
+< Connection: close
+< Content-Type: text/html; charset=utf-8
+< Content-Length: 988
+< Pragma: no-cache
+<
+* Received HTTP code 503 from proxy after CONNECT
+* CONNECT phase completed!
+* Closing connection 0
+curl: (56) Received HTTP code 503 from proxy after CONNECT
+sh-5.1$
