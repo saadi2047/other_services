@@ -25,3 +25,10 @@ payment-paymentservice-7c4b8f6bb5-7l75z          2/2     Running            0   
 txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                6d6h
 txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                23h
 [osuser@bastion nbbl-old-keys]$
+[osuser@bastion nbbl-old-keys]$ ll /home/osuser/nbbl-keys/
+total 16
+-rw-r----- 1 osuser osuser 241 Sep 29 12:09 nbbl-hpy-key.pem
+-rw-r----- 1 osuser osuser 241 Sep 29 12:24 sbi_private_key
+-rw-r----- 1 osuser osuser 227 Sep 29 12:09 secp256r1-hpy-key.pem
+-rw-r----- 1 osuser osuser 178 Sep 29 12:27 shared_pub.pem
+[osuser@bastion nbbl-old-keys]$
