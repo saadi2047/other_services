@@ -1,12 +1,3 @@
-oc get secret nbbl-cert -n dev-transaction -o yaml > nbbl-cert-backup-$(date +%F).yaml
+secp256r1-hpy-key
 
-oc create secret generic nbbl-cert -n dev-transaction \
-  --from-file=nbbl_client.jks=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.nbbl_client\.jks}' | base64 -d) \
-  --from-file=sbi_private_key=./sbi_private_key \
-  --from-file=ibmbcert_npci_org_in_new_24Dec.crt=./ibmbcert_npci_org_in_new_24Dec.crt \
-  --dry-run=client -o yaml | oc apply -f -
-
-oc rollout restart deployment/payment-paymentservice -n dev-transaction
-
-wc -c /proc/1/root/nbbl-certs/..data/*                                          # no 0-byte files
-java /tmp/KeyCheck.java /proc/1/root/nbbl-certs/sbi_private_key /tmp/shared_pub.pem   # expect MATCH
+nbbl-hpy-key
