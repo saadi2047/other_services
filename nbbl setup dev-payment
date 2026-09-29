@@ -1,12 +1,4 @@
-cat > /tmp/req.json <<'EOF'
-{"payload":"<fresh payload>","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{"payload":"PSE096266OBPUSUMUDZS","signature":{"signature":"<fresh MEUC... value>","protected":"<fresh protected>"}}
 EOF
-
-grep -o '"protected" *: *"[^"]*"' /tmp/req.json | cut -d'"' -f4 | base64 -d; echo; date +%s
-
-
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<fresh refId>"
+sh-5.1$
