@@ -1,13 +1,19 @@
-sh-5.1$ cat > /tmp/req.json <<'EOF'
-{"payload":"BPvz/pwUwMKX5NHVjY0NBTnxrPIGmkho3Tp8AKDlekFa+UPEEYOF0XVbGDcB0eZuhM3LxuFmXuSaqGNQfvMHoF1v/JQI8mhqK78+ohIeYfERjzfGTJUeJCjzFct3b85P+gLiyrnW6d6h/RyDLM4z/5ZVN86bIa5KPbWdyEI8WwCNSpo8ZIJa86w862Kg6Mfm0ro01V96kspXjRI/gDeuujGZcykEjTMr2INKyywORGuejcPBhYkv0YJhhGU1aQ6zVhNH9Npe32GINdIENCUwoDugyDsIHHK/V6GebTArtYVDNt/gkV9R3JYuJ33ojwEIyd8ZJhtmHNxVs3Zt+NAPdPXIbiIxmCCrq7gTuAw1XRvqofsgl0d02TaoeMHNgavYIQmHiPpsjcYPnCX/ieet5YuKCMUBwBm36D51941c8N8erZdGB8tJdyQG7Nx3NBKOzTOvAZnfw3XZzmp6I1VzM6F2LHeTpYNA++DAwQlDLS76yhLP26m2zN6WnweQC7/P/XVawgnFVwBEQH8cjv9kj27bjZLuXsA19GGYz+te/7WDm2/xZ/wUEVw6ylJiko6sA/c9EjcnbUVk1YE9Cqw77FfrAVjYTiCZnn5BNwPGhX55/3ibTSXTbvmaH8EZL2ZoEDO/8S4W3Aqk6l/TUoojKt/T1mfb21jOea44BLEbKNpxTjmjKGFejh6TjeVBXW/KHAjWmjavc7QUqFBwIJKeSK8kyIGXom7g6YIRUuBNS4vVGZLe8YlirEM/c9R8oLsPcyxD4vuJc1oZrg4ChSous4D6z+sOrZy4khqjlBLG5vf6/v4zXz4YmNNFMC8dss7vLmITGYLcwko1NnMscBjkgkAhyneVGd9rIi7wEJETyNyUvG3Fr8dI0T4B0GeKSNEOszkCA4z4iMnj7zwUxQR3LkFusqdcNl5QoRhqZ1NWi13mfrIZX74YyxZLQexur2JDIJODYLLfPjclDDvncugMEST/9fgXMZnFSk5QZL22Rf/wVjW3VOMbBcmPDeRpXnMVFi0tApD0SijCml/VoCplQwoRNqkGJW/vvmAwYWIxMnROmR065NUML+a70vAYRV41E7zBaCxlZl0zoHcHySx+MORDI10QFbwaa9m9VDMBOvuB1H3a0x5pysbHxov/RPYpvUKSoe/BkvkxndmDebZSu2wx0zACrA==","signature":{"signature":"MEYCIQCpALD+bwczmknKEBL2D7SJtL1nzLI/CApBxKWVZ4OJZQIhAKpqfwugMteWxmFHV8URZM132hcPR50oZA0aAX6Vngtc","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc4NDU3OTA2IixleHBpcmVzPSIxNzkwNjc4NjM3OTA2IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
+cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BO4YikKWl3BC5b7BkGb7k8lmom2mjx+GfL6TLsVz2C3JJwSnvLDOJtutkVKivPnYxtUJfGDDd5AZao3fs0I+/UI+96kuibG3d6/qj6zxS7+XBPlP9nj8vn7g/tpbiuSR7V2wYopXiACMlUId2EvF2q7ZjdxZ8N/72UPoDwh509nLd7Nlw2K1VYF7D9rzDTF3kx0x5W55EkQw+S6Kk0PBGHFB6EOUMd4xwnZ0Jy8T5h4IULsrAljEILG7EURXpOhJ4L8aalQ0ffZRugt1WLJfP65ALHBKqbskD1UxKSNkGoj2pFyJa0LOmPDyM6eZhOKf9szp6f3gHclqcXxv86ltQeuU8H8KRaKAg1Xxg4fKyDQPSNJu1D7HdetvNTyZGylN5SiMGxBQiDfOTyRfXhpPC1cgDH3JWOt08yuMBcItxmRQCXVx7mPnu0L97Siox9jnuUAMGAFHOuE8sUeNFlI+vL/UXqhBPOFnCtVnbnX8+/Ior9WsYLIqh8SZdpNNDr234ffI5B4XkIluzSdQAdqqb6nGpa8gSWuciZ4T+NGuKk/AyTo3se4HzO2gvZP2dlvFJo2N27mEhGTW+oPqrV20CDsZHb/fVOR89X4K5v0os4KY6Tv8sxQBT48NBpl52e9ChFRVtzF4p3rWoTcLD+knQWR+mJ6SZ3saTZuQOdvOkCnLrSyqJmK0c6VWoIFNTTfmil1kVphGeQrG2qE7m6YrqW6WJ2ZdN0596KYI2MtpY4zOMhwof5B+mHYYqLzMIC2B76XlybkzhpQVdc00BdCVoy8//jssxwJ/rGT6akNRqk9O2H3xqnjXaG3sCIXXxTSrkBNXWrsJlS+O3nbLVmbvJGYGeqIKAaON27HAja+cYXaO5Sk/OZ1THSgwPfL8JE/HD2+7P+0GZndykSzwWgXZZI355kfEiWF3iC9XHsDx7GLco0YJGtJ1CMAvplxcJxJFVWvYAoEEmKV5vBTPEl2dRKZb8Oyl524Nd3t0ymj+TvG+AfMrmbcm+U/sb+D/Duo87MLt2A5Ca6m2+vH9OxmCYJ4duBsafANffbYmdjdqEt6u0ghcBXbRfq+Bl0D7AqGbrbsenNsvKJYSfXO5hDmvmbFmiN65TeGEd+0qs4iK2M+YCU9VsObp7tRUJBJhP8WCrxl2CEDE69qLVi2uJ5xnOUyEmAs39A==",
+  "signature" : {
+    "signature" : "MEYCIQCKHW/+n/OqjnPvoL9QC9ag6hvPLiL79cH7+yqH3be23wIhAOBVTMwJZJ9/QSq1Yd3OxXICLN3fGHUD5C9JOC5Z3C0X",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjgwNTcwMDU3IixleHBpcmVzPSIxNzkwNjgwNzUwMDU3IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
 EOF
 wc -c /tmp/req.json
 curl -v --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272XJAYWYGSEMV"
-1555 /tmp/req.json
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272GOLUVKIBDRT"
+1583 /tmp/req.json
 *   Trying 10.191.191.39:9090...
 * Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
 * allocate connect buffer!
@@ -61,12 +67,12 @@ curl -v --proxy http://serverswg.sbi.co.in:9090 \
 *  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
 *  SSL certificate verify ok.
 * TLSv1.2 (OUT), TLS header, Unknown (23):
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272XJAYWYGSEMV HTTP/1.1
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272GOLUVKIBDRT HTTP/1.1
 > Host: ibmbcert.npci.org.in
 > Accept: */*
 > Content-Type: application/json
 > User-Agent: Java/17.0.11
-> Content-Length: 1554
+> Content-Length: 1576
 >
 * TLSv1.2 (IN), TLS header, Unknown (23):
 * Mark bundle as not supporting multiuse
@@ -77,12 +83,12 @@ curl -v --proxy http://serverswg.sbi.co.in:9090 \
 < x-frame-options: DENY
 < x-xss-protection: 1; mode=block
 < content-type: application/json
-< content-length: 155
-< date: Tue, 29 Sep 2026 10:42:02 GMT
+< content-length: 192
+< date: Tue, 29 Sep 2026 11:18:14 GMT
 < x-backend-app: waap02
 < x-incoming-ip:
 < strict-transport-security: max-age=31536000; includeSubdomains; preload
-< Set-Cookie: TS01723025=0179480d0d628a4f2b409de8393dba3b8d82b7bcaa0ec7aef3740757c7aea14e72ca160465dbd67ea726f54feb7872476ffffc06ac; Path=/; Domain=.ibmbcert.npci.org.in
+< Set-Cookie: TS01723025=0179480d0d48f3baf0ebd505a814862066e276a1af34338540632f50d83a271fa8455c3d1c3a5e92776ec14c72926bd2dfb03bcbc0; Path=/; Domain=.ibmbcert.npci.org.in
 <
 * Connection #0 to host serverswg.sbi.co.in left intact
-{"api":"REQUEST_TXN_INIT","refID":"PSE096272XJAYWYGSEMV","msgID":"WHRLGMWSSOKTAYNWTXLWTVZEYYG62721610","result":"SUCCESS","ts":"2026-09-29T16:12:02+05:30"}sh-5.1$
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272GOLUVKIBDRT","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T11:18:14.601152324Z"}sh-5.1$
