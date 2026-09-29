@@ -10,3 +10,10 @@ curl -v --proxy http://serverswg.sbi.co.in:9090 \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<fresh refId>"
+
+
+[osuser@bastion ~]$ kubectl debug -it payment-paymentservice-7c9dbb55b7-pxbnj -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+-bash: /usr/local/bin/kubectl: Permission denied
+[osuser@bastion ~]$
