@@ -681,3 +681,343 @@ Hibernate:
     </FIToFICstmrCdtTrf>
 </Document>
 </RequestPayload> 
+2026-09-29 09:19:32.731 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 09:19:32.732 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = dev.epay.sbi
+2026-09-29 09:19:32.732 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = text/plain
+2026-09-29 09:19:32.732 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = PostmanRuntime/7.29.2
+2026-09-29 09:19:32.732 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = */*
+2026-09-29 09:19:32.732 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: postman-token = 84c87e81-3144-43ff-93e5-105440ca4d41
+2026-09-29 09:19:32.733 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept-encoding = gzip, deflate, br
+2026-09-29 09:19:32.733 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 4492
+2026-09-29 09:19:32.733 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: cookie = DummyCookie=cookieValue
+2026-09-29 09:19:32.733 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-host = dev.epay.sbi
+2026-09-29 09:19:32.733 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-port = 443
+2026-09-29 09:19:32.734 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 09:19:32.734 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: forwarded = for=10.177.142.145;host=dev.epay.sbi;proto=https
+2026-09-29 09:19:32.734 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-external-address = 172.16.10.2
+2026-09-29 09:19:32.734 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = 955ca10e-f213-408f-851c-068b2c322fea
+2026-09-29 09:19:32.735 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 09:19:32.735 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=f6dc7af99392e2aa61cdc7066242720da2738dad601dad314e01bc97cdaf41bb;Subject="";URI=spiffe://cluster.local/ns/dev-istio-system/sa/default
+2026-09-29 09:19:32.735 INFO | com.epay.payment.filter.CorrelationIdFilter:40 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Correlation ID not found, generated new: 872e39d4-ac54-4636-a3f0-8289e8c21506
+2026-09-29 09:19:32.739 INFO | com.epay.payment.controller.NeftRtgsPaymentController:148 | principal=NA  | scenario=/api/payments/v1/sbi/rtgs/dealer-mis | operation=POST | correlation=872e39d4-ac54-4636-a3f0-8289e8c21506 | methodName=rtgsDealerMis | RTGS dealer MIS request <RequestPayload>
+<AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.01">
+    <Fr>
+        <FIId>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>RBIN0RTGS00</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </FIId>
+    </Fr>
+    <To>
+        <FIId>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>SBIN0004343</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </FIId>
+    </To>
+    <BizMsgIdr>RBIN202603059937692093</BizMsgIdr>
+    <MsgDefIdr>pacs.008.001.03</MsgDefIdr>
+    <BizSvc>RTGSFIToFICustomerCredit</BizSvc>
+    <CreDt>2026-07-04T04:38:56Z</CreDt>
+    <Sgntr>
+        <any xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></any>
+        <XMLSgntrs>SIGNATURE REMOVED</XMLSgntrs>
+    </Sgntr>
+</AppHdr>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.03">
+    <FIToFICstmrCdtTrf>
+        <GrpHdr>
+            <MsgId>HDFC202603055077308225</MsgId>
+            <CreDtTm>2026-07-04T04:38:48</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <TtlIntrBkSttlmAmt Ccy="INR">10.00</TtlIntrBkSttlmAmt>
+            <IntrBkSttlmDt>2026-07-04</IntrBkSttlmDt>
+            <SttlmInf>
+                <SttlmMtd>CLRG</SttlmMtd>
+            </SttlmInf>
+            <InstgAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>HDFC0999999</MmbId>
+                    </ClrSysMmbId>
+                </FinInstnId>
+            </InstgAgt>
+            <InstdAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>SBIN0004343</MmbId>
+                    </ClrSysMmbId>
+                </FinInstnId>
+            </InstdAgt>
+        </GrpHdr>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>R064260361364633</InstrId>
+                <EndToEndId>YEB532518978908</EndToEndId>
+                <TxId>null</TxId>
+            </PmtId>
+            <PmtTpInf>
+                <InstrPrty>HIGH</InstrPrty>
+                <SvcLvl>
+                    <Prtry>TTC=1000,PRI=31</Prtry>
+                </SvcLvl>
+                <LclInstrm>
+                    <Prtry>RTGSFIToFICustomerCredit</Prtry>
+                </LclInstrm>
+                <CtgyPurp>
+                    <Cd>CASH</Cd>
+                </CtgyPurp>
+            </PmtTpInf>
+            <IntrBkSttlmAmt Ccy="INR">10.00</IntrBkSttlmAmt>
+            <ChrgBr>DEBT</ChrgBr>
+            <Dbtr>
+                <Nm>MPKHAITAN</Nm>
+                <PstlAdr>
+                    <AdrLine>15GANESHCHANDRAAVENUENRBANKOFINDIAG</AdrLine>
+                    <AdrLine>15GANESHCHANDRAAVENUENRBANKOFINDIAG</AdrLine>
+                </PstlAdr>
+            </Dbtr>
+            <DbtrAcct>
+                <Id>
+                    <Othr>
+                        <Id>NE003EXXGX2OMSEAQ1XQ</Id>
+                    </Othr>
+                </Id>
+                <Tp>
+                    <Prtry></Prtry>
+                </Tp>
+                <Ccy>INR</Ccy>
+            </DbtrAcct>
+            <DbtrAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>HDFC0000240</MmbId>
+                    </ClrSysMmbId>
+                    <Nm></Nm>
+                    <PstlAdr/>
+                </FinInstnId>
+            </DbtrAgt>
+            <CdtrAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId></MmbId>
+                    </ClrSysMmbId>
+                    <Nm>STATE BANK OF INDIA</Nm>
+                </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                <Nm>AssameTendering</Nm>
+                <PstlAdr>
+                    <AdrLine>603025869647</AdrLine>
+                </PstlAdr>
+            </Cdtr>
+            <CdtrAcct>
+                <Id>
+                    <Othr>
+                        <Id></Id>
+                    </Othr>
+                </Id>
+                <Tp>
+                    <Prtry></Prtry>
+                </Tp>
+                <Ccy>INR</Ccy>
+            </CdtrAcct>
+            <InstrForCdtrAgt>
+                <Cd>PHOB</Cd>
+                <InstrInf></InstrInf>
+            </InstrForCdtrAgt>
+            <RmtInf/>
+        </CdtTrfTxInf>
+    </FIToFICstmrCdtTrf>
+</Document>
+</RequestPayload> 
+2026-09-29 09:19:58.764 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 09:19:58.764 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = dev.epay.sbi
+2026-09-29 09:19:58.765 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = text/plain
+2026-09-29 09:19:58.765 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = PostmanRuntime/7.29.2
+2026-09-29 09:19:58.765 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = */*
+2026-09-29 09:19:58.765 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: postman-token = 9aab58fc-0e2c-468e-8419-c7f8e6729310
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept-encoding = gzip, deflate, br
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 4529
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: cookie = DummyCookie=cookieValue
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-host = dev.epay.sbi
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-port = 443
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: forwarded = for=10.177.142.145;host=dev.epay.sbi;proto=https
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-external-address = 172.16.10.2
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = 020316f1-ffb4-4ee0-86b1-30fdf9393d15
+2026-09-29 09:19:58.766 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 09:19:58.767 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=f6dc7af99392e2aa61cdc7066242720da2738dad601dad314e01bc97cdaf41bb;Subject="";URI=spiffe://cluster.local/ns/dev-istio-system/sa/default
+2026-09-29 09:19:58.767 INFO | com.epay.payment.filter.CorrelationIdFilter:40 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Correlation ID not found, generated new: c48efe7c-12b2-47f3-ac06-fc13e83e4925
+2026-09-29 09:19:58.770 INFO | com.epay.payment.controller.NeftRtgsPaymentController:148 | principal=NA  | scenario=/api/payments/v1/sbi/rtgs/dealer-mis | operation=POST | correlation=c48efe7c-12b2-47f3-ac06-fc13e83e4925 | methodName=rtgsDealerMis | RTGS dealer MIS request <RequestPayload>
+<AppHdr xmlns="urn:iso:std:iso:20022:tech:xsd:head.001.001.01">
+    <Fr>
+        <FIId>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>RBIN0RTGS00</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </FIId>
+    </Fr>
+    <To>
+        <FIId>
+            <FinInstnId>
+                <ClrSysMmbId>
+                    <MmbId>SBIN0004343</MmbId>
+                </ClrSysMmbId>
+            </FinInstnId>
+        </FIId>
+    </To>
+    <BizMsgIdr>RBIN202603059937692093</BizMsgIdr>
+    <MsgDefIdr>pacs.008.001.03</MsgDefIdr>
+    <BizSvc>RTGSFIToFICustomerCredit</BizSvc>
+    <CreDt>2026-07-04T04:38:56Z</CreDt>
+    <Sgntr>
+        <any xsi:type="xs:string" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></any>
+        <XMLSgntrs>SIGNATURE REMOVED</XMLSgntrs>
+    </Sgntr>
+</AppHdr>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pacs.008.001.03">
+    <FIToFICstmrCdtTrf>
+        <GrpHdr>
+            <MsgId>HDFC202603055077308225</MsgId>
+            <CreDtTm>2026-07-04T04:38:48</CreDtTm>
+            <NbOfTxs>1</NbOfTxs>
+            <TtlIntrBkSttlmAmt Ccy="INR">10.00</TtlIntrBkSttlmAmt>
+            <IntrBkSttlmDt>2026-07-04</IntrBkSttlmDt>
+            <SttlmInf>
+                <SttlmMtd>CLRG</SttlmMtd>
+            </SttlmInf>
+            <InstgAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>HDFC0999999</MmbId>
+                    </ClrSysMmbId>
+                </FinInstnId>
+            </InstgAgt>
+            <InstdAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>SBIN0004343</MmbId>
+                    </ClrSysMmbId>
+                </FinInstnId>
+            </InstdAgt>
+        </GrpHdr>
+        <CdtTrfTxInf>
+            <PmtId>
+                <InstrId>R064260361364633</InstrId>
+                <EndToEndId>YEB532518978908</EndToEndId>
+                <TxId>null</TxId>
+            </PmtId>
+            <PmtTpInf>
+                <InstrPrty>HIGH</InstrPrty>
+                <SvcLvl>
+                    <Prtry>TTC=1000,PRI=31</Prtry>
+                </SvcLvl>
+                <LclInstrm>
+                    <Prtry>RTGSFIToFICustomerCredit</Prtry>
+                </LclInstrm>
+                <CtgyPurp>
+                    <Cd>CASH</Cd>
+                </CtgyPurp>
+            </PmtTpInf>
+            <IntrBkSttlmAmt Ccy="INR">10.00</IntrBkSttlmAmt>
+            <ChrgBr>DEBT</ChrgBr>
+            <Dbtr>
+                <Nm>MPKHAITAN</Nm>
+                <PstlAdr>
+                    <AdrLine>15GANESHCHANDRAAVENUENRBANKOFINDIAG</AdrLine>
+                    <AdrLine>15GANESHCHANDRAAVENUENRBANKOFINDIAG</AdrLine>
+                </PstlAdr>
+            </Dbtr>
+            <DbtrAcct>
+                <Id>
+                    <Othr>
+                        <Id>NE003EXXGX2OMSEAQ1XQ</Id>
+                    </Othr>
+                </Id>
+                <Tp>
+                    <Prtry></Prtry>
+                </Tp>
+                <Ccy>INR</Ccy>
+            </DbtrAcct>
+            <DbtrAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>HDFC0000240</MmbId>
+                    </ClrSysMmbId>
+                    <Nm></Nm>
+                    <PstlAdr/>
+                </FinInstnId>
+            </DbtrAgt>
+            <CdtrAgt>
+                <FinInstnId>
+                    <ClrSysMmbId>
+                        <MmbId>SBIN0000INB</MmbId>
+                    </ClrSysMmbId>
+                    <Nm>STATE BANK OF INDIA</Nm>
+                </FinInstnId>
+            </CdtrAgt>
+            <Cdtr>
+                <Nm>AssameTendering</Nm>
+                <PstlAdr>
+                    <AdrLine>603025869647</AdrLine>
+                </PstlAdr>
+            </Cdtr>
+            <CdtrAcct>
+                <Id>
+                    <Othr>
+                        <Id>SBIEPYNE003EXXGX2OMSEAQ1XQ</Id>
+                    </Othr>
+                </Id>
+                <Tp>
+                    <Prtry></Prtry>
+                </Tp>
+                <Ccy>INR</Ccy>
+            </CdtrAcct>
+            <InstrForCdtrAgt>
+                <Cd>PHOB</Cd>
+                <InstrInf></InstrInf>
+            </InstrForCdtrAgt>
+            <RmtInf/>
+        </CdtTrfTxInf>
+    </FIToFICstmrCdtTrf>
+</Document>
+</RequestPayload> 
+2026-09-29 09:19:58.776 INFO | com.epay.payment.service.NeftRtgsPaymentService:323 | principal=NA  | scenario=/api/payments/v1/sbi/rtgs/dealer-mis | operation=POST | correlation=c48efe7c-12b2-47f3-ac06-fc13e83e4925 | methodName=mapTORtgsDealerMisDto | NEFT/RTGS Payment Validation Request SBIEPYnullHDFC000024004-Jul-2610.00NE003EXXGX2OMSEAQ1XQ 
+Hibernate: 
+    insert 
+    into
+        payment_log_details
+        (atrn_num, created_by, created_date, request_type, sbi_order_ref_number, updated_by, updated_date, id, log) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-29 09:19:58.804 INFO | com.epay.payment.service.NeftRtgsPaymentService:291 | principal=NA  | scenario=/api/payments/v1/sbi/rtgs/dealer-mis | operation=POST | correlation=c48efe7c-12b2-47f3-ac06-fc13e83e4925 | methodName=processRtgsMisReqPayload | Map to neftRtgsDealerMisDto NeftRtgsDealerValidationDto(vanNo=SBIEPY, dealerCode=null, dealerIfsc=HDFC0000240, txnReqDate=04-Jul-26, amount=10.00, atrnNum=NE003EXXGX2OMSEAQ1XQ) 
+2026-09-29 09:19:58.805 INFO | com.epay.payment.service.NeftRtgsPaymentService:293 | principal=NA  | scenario=/api/payments/v1/sbi/rtgs/dealer-mis | operation=POST | correlation=c48efe7c-12b2-47f3-ac06-fc13e83e4925 | methodName=processRtgsMisReqPayload | reqValidation.getBody() :::: SBIEPY|null|HDFC0000240|04-Jul-26|N|dealerCode is required.
+Hibernate: 
+    insert 
+    into
+        payment_log_details
+        (atrn_num, created_by, created_date, request_type, sbi_order_ref_number, updated_by, updated_date, id, log) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-29 09:20:00.007 INFO | com.epay.payment.schedular.PayPalTokenScheduler:38 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e888b56-ce97-4146-b89d-051f456d4cb0 | methodName=checkExpiredToken | Paypal Token Expiry scheduler start 
+2026-09-29 09:20:00.013 INFO | com.epay.payment.dao.PayPalDao:72 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e888b56-ce97-4146-b89d-051f456d4cb0 | methodName=markTokenExpired | Marking expired tokens as inactive.
+Hibernate: 
+    update
+        paypal_access_token pte1_0 
+    set
+        pte1_0.status='INACTIVE',
+        pte1_0.is_token_valid=0,
+        pte1_0.updated_date=? 
+    where
+        pte1_0.status='ACTIVE' 
+        and pte1_0.is_token_valid=1 
+        and pte1_0.token_expiry_time<=?
+2026-09-29 09:20:00.070 INFO | com.epay.payment.schedular.PayPalTokenScheduler:40 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e888b56-ce97-4146-b89d-051f456d4cb0 | methodName=checkExpiredToken | token expired :0 
+2026-09-29 09:20:00.070 INFO | com.epay.payment.schedular.PayPalTokenScheduler:41 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e888b56-ce97-4146-b89d-051f456d4cb0 | methodName=checkExpiredToken | Paypal Token Expiry scheduler completed 
