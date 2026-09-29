@@ -1,1 +1,116 @@
-   oc logs payment-paymentservice-7c4b8f6bb5-7l75z -c paymentservice -n dev-transaction --since=5m | grep "Response from IBMB"
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/cacerts/data/cacerts -Djavax.net.ssl.trustStorePassword=changeit
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+11:53:03,027 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.22
+11:53:03,033 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Here is a list of configurators discovered as a service, by rank: 
+11:53:03,033 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+11:53:03,033 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+11:53:03,033 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+11:53:03,043 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+11:53:03,043 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+11:53:03,044 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+11:53:03,046 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+11:53:03,046 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml]
+11:53:03,048 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs multiple times on the classpath.
+11:53:03,049 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml]
+11:53:03,049 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/lib/notification-service-1.1.0.jar!/logback.xml]
+11:53:03,049 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/lib/logging-service-1.0-SNAPSHOT.jar!/logback.xml]
+11:53:03,065 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@7748410a - URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+11:53:03,148 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+11:53:03,148 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+11:53:03,148 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+11:53:03,235 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+11:53:03,236 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+11:53:03,236 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+11:53:03,236 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Main configuration file URL: jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml
+11:53:03,237 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - FileWatchList= {}
+11:53:03,238 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - URLWatchList= {}
+11:53:03,248 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+11:53:03,248 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+11:53:03,260 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+11:53:03,323 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+11:53:03,323 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+11:53:03,323 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+11:53:03,325 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+11:53:03,325 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+11:53:03,325 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+11:53:03,325 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+11:53:03,325 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+11:53:03,326 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@740773a3 - End of configuration.
+11:53:03,327 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@37f1104d - Registering current configuration as safe fallback point
+11:53:03,327 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 283 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+11:53:04,243 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+11:53:04,243 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+11:53:04,243 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+11:53:04,253 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+11:53:04,253 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+11:53:04,253 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.9)
+
+2026-09-29 11:53:04.322 INFO | org.hibernate.validator.internal.util.Version:21 | principal=  | scenario= | operation= | correlation= | methodName=<clinit> | HV000001: Hibernate Validator 8.0.3.Final
+2026-09-29 11:53:04.464 INFO | org.springframework.boot.StartupInfoLogger:53 | principal=  | scenario= | operation= | correlation= | methodName=logStarting | Starting EpayPaymentServiceApplication vmr-feature-epay-209-nbbl-development-on-dev-develop-1080-1acee746 using Java 21.0.12.1 with PID 1 (/app/app.jar started by 1001190000 in /app)
+2026-09-29 11:53:04.466 INFO | org.springframework.boot.SpringApplication:658 | principal=  | scenario= | operation= | correlation= | methodName=logStartupProfileInfo | The following 1 profile is active: "dev"
+2026-09-29 11:53:09.202 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Initializing ProtocolHandler ["http-nio-9093"]
+2026-09-29 11:53:09.206 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Starting service [Tomcat]
+2026-09-29 11:53:09.207 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-09-29 11:53:09.271 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Initializing Spring embedded WebApplicationContext
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-09-29 11:53:10.032 INFO | com.epay.payment.filter.CorrelationIdFilter:31 | principal=  | scenario= | operation= | correlation= | methodName=logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-29 11:53:10.168 INFO | com.epay.payment.filter.CorrelationIdFilter:44 | principal=  | scenario= | operation= | correlation= | methodName=logVersion | HHH000412: Hibernate ORM core version 6.6.39.Final
+2026-09-29 11:53:10.246 INFO | com.epay.payment.filter.CorrelationIdFilter:50 | principal=  | scenario= | operation= | correlation= | methodName=initiateService | HHH000026: Second-level cache disabled
+2026-09-29 11:53:10.400 INFO | com.epay.payment.filter.CorrelationIdFilter:76 | principal=  | scenario= | operation= | correlation= | methodName=configure | Envers integration enabled? : true
+2026-09-29 11:53:10.804 INFO | com.epay.payment.filter.CorrelationIdFilter:109 | principal=  | scenario= | operation= | correlation= | methodName=getConnection | HikariPool-1 - Starting...
+2026-09-29 11:53:11.547 INFO | com.epay.payment.filter.CorrelationIdFilter:580 | principal=  | scenario= | operation= | correlation= | methodName=checkFailFast | HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@25762f04
+2026-09-29 11:53:11.549 INFO | com.epay.payment.filter.CorrelationIdFilter:122 | principal=  | scenario= | operation= | correlation= | methodName=getConnection | HikariPool-1 - Start completed.
+2026-09-29 11:53:12.077 INFO | com.epay.payment.filter.CorrelationIdFilter:163 | principal=  | scenario= | operation= | correlation= | methodName=logConnectionInfo | HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 19.32
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-29 11:53:12.666 INFO | com.epay.payment.filter.CorrelationIdFilter:322 | principal=  | scenario= | operation= | correlation= | methodName=generateFirstPass | Adding properties for entity: com.epay.payment.entity.Token
+2026-09-29 11:53:14.503 INFO | com.epay.payment.filter.CorrelationIdFilter:59 | principal=  | scenario= | operation= | correlation= | methodName=initiateService | HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-29 11:53:17.474 INFO | com.epay.payment.config.aws.S3Config:62 | principal=  | scenario= | operation= | correlation= | methodName=s3client | s3EndPoint: https://s3store.bank.sbi/
+2026-09-29 11:53:17.474 INFO | com.epay.payment.config.aws.S3Config:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | region: ap-south-1
+2026-09-29 11:53:21.193 INFO | com.epay.payment.service.UpiVpaPaymentService:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | Starting ProtocolHandler ["http-nio-9093"]
+2026-09-29 11:53:21.536 INFO | com.epay.payment.service.UpiVpaPaymentService:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | Started EpayPaymentServiceApplication in 18.046 seconds (process running for 19.29)
+2026-09-29 11:55:00.016 INFO | com.epay.payment.schedular.PayPalTokenScheduler:38 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=66d87ace-d668-45be-a475-6a667e94a86b | methodName=checkExpiredToken | Paypal Token Expiry scheduler start 
+2026-09-29 11:55:00.034 INFO | com.epay.payment.dao.PayPalDao:72 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=66d87ace-d668-45be-a475-6a667e94a86b | methodName=markTokenExpired | Marking expired tokens as inactive.
+Hibernate: 
+    update
+        paypal_access_token pte1_0 
+    set
+        pte1_0.status='INACTIVE',
+        pte1_0.is_token_valid=0,
+        pte1_0.updated_date=? 
+    where
+        pte1_0.status='ACTIVE' 
+        and pte1_0.is_token_valid=1 
+        and pte1_0.token_expiry_time<=?
+2026-09-29 11:55:00.231 INFO | com.epay.payment.schedular.PayPalTokenScheduler:40 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=66d87ace-d668-45be-a475-6a667e94a86b | methodName=checkExpiredToken | token expired :0 
+2026-09-29 11:55:00.231 INFO | com.epay.payment.schedular.PayPalTokenScheduler:41 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=66d87ace-d668-45be-a475-6a667e94a86b | methodName=checkExpiredToken | Paypal Token Expiry scheduler completed 
+2026-09-29 12:00:00.003 INFO | com.epay.payment.schedular.PayPalTokenScheduler:38 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=943846f3-655a-46c6-91f6-c280ca33dbb8 | methodName=checkExpiredToken | Paypal Token Expiry scheduler start 
+2026-09-29 12:00:00.013 INFO | com.epay.payment.dao.PayPalDao:72 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=943846f3-655a-46c6-91f6-c280ca33dbb8 | methodName=markTokenExpired | Marking expired tokens as inactive.
+Hibernate: 
+    update
+        paypal_access_token pte1_0 
+    set
+        pte1_0.status='INACTIVE',
+        pte1_0.is_token_valid=0,
+        pte1_0.updated_date=? 
+    where
+        pte1_0.status='ACTIVE' 
+        and pte1_0.is_token_valid=1 
+        and pte1_0.token_expiry_time<=?
+2026-09-29 12:00:00.034 INFO | com.epay.payment.schedular.PayPalTokenScheduler:40 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=943846f3-655a-46c6-91f6-c280ca33dbb8 | methodName=checkExpiredToken | token expired :0 
+2026-09-29 12:00:00.035 INFO | com.epay.payment.schedular.PayPalTokenScheduler:41 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=943846f3-655a-46c6-91f6-c280ca33dbb8 | methodName=checkExpiredToken | Paypal Token Expiry scheduler completed 
