@@ -1,15 +1,4 @@
-cat > /tmp/req.json <<'EOF'
-{
-  "payload" : "<paste payload>",
-  "signature" : {
-    "signature" : "<paste MEUC...>",
-    "protected" : "<paste a2V5SWQ9...>"
-  }
-}
-EOF
-wc -c /tmp/req.json
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<paste refId>"
+-----BEGIN PUBLIC KEY-----
+MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+-----END PUBLIC KEY-----
