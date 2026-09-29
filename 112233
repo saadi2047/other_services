@@ -1,8 +1,17 @@
-keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
   -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
-
-curl -sS -D - -o /tmp/resp.json --proxy http://serverswg.sbi.co.in:9090 \
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Existing entry alias mykey exists, overwrite? [no]:  no
+Enter new alias name    (RETURN to cancel import for this entry):
+Entry for alias mykey not imported.
+Import command completed:  0 entries successfully imported, 1 entries failed or cancelled
+sh-5.1$ curl -sS -D - -o /tmp/resp.json --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272OTWAVUIMIIM" | grep -iE '^HTTP/|x-backend-app'; cat /tmp/resp.json; echo
+HTTP/1.1 200 Connection established
+HTTP/1.1 200 OK
+x-backend-app: waap01
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272OTWAVUIMIIM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T17:32:25+05:30"}
+sh-5.1$
