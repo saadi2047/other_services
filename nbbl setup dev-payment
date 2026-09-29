@@ -1,45 +1,3 @@
-keytool -list -v -keystore /tmp/npci-client.p12 -storetype PKCS12 -storepass 'sbi@123' | grep -E 'Alias|Entry type|Owner|Issuer|Valid'
-
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  -d '{"payload":"","signature":{"signature":"","protected":""}}' \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST" 2>&1 | grep -E 'CERT verify|alert|SSL connection|HTTP/|Empty reply|error'
-
-curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  --data @/tmp/req.json \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<new refId>"
-
-
-
-sh-5.1$ which keytool
-sh: which: command not found
-sh-5.1$ ls -l /proc/1/root/nbbl-certs/
-total 0
-lrwxrwxrwx. 1 root 1001190000 41 Sep 28 07:00 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
-lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 nbbl_client.jks -> ..data/nbbl_client.jks
-lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 sbi_private_key -> ..data/sbi_private_key
-sh-5.1$ keytool -list -v -keystore /tmp/npci-client.p12 -storetype PKCS12 -storepass 'sbi@123' | grep -E 'Alias|Entry type|Owner|Issuer|Valid'
-Alias name: mykey
-Entry type: PrivateKeyEntry
-Owner: CN=uat.sbiepay.sbi, O=STATE BANK OF INDIA, L=Mumbai, ST=Maharashtra, C=IN
-Issuer: EMAILADDRESS=infosec@npci.org.in, CN=NPCI_IBMB_UAT_ROOT_EXT_1, OU=Infosec, O=National Payments Corporation Of India, L=Mumbai, ST=Maharastra, C=IN
-Valid from: Tue Dec 10 06:29:36 UTC 2024 until: Wed Dec 10 06:29:36 UTC 2025
-sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
-  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
-  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
-  -d '{"payload":"","signature":{"signature":"","protected":""}}' \
-  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST" 2>&1 | grep -E 'CERT verify|alert|SSL connection|HTTP/|Empty reply|error'
-> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
-< HTTP/1.1 200 Connection established
-* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
-* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
-> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST HTTP/1.1
-< HTTP/1.1 200 OK
-* TLSv1.2 (OUT), TLS alert, close notify (256):
-sh-5.1$
 sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
@@ -127,3 +85,76 @@ Warning: POST.
 * TLSv1.2 (IN), TLS header, Unknown (23):
 * Connection #0 to host serverswg.sbi.co.in left intact
 {"timestamp":"2026-09-29T05:56:25.929+00:00","status":400,"error":"Bad Request","path":"/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266OBPUSUMUDZS"}sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$
+sh-5.1$ curl -kv \
+
+  --proxy http://serverswg.sbi.co.in:9090 \
+
+  --cert-type P12 \
+
+  --cert "/tmp/npci-client.p12:test@123" \
+
+  -H "Content-Type: application/json" \
+
+  -H "User-Agent: Java/17.0.11" \
+
+  -d '{
+
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+
+  "signature" : {
+
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+
+  }
+
+}' \
+
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+
+curl: no URL specified!
+curl: try 'curl --help' for more information
+sh: --proxy: command not found
+sh: --cert-type: command not found
+sh: --cert: command not found
+sh: -H: command not found
+sh: -H: command not found
+sh: -d: command not found
+sh: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN: No such file or directory
+sh-5.1$ curl -kv \
+  --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 \
+  --cert "/tmp/npci-client.p12:test@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  -d '{
+  "payload" : "BFlAiEVZDL6FGwk6QN9GXYzgT+Tj90qoKfxeNRnxB0mYh8yo9z6aJ5QzyU3SVVqwuBs9fv36pOBJTfOdu5yyzaJXgY8qOG5aXaPtp7IjYHReSn/MWlz/DjlHRmJuMi0qBFqaBZ1Wr66lPQ1ZGUT3MvrTOZV1jQh85+qwjkiTsAZnw1Ge5ZXgtfMWju1ArgSoXyEmbDQV0bXMAmHH6YP/vfClvkqgoSIYUHj9i31qNczyoQ8UtCXxyM24MsFYfXb+r8379ze99909ZYDmUxQiIFpvFH9fyJskSzcoiXPh7gV3xWeT8fMGFfXmGjcq3ZDljHn/KyTD5+LTvmPHdxKdZK2nulSdlUz1npxnz6Bb6PK+dT63RAkZQg0UPN9K+JEgs+bwqoupjXOUHZTTEGmggGg+rtZzwjUY/rNG3NFMfSK7SR0Xl2IOb3v77Jmjdhw42z/YjWjdNhXY2Y28ZRLASKGQ+mlmYvNvkd4fIZbNyLj5ksfoMBMNTFD+2LU839lFSVVmfCnxOmA/gl6XByNAW1nh1+xuHT4UrtBjE4DKo9Ij9PgaV5zdjLF2ltP1bGcDROp7v9ZUXdDCl+V1Mxk/qhPooINS3EjGGVYVk3hmVv7yEoonxR03zoCGFuE8l6x1eAWsOaCbPnTdJInqTedU6fXfw6SDKWP+fSEFOEjPxFoHnrs5/jvzQS6e8NTdmg7s4UZi0M92Hx49rZM66sabACiYIJdaGQSuc7WLNHuxsgitF9Me+Il4kTpMB1xD09vPtO80zPGq2iBmwYLJqat6SQXmTxxW4vq2nzsOd0e9U3/qpEXj+Lmjs9+SBElFcsqWduvxxSq6mK6lKKUkO7l7akaf6CF7fInYxo6NBBYAOBcEh+ofJsTccpUzgceR+WKUsyWNS/1RmPzYfTnYchicp3WKtmlRPSgt3SCmbB3UBp2cSoqlb018CWnLxEzU+Fj+v4TdZWIDt84CAsIhQQsQ5Z20siOK5wuiCKQCQC1j7vzffd9kDU+anYFdN/84gqdn1VjYbDID+t5vLRKMBSU0OCUJQajJfAOWtAka9qXdDjP/F1//dkKT45tAAN4B5q8Gz0AgxjucpbVQLvz2ktNGXsVPPuIFOuoqpD7NPJWG5ZL/rZ/A1zjOqAaYlMeWavIrRMXgiEuC9aoFL8WqVevmSQ==",
+  "signature" : {
+    "signature" : "MEUCIQDz37RA2lG6LPE7nsCuXCEy7esFrle7y0jzt17AKRl6zgIgakZ6uOvsMFdE9SLg8OD0+Qi8Lr9T85PWcE77hvDT8t0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwMTcwMTE4MDAwIixleHBpcmVzPSIxNzkwMTcwMjk4MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096266KEVKCGAMEYN"
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+* could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+* Closing connection 0
+curl: (58) could not parse PKCS12 file, check password, OpenSSL error error:11800071:PKCS12 routines::mac verify failure
+sh-5.1$
