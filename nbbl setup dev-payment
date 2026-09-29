@@ -1,12 +1,8 @@
-secp256r1-hpy-key.pem
------BEGIN EC PRIVATE KEY-----
-MHcCAQEEIKl0+1hjXpNRl9LRVYUa23hxX98lcvKNWft3c+DC6jv9oAoGCCqGSM49
-AwEHoUQDQgAEtc6E+nBfOHXHGr7oKdV7w5MwfxytETAoyKbiP15ZdslsTu5EL61N
-s95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
------END EC PRIVATE KEY-----
-nbbl-hpy-key.pem
------BEGIN PRIVATE KEY-----
-MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgqXT7WGNek1GX0tFV
-hRrbeHFf3yVy8o1Z+3dz4MLqO/2hRANCAAS1zoT6cF84dccavugp1XvDkzB/HK0R
-MCjIpuI/Xll2yWxO7kQvrU2z3mhjogQKqQFFqZdw87gw0xiPFO4TYV77
------END PRIVATE KEY-----
+oc get secret nbbl-cert -n dev-transaction -o yaml > nbbl-cert-backup-$(date +%F).yaml
+cp nbbl-hpy-key.pem sbi_private_key
+oc create secret generic nbbl-cert -n dev-transaction \
+  --from-file=nbbl_client.jks=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.nbbl_client\.jks}' | base64 -d) \
+  --from-file=ibmbcert_npci_org_in_new_24Dec.crt=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.ibmbcert_npci_org_in_new_24Dec\.crt}' | base64 -d) \
+  --from-file=sbi_private_key=./sbi_private_key \
+  --dry-run=client -o yaml | oc apply -f -
+oc rollout restart deployment/payment-paymentservice -n dev-transaction
