@@ -1,9 +1,13 @@
-# A) Same request, but WebClient's user agent → HTML = WAF blocks the UA
-curl -s -o /tmp/r.html -w 'HTTP=%{http_code} CT=%{content_type}\n' --proxy http://serverswg.sbi.co.in:9090 \
+sh-5.1$ curl -s -o /tmp/r.html -w 'HTTP=%{http_code} CT=%{content_type}\n' --proxy http://serverswg.sbi.co.in:9090 \
   --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
   -H "Content-Type: application/json" -H "User-Agent: ReactorNetty/1.2.0" \
   -d '{}' "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r.html; echo
+HTTP=000 CT=
+head: cannot open '/tmp/r.html' for reading: No such file or directory
 
-# B) No proxy at all (what the app sees if WebClient ignores the proxy)
-curl -s -o /tmp/r2.html -m 15 -w 'HTTP=%{http_code} CT=%{content_type}\n' \
+sh-5.1$ curl -s -o /tmp/r2.html -m 15 -w 'HTTP=%{http_code} CT=%{content_type}\n' \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:UATEST"; head -c 400 /tmp/r2.html; echo
+HTTP=000 CT=
+head: cannot open '/tmp/r2.html' for reading: No such file or directory
+
+sh-5.1$
