@@ -25,3 +25,19 @@ ls -lL /proc/1/root/nbbl-certs/
 wc -c /proc/1/root/nbbl-certs/..data/*
 
 oc set volume deployment/payment-paymentservice -n dev-transaction
+
+
+
+new pod setup
+
+sudo su -
+kubectl debug -it payment-paymentservice-7cbbdfb77f-khhj4 -n dev-transaction \
+  --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+  --target=paymentservice -- /bin/sh
+
+
+wc -c /proc/1/root/nbbl-certs/..data/*      # expect 124 / 2338 / 241 (new key still mounted)
+
+keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+  -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+ls -l /tmp/npci-client.p12
