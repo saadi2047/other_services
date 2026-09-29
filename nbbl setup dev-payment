@@ -1,31 +1,17 @@
-[osuser@bastion nbbl-keys]$ grep -m1 BEGIN *.pem
-nbbl-hpy-key.pem:-----BEGIN PRIVATE KEY-----
-secp256r1-hpy-key.pem:-----BEGIN EC PRIVATE KEY-----
-[osuser@bastion nbbl-keys]$ openssl pkey -in nbbl-hpy-key.pem -pubout
+cd ~/nbbl-keys
+cat > shared_pub.pem <<'EOF'
 -----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
 ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
 -----END PUBLIC KEY-----
-[osuser@bastion nbbl-keys]$ openssl pkey -in secp256r1-hpy-key.pem -pubout
------BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
-ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
------END PUBLIC KEY-----
-[osuser@bastion nbbl-keys]$ cp nbbl-hpy-key.pem sbi_private_key
-[osuser@bastion nbbl-keys]$ oc create secret generic nbbl-cert -n dev-transaction \
->   --from-file=nbbl_client.jks=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.nbbl_client\.jks}' | base64 -d) \
->   --from-file=ibmbcert_npci_org_in_new_24Dec.crt=<(oc get secret nbbl-cert -n dev-transaction -o jsonpath='{.data.ibmbcert_npci_org_in_new_24Dec\.crt}' | base64 -d) \
->   --from-file=sbi_private_key=./sbi_private_key \
->   --dry-run=client -o yaml | oc apply -f -
-Warning: resource secrets/nbbl-cert is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by oc apply. oc apply should only be used on resources created declaratively by either oc create --save-config or oc apply. The missing annotation will be patched automatically.
-secret/nbbl-cert configured
-[osuser@bastion nbbl-keys]$ oc rollout restart deployment/payment-paymentservice -n dev-transaction
-deployment.apps/payment-paymentservice restarted
-[osuser@bastion nbbl-keys]$ oc get pods -n dev-transaction
-NAME                                             READY   STATUS             RESTARTS           AGE
-otherinb-otherinbservice-565869f6fb-qs5fk        1/2     CrashLoopBackOff   1287 (3m57s ago)   4d17h
-payment-paymentservice-7c9dbb55b7-pxbnj          2/2     Terminating        0                  23h
-payment-paymentservice-d5b98dc94-gnjnh           2/2     Running            0                  11s
-txn-job-transactionjobservice-59d8b4f7b6-4znzj   2/2     Running            0                  6d1h
-txn-transactionservice-6fd4df76d8-mhh8m          2/2     Running            0                  18h
-[osuser@bastion nbbl-keys]$
+EOF
+openssl pkey -in sbi_private_key -pubout | diff - shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+
+kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
+  --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+  --target=paymentservice -- /bin/sh
+
+wc -c /proc/1/root/nbbl-certs/..data/*        # sbi_private_key ~240 bytes; check .crt is NOT 0
+
+   keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+           -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
