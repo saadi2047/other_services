@@ -1,15 +1,604 @@
-[root@bastion ~]# kubectl debug -it payment-paymentservice-8bc9bd4b4-hhbmc -n dev-transaction   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462   --target=paymentservice -- /bin/sh
-Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
-Defaulting debug container name to debugger-cf87x.
-If you don't see a command prompt, try pressing enter.
-sh-5.1$ wc -c /proc/1/root/nbbl-certs/..data/*
- 124 /proc/1/root/nbbl-certs/..data/ibmbcert_npci_org_in_new_24Dec.crt
-2338 /proc/1/root/nbbl-certs/..data/nbbl_client.jks
- 241 /proc/1/root/nbbl-certs/..data/sbi_private_key
-2703 total
-sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
-  -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
-Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
-Entry for alias mykey successfully imported.
-Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
-sh-5.1$
+Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/cacerts/data/cacerts -Djavax.net.ssl.trustStorePassword=changeit
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+10:22:26,950 |-INFO in ch.qos.logback.classic.LoggerContext[default] - This is logback-classic version 1.5.22
+10:22:26,955 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Here is a list of configurators discovered as a service, by rank: 
+10:22:26,955 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 -   org.springframework.boot.logging.logback.RootLogLevelConfigurator
+10:22:26,955 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - They will be invoked in order until ExecutionStatus.DO_NOT_INVOKE_NEXT_IF_ANY is returned.
+10:22:26,955 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Constructed configurator of type class org.springframework.boot.logging.logback.RootLogLevelConfigurator
+10:22:26,965 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - org.springframework.boot.logging.logback.RootLogLevelConfigurator.configure() call lasted 1 milliseconds. ExecutionStatus=INVOKE_NEXT_IF_ANY
+10:22:26,965 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Trying to configure with ch.qos.logback.classic.util.DefaultJoranConfigurator
+10:22:26,966 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - Constructed configurator of type class ch.qos.logback.classic.util.DefaultJoranConfigurator
+10:22:26,968 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
+10:22:26,969 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml]
+10:22:26,972 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs multiple times on the classpath.
+10:22:26,972 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml]
+10:22:26,972 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/lib/notification-service-1.1.0.jar!/logback.xml]
+10:22:26,972 |-WARN in ch.qos.logback.classic.util.DefaultJoranConfigurator@7c83dc97 - Resource [logback.xml] occurs at [jar:nested:/app/app.jar/!BOOT-INF/lib/logging-service-1.0-SNAPSHOT.jar!/logback.xml]
+10:22:26,987 |-INFO in ch.qos.logback.core.joran.spi.ConfigurationWatchList@7748410a - URL [jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml] is not of type file
+10:22:27,088 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+10:22:27,088 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+10:22:27,088 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+10:22:27,192 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word methodOrMDC with class [com.sbi.epay.logging.converter.MethodOrMDCConverter]
+10:22:27,193 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word classOrMDC with class [com.sbi.epay.logging.converter.ClassOrMDCConverter]
+10:22:27,193 |-INFO in ch.qos.logback.core.model.processor.ConversionRuleModelHandler - registering conversion word lineOrMDC with class [com.sbi.epay.logging.converter.LineOrMDCConverter]
+10:22:27,193 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - Main configuration file URL: jar:nested:/app/app.jar/!BOOT-INF/classes/!/logback.xml
+10:22:27,195 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - FileWatchList= {}
+10:22:27,195 |-INFO in ch.qos.logback.classic.model.processor.ConfigurationModelHandlerFull - URLWatchList= {}
+10:22:27,204 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - Processing appender named [CONSOLE]
+10:22:27,204 |-INFO in ch.qos.logback.core.model.processor.AppenderModelHandler - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
+10:22:27,216 |-INFO in ch.qos.logback.core.model.processor.ImplicitModelHandler - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
+10:22:27,281 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - NOTE: Writing to the console can be slow. Try to avoid logging to the 
+10:22:27,281 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - console in production environments, especially in high volume systems.
+10:22:27,281 |-INFO in ch.qos.logback.core.ConsoleAppender[CONSOLE] - See also https://logback.qos.ch/codes.html#slowConsole
+10:22:27,288 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+10:22:27,288 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+10:22:27,288 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+10:22:27,289 |-INFO in ch.qos.logback.classic.model.processor.RootLoggerModelHandler - Setting level of ROOT logger to INFO
+10:22:27,289 |-INFO in ch.qos.logback.core.model.processor.AppenderRefModelHandler - Attaching appender named [CONSOLE] to Logger[ROOT]
+10:22:27,289 |-INFO in ch.qos.logback.core.model.processor.DefaultProcessor@740773a3 - End of configuration.
+10:22:27,290 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@37f1104d - Registering current configuration as safe fallback point
+10:22:27,291 |-INFO in ch.qos.logback.classic.util.ContextInitializer@4470f8a6 - ch.qos.logback.classic.util.DefaultJoranConfigurator.configure() call lasted 325 milliseconds. ExecutionStatus=DO_NOT_INVOKE_NEXT_IF_ANY
+
+10:22:28,231 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 2
+10:22:28,232 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 3
+10:22:28,232 |-WARN in ch.qos.logback.core.joran.action.ConversionRuleAction - [converterClass] attribute is deprecated and replaced by [class]. See element [conversionRule] near line 4
+10:22:28,241 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [FILE] not referenced. Skipping further processing.
+10:22:28,241 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [JSON_FILE] not referenced. Skipping further processing.
+10:22:28,241 |-WARN in ch.qos.logback.core.model.processor.AppenderModelHandler - Appender named [Logstash] not referenced. Skipping further processing.
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.9)
+
+2026-09-29 10:22:28.317 INFO | org.hibernate.validator.internal.util.Version:21 | principal=  | scenario= | operation= | correlation= | methodName=<clinit> | HV000001: Hibernate Validator 8.0.3.Final
+2026-09-29 10:22:28.463 INFO | org.springframework.boot.StartupInfoLogger:53 | principal=  | scenario= | operation= | correlation= | methodName=logStarting | Starting EpayPaymentServiceApplication vmr-feature-epay-209-nbbl-development-on-dev-develop-1080-1acee746 using Java 21.0.12.1 with PID 1 (/app/app.jar started by 1001190000 in /app)
+2026-09-29 10:22:28.464 INFO | org.springframework.boot.SpringApplication:658 | principal=  | scenario= | operation= | correlation= | methodName=logStartupProfileInfo | The following 1 profile is active: "dev"
+2026-09-29 10:22:33.004 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Initializing ProtocolHandler ["http-nio-9093"]
+2026-09-29 10:22:33.010 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Starting service [Tomcat]
+2026-09-29 10:22:33.011 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Starting Servlet engine: [Apache Tomcat/10.1.50]
+2026-09-29 10:22:33.075 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Initializing Spring embedded WebApplicationContext
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-09-29 10:22:33.848 INFO | com.epay.payment.filter.CorrelationIdFilter:31 | principal=  | scenario= | operation= | correlation= | methodName=logPersistenceUnitInformation | HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-29 10:22:33.970 INFO | com.epay.payment.filter.CorrelationIdFilter:44 | principal=  | scenario= | operation= | correlation= | methodName=logVersion | HHH000412: Hibernate ORM core version 6.6.39.Final
+2026-09-29 10:22:34.026 INFO | com.epay.payment.filter.CorrelationIdFilter:50 | principal=  | scenario= | operation= | correlation= | methodName=initiateService | HHH000026: Second-level cache disabled
+2026-09-29 10:22:34.167 INFO | com.epay.payment.filter.CorrelationIdFilter:76 | principal=  | scenario= | operation= | correlation= | methodName=configure | Envers integration enabled? : true
+2026-09-29 10:22:34.493 INFO | com.epay.payment.filter.CorrelationIdFilter:109 | principal=  | scenario= | operation= | correlation= | methodName=getConnection | HikariPool-1 - Starting...
+2026-09-29 10:22:35.345 INFO | com.epay.payment.filter.CorrelationIdFilter:580 | principal=  | scenario= | operation= | correlation= | methodName=checkFailFast | HikariPool-1 - Added connection oracle.jdbc.driver.T4CConnection@3cc548f6
+2026-09-29 10:22:35.347 INFO | com.epay.payment.filter.CorrelationIdFilter:122 | principal=  | scenario= | operation= | correlation= | methodName=getConnection | HikariPool-1 - Start completed.
+2026-09-29 10:22:35.876 INFO | com.epay.payment.filter.CorrelationIdFilter:163 | principal=  | scenario= | operation= | correlation= | methodName=logConnectionInfo | HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 19.32
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-29 10:22:36.460 INFO | com.epay.payment.filter.CorrelationIdFilter:322 | principal=  | scenario= | operation= | correlation= | methodName=generateFirstPass | Adding properties for entity: com.epay.payment.entity.Token
+2026-09-29 10:22:38.157 INFO | com.epay.payment.filter.CorrelationIdFilter:59 | principal=  | scenario= | operation= | correlation= | methodName=initiateService | HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-29 10:22:40.751 INFO | com.epay.payment.config.aws.S3Config:62 | principal=  | scenario= | operation= | correlation= | methodName=s3client | s3EndPoint: https://s3store.bank.sbi/
+2026-09-29 10:22:40.751 INFO | com.epay.payment.config.aws.S3Config:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | region: ap-south-1
+2026-09-29 10:22:44.465 INFO | com.epay.payment.service.UpiVpaPaymentService:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | Starting ProtocolHandler ["http-nio-9093"]
+2026-09-29 10:22:44.794 INFO | com.epay.payment.service.UpiVpaPaymentService:63 | principal=  | scenario= | operation= | correlation= | methodName=s3client | Started EpayPaymentServiceApplication in 17.367 seconds (process running for 18.506)
+2026-09-29 10:23:26.598 INFO | org.apache.juli.logging.DirectJDKLog:168 | principal=  | scenario= | operation= | correlation= | methodName=log | Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-09-29 10:23:26.623 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = dev.epay.sbi
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = application/json
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = PostmanRuntime/7.29.2
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = */*
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: postman-token = 9c126e52-caa4-49b4-9e1c-b88db27b06c2
+2026-09-29 10:23:26.624 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept-encoding = gzip, deflate, br
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 164
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-host = dev.epay.sbi
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-port = 443
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: forwarded = for=10.177.142.145;host=dev.epay.sbi;proto=https
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-external-address = 172.16.6.2
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = a5cbab83-133e-4c10-9495-c42e7ad6d24e
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=c9ab78f592cccb89f1d206af7e4568cf7e5f707960b5575387f636b4b38ecae9;Subject="";URI=spiffe://cluster.local/ns/dev-istio-system/sa/default
+2026-09-29 10:23:26.625 INFO | com.epay.payment.filter.CorrelationIdFilter:40 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Correlation ID not found, generated new: a77e34f7-ad81-4f56-9c2b-b42909c544c6
+2026-09-29 10:23:26.839 INFO | com.epay.payment.service.IbmbPaymentService:68 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=sendInitTxnRequest | ::::::::::::::::::::: handleNBBL Txn Response:::::::::::::::::::::
+Hibernate: 
+    select
+        mop1_0.atrn_num,
+        mop1_0.available_refund_amount,
+        mop1_0.bank_reference_number,
+        mop1_0.cancellation_status,
+        mop1_0.channel_bank,
+        mop1_0.chargeback_amount,
+        mop1_0.chargeback_status,
+        mop1_0.cin,
+        mop1_0.created_by,
+        mop1_0.created_date,
+        mop1_0.currency_code,
+        mop1_0.debit_amt,
+        mop1_0.fail_reason,
+        mop1_0.gtw_issue_mecode,
+        mop1_0.gst_in,
+        mop1_0.gtw_map_id,
+        mop1_0.merchant_id,
+        mop1_0.order_amount,
+        mop1_0.order_ref_number,
+        mop1_0.pay_mode,
+        mop1_0.pay_proc_id,
+        mop1_0.payment_status,
+        mop1_0.payment_success_date,
+        mop1_0.pay_proc_type,
+        mop1_0.pooling_status,
+        mop1_0.push_response,
+        mop1_0.push_status,
+        mop1_0.refund_status,
+        mop1_0.sbi_order_ref_number,
+        mop1_0.settlement_status,
+        mop1_0.transaction_status,
+        mop1_0.updated_by,
+        mop1_0.updated_date 
+    from
+        merchant_order_payments mop1_0 
+    where
+        mop1_0.atrn_num=? 
+        and mop1_0.transaction_status=?
+2026-09-29 10:23:27.099 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:50 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call NBBL    ::  1000625 274
+2026-09-29 10:23:27.105 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:54 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call  Json request  NBBL ::  {"mId":"1000625","aggGtwMapId":"274"}
+2026-09-29 10:23:27.108 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:59 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call URL NBBL   ::  http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/gateway  
+Hibernate: 
+    Select
+        * 
+    from
+        MERCHANT_ORDERS 
+    where
+        MERCHANT_ID=?  
+        and SBI_ORDER_REF_NUMBER=?
+2026-09-29 10:23:27.868 INFO | com.epay.payment.externalservice.AdminServicesClient:46 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=getMerchantPayModeInfo | Fetching pay mode info for mId: 1000625
+2026-09-29 10:23:27.869 INFO | com.epay.payment.client.APIClient:94 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=post | Calling uri: http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/payMode/1000625
+2026-09-29 10:23:27.940 INFO | com.epay.payment.service.IbmbPaymentService:87 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=sendInitTxnRequest | ibmbBankId ::::::: BSI04  TPV details ::::::::: Y
+2026-09-29 10:23:27.941 INFO | com.epay.payment.service.IbmbPaymentService:143 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | ::::::::::::::: inside the createNbblInitTxnReq :::::::::::::::
+2026-09-29 10:23:27.941 INFO | com.epay.payment.util.IbmbInitiationUtil:44 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=fetchLFDOfCurrentDateTime | inside the createdJulianDate ::::6272
+2026-09-29 10:23:27.942 INFO | com.epay.payment.service.IbmbPaymentService:154 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | current Booking time ::::::2026-09-29T15:53:27+05:30 Epoch ::::::1790677407942
+2026-09-29 10:23:27.942 INFO | com.epay.payment.service.IbmbPaymentService:160 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | added the Txn expiry booking ::::::::1790677587942 String date :::::::::2026-09-29T15:56:27
+2026-09-29 10:23:27.950 INFO | com.epay.payment.util.IbmbInitiationUtil:67 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createRefId | inside the generateRefId ::::PSE096272RYMCZPAXUBE
+2026-09-29 10:23:27.951 INFO | com.epay.payment.service.IbmbPaymentService:163 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | currentDateTime::: 6272 txnBookingtime :: 2026-09-29T15:53:27+05:30
+Hibernate: 
+    select
+        * 
+    from
+        DEVICE_DETAILS dd 
+    where
+        dd.ORDER_HASH = ?
+2026-09-29 10:23:28.053 INFO | com.epay.payment.service.IbmbPaymentService:241 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=fetchDeviceDetails | :::::: device details :::::::::::::DeviceInfo(id=baf87301-5b56-432a-a767-cfc4a994a4d3, orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=[123, 34, 98, 114, 111, 119, 115, 101, 114, 34, 58, 32, 34, 67, 104, 114, 111, 109, 101, 34, 44, 32, 34, 111, 115, 34, 58, 32, 34, 87, 105, 110, 100, 111, 119, 115, 34, 44, 32, 34, 115, 99, 114, 101, 101, 110, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 115, 99, 114, 101, 101, 110, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 56, 48, 44, 32, 34, 99, 111, 108, 111, 114, 68, 101, 112, 116, 104, 34, 58, 32, 50, 52, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 52, 48, 44, 32, 34, 108, 97, 110, 103, 117, 97, 103, 101, 34, 58, 32, 34, 101, 110, 45, 85, 83, 34, 44, 32, 34, 117, 115, 101, 114, 65, 103, 101, 110, 116, 34, 58, 32, 34, 77, 111, 122, 105, 108, 108, 97, 47, 53, 46, 48, 32, 40, 87, 105, 110, 100, 111, 119, 115, 32, 78, 84, 32, 49, 48, 46, 48, 59, 32, 87, 105, 110, 54, 52, 59, 32, 120, 54, 52, 41, 34, 125], createdDate=1789996319275)
+2026-09-29 10:23:28.059 INFO | com.epay.payment.service.IbmbPaymentService:166 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | deviceDetials ::::::::::::: DeviceInfoDto(orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=DeviceDetailsRequest(clientIp=null, browser=Chrome, os=Windows, screenWidth=1920, screenHeight=1080, colorDepth=24, availableWidth=1920, availableHeight=1040, language=en-US, userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)), createdDate=1789996319275)
+2026-09-29 10:23:28.060 INFO | com.epay.payment.service.IbmbPaymentService:168 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | list of deviceDetails ::::::::::::: [DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]
+2026-09-29 10:23:28.062 INFO | com.epay.payment.service.IbmbPaymentService:172 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | initTxnRequest :::::::::::::::::: InitTxnRequest(initHeadDtls=InitHeadDtls(ver=1.0, ts=2026-09-29T15:53:27+05:30, msgID=MLHHJSZVPMVAPSNKYNKHLSRFHMB62721553, orgID=PSE09, bankID=BSI04, correlationKey=null), initTxnDtls=InitTxnDtls(refID=PSE096272RYMCZPAXUBE, ts=2026-09-29T15:53:27+05:30, expiry=300, initiationMode=QR), initPaDtls=InitPaDtls(paID=PSE09, paName=SBI ePay, paCreds=PACredential(credType=GSTN, credValue=27ABCDE1234F1Z5), beneficiary=null), initMerchDtls=InitMerchDtls(mcc=3102, mid=PSE09NETSHOP083, mName=DigiNet Solutions, beneficiary=null, returnUrl=ReturnUrl(success=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272RYMCZPAXUBE, failure=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272RYMCZPAXUBE)), initPayerDtls=InitPayerDtls(txnAmount=InitTxnAmount(value=20, curr=INR, amountBreakUp=null), txnDevice=InitTxnDeviceDtls(mobile=919243513674, deviceDtls=[DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]), tPV=[], details=null), initAddInfo=null)
+2026-09-29 10:23:28.062 INFO | com.epay.payment.service.IbmbPaymentService:173 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | Added the changes :::::::::::InitTxnDtls(refID=PSE096272RYMCZPAXUBE, ts=2026-09-29T15:53:27+05:30, expiry=300, initiationMode=QR)
+2026-09-29 10:23:28.108 INFO | com.epay.payment.service.IbmbPaymentService:211 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | retrivedPublicKey :::::: Sun EC public key, 256 bits
+  public x coord: 33628737513116238084051512609718669875547094259773623680362923959868006447911
+  public y coord: 91891631022447504455052932880054523400453355534873378438003156063833079014063
+  parameters: secp256r1 [NIST P-256,X9.62 prime256v1] (1.2.840.10045.3.1.7)
+Inside NBBLEncryptDecryptUtility
+Bouncy Castle Version := BC version 1.8502
+Bouncy Castle Version After removing BC := BC version 1.8502
+Bouncy castle Jar Path := jar:nested:/app/app.jar/!BOOT-INF/lib/bcprov-jdk18on-1.85.2.jar!/
+Bouncy Castle Version after adding BC provider := BC version 1.8502
+Inside NBBLEncryption encData = BPB8tCfLebq7t3v0bg0qcK1P7dYAZ1GRhQsO+M9jHWhbib4kHVMJyTEwivgz4z9OYeKFBrvd9U5eb5M9XkyZMWqnH0N5xK8ah2BsaW3oevybuMcyHOXZi2ofLog/Swn8qG9xys4asp6d+MIcOyreBJVYYaVJtHuTaBHhpwzZ2fRS++Cl7L5euUUToqP5YD6u6KHV8Am51miFktlRxXa2yoItCdVIfbr/M+fwGDsHAIRFYWUMJ2V1he+4Gui7DwFyXS4qWUsZ2qv2ZOgIM+xlj7ac+C9NaWbdiLDeZsD1KcmcHOPfH1Ki2zxecUEuPkfoIa6SEesh6lao+bBQBMoFpDa66ls2vQq24tzLzf7oFtfGtFIMnPuYVvSuKRvz2IoWIaMVcJHgflQnfFA0MKAoaynb/3oqoaqbXEdqZy+CD0KKLK/NwPgrgtuUyzs+AB7SmMI+fE/caHZPq78dzpS6ME2cqLnZTMap461ALEG1kM2LTeSU04cym+DJe4XHsFedugi/vwD3Su4nlachsJxsve1mvjRo5Xx0g5TJgizQPV7fpC6gNvNXJF1174i+QpcJpB5g8T3LLCvi/9bIuVqrnR4syE3G53JlG9E3SEnnm5NJYD3D3PI5bG8GuP+kqP2adCKw5gXsX/SauT51tngqLQnwxBF1rbT4q4kr0cCp4V8L9IWLSci8362WWG6hZm/ym2Ou3PJi2752+bvSoBho8mJhTPVtCqtbfObyecECmj2Hfv0+5Bg6nYwmyArLOT5HW1HANAEl24/jdZqSaJ4tHUAnwuSdpikul7kl5hjNeFwO2OkEHcrBKhNENPSiqTXjMjRYfoDds2RmNLn5PSebO70l6elYYFwQP+NSqzBgU8Q18xHRBC7tViDhUiUlbeQwozgHRAkMxQs+1Jtz+5ClH6M+1/WY4kXVOIIv3+ALK3zdS+95p1inyIN9TdxZKby/+M28xGFQgDjKkyCH2TRuUHmO+Jcb+yiNKyOcYQk9MMuHzyM/vr42EyTNpqaiftZpoFJQV/XP+AQ2jPK1wRQjpBFGl6kC2kmxItvOLPnnuKgoI6AE7RVRM9UyQ6Ha1b3WA03bx3qS4XE47Luj/piSUHRbAkhAEs4pP9c8sMNrADETzN1qIKM9eak+Pvucrs30Ry49eeKEmnEvoiqIuBe2x0C6FfqhfrLE4A5//T6u6h0f/RtLW4sU
+2026-09-29 10:23:28.872 INFO | com.epay.payment.service.IbmbPaymentService:213 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | encodePayload :::::::BPB8tCfLebq7t3v0bg0qcK1P7dYAZ1GRhQsO+M9jHWhbib4kHVMJyTEwivgz4z9OYeKFBrvd9U5eb5M9XkyZMWqnH0N5xK8ah2BsaW3oevybuMcyHOXZi2ofLog/Swn8qG9xys4asp6d+MIcOyreBJVYYaVJtHuTaBHhpwzZ2fRS++Cl7L5euUUToqP5YD6u6KHV8Am51miFktlRxXa2yoItCdVIfbr/M+fwGDsHAIRFYWUMJ2V1he+4Gui7DwFyXS4qWUsZ2qv2ZOgIM+xlj7ac+C9NaWbdiLDeZsD1KcmcHOPfH1Ki2zxecUEuPkfoIa6SEesh6lao+bBQBMoFpDa66ls2vQq24tzLzf7oFtfGtFIMnPuYVvSuKRvz2IoWIaMVcJHgflQnfFA0MKAoaynb/3oqoaqbXEdqZy+CD0KKLK/NwPgrgtuUyzs+AB7SmMI+fE/caHZPq78dzpS6ME2cqLnZTMap461ALEG1kM2LTeSU04cym+DJe4XHsFedugi/vwD3Su4nlachsJxsve1mvjRo5Xx0g5TJgizQPV7fpC6gNvNXJF1174i+QpcJpB5g8T3LLCvi/9bIuVqrnR4syE3G53JlG9E3SEnnm5NJYD3D3PI5bG8GuP+kqP2adCKw5gXsX/SauT51tngqLQnwxBF1rbT4q4kr0cCp4V8L9IWLSci8362WWG6hZm/ym2Ou3PJi2752+bvSoBho8mJhTPVtCqtbfObyecECmj2Hfv0+5Bg6nYwmyArLOT5HW1HANAEl24/jdZqSaJ4tHUAnwuSdpikul7kl5hjNeFwO2OkEHcrBKhNENPSiqTXjMjRYfoDds2RmNLn5PSebO70l6elYYFwQP+NSqzBgU8Q18xHRBC7tViDhUiUlbeQwozgHRAkMxQs+1Jtz+5ClH6M+1/WY4kXVOIIv3+ALK3zdS+95p1inyIN9TdxZKby/+M28xGFQgDjKkyCH2TRuUHmO+Jcb+yiNKyOcYQk9MMuHzyM/vr42EyTNpqaiftZpoFJQV/XP+AQ2jPK1wRQjpBFGl6kC2kmxItvOLPnnuKgoI6AE7RVRM9UyQ6Ha1b3WA03bx3qS4XE47Luj/piSUHRbAkhAEs4pP9c8sMNrADETzN1qIKM9eak+Pvucrs30Ry49eeKEmnEvoiqIuBe2x0C6FfqhfrLE4A5//T6u6h0f/RtLW4sU
+2026-09-29 10:23:28.875 INFO | com.epay.payment.service.IbmbPaymentService:215 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | retrivedSbiPrivateKey::::::::::: sun.security.ec.ECPrivateKeyImpl@1877a9a
+2026-09-29 10:23:28.876 INFO | com.epay.payment.service.IbmbPaymentService:216 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | creationTime ::::::::::: 1790677407942 Txn expiry time :::1790677587942
+2026-09-29 10:23:28.941 INFO | com.epay.payment.service.IbmbPaymentService:221 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | digital singature :::::::::: MEYCIQC0KZTlkBGuhTm26L1Ebe6a+R6QfqYVBcFpf0+BCBidCQIhAIuzmom1BPBNIe2x74Ro0mOWNA9XJBazxNn0QGJ0si4c
+2026-09-29 10:23:28.942 INFO | com.epay.payment.service.IbmbPaymentService:227 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | encodedProtectedData :::::::::: a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3NDA3OTQyIixleHBpcmVzPSIxNzkwNjc3NTg3OTQyIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi
+2026-09-29 10:23:28.942 INFO | com.epay.payment.service.IbmbPaymentService:232 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | signatureRequest :::::::::: SignatureRequest(payload=BPB8tCfLebq7t3v0bg0qcK1P7dYAZ1GRhQsO+M9jHWhbib4kHVMJyTEwivgz4z9OYeKFBrvd9U5eb5M9XkyZMWqnH0N5xK8ah2BsaW3oevybuMcyHOXZi2ofLog/Swn8qG9xys4asp6d+MIcOyreBJVYYaVJtHuTaBHhpwzZ2fRS++Cl7L5euUUToqP5YD6u6KHV8Am51miFktlRxXa2yoItCdVIfbr/M+fwGDsHAIRFYWUMJ2V1he+4Gui7DwFyXS4qWUsZ2qv2ZOgIM+xlj7ac+C9NaWbdiLDeZsD1KcmcHOPfH1Ki2zxecUEuPkfoIa6SEesh6lao+bBQBMoFpDa66ls2vQq24tzLzf7oFtfGtFIMnPuYVvSuKRvz2IoWIaMVcJHgflQnfFA0MKAoaynb/3oqoaqbXEdqZy+CD0KKLK/NwPgrgtuUyzs+AB7SmMI+fE/caHZPq78dzpS6ME2cqLnZTMap461ALEG1kM2LTeSU04cym+DJe4XHsFedugi/vwD3Su4nlachsJxsve1mvjRo5Xx0g5TJgizQPV7fpC6gNvNXJF1174i+QpcJpB5g8T3LLCvi/9bIuVqrnR4syE3G53JlG9E3SEnnm5NJYD3D3PI5bG8GuP+kqP2adCKw5gXsX/SauT51tngqLQnwxBF1rbT4q4kr0cCp4V8L9IWLSci8362WWG6hZm/ym2Ou3PJi2752+bvSoBho8mJhTPVtCqtbfObyecECmj2Hfv0+5Bg6nYwmyArLOT5HW1HANAEl24/jdZqSaJ4tHUAnwuSdpikul7kl5hjNeFwO2OkEHcrBKhNENPSiqTXjMjRYfoDds2RmNLn5PSebO70l6elYYFwQP+NSqzBgU8Q18xHRBC7tViDhUiUlbeQwozgHRAkMxQs+1Jtz+5ClH6M+1/WY4kXVOIIv3+ALK3zdS+95p1inyIN9TdxZKby/+M28xGFQgDjKkyCH2TRuUHmO+Jcb+yiNKyOcYQk9MMuHzyM/vr42EyTNpqaiftZpoFJQV/XP+AQ2jPK1wRQjpBFGl6kC2kmxItvOLPnnuKgoI6AE7RVRM9UyQ6Ha1b3WA03bx3qS4XE47Luj/piSUHRbAkhAEs4pP9c8sMNrADETzN1qIKM9eak+Pvucrs30Ry49eeKEmnEvoiqIuBe2x0C6FfqhfrLE4A5//T6u6h0f/RtLW4sU, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3NDA3OTQyIixleHBpcmVzPSIxNzkwNjc3NTg3OTQyIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEYCIQC0KZTlkBGuhTm26L1Ebe6a+R6QfqYVBcFpf0+BCBidCQIhAIuzmom1BPBNIe2x74Ro0mOWNA9XJBazxNn0QGJ0si4c))
+2026-09-29 10:23:28.943 INFO | com.epay.payment.service.IbmbPaymentService:233 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createdDigiSignatureData | singature procteddd:::::::::::SignatureRequest(payload=BPB8tCfLebq7t3v0bg0qcK1P7dYAZ1GRhQsO+M9jHWhbib4kHVMJyTEwivgz4z9OYeKFBrvd9U5eb5M9XkyZMWqnH0N5xK8ah2BsaW3oevybuMcyHOXZi2ofLog/Swn8qG9xys4asp6d+MIcOyreBJVYYaVJtHuTaBHhpwzZ2fRS++Cl7L5euUUToqP5YD6u6KHV8Am51miFktlRxXa2yoItCdVIfbr/M+fwGDsHAIRFYWUMJ2V1he+4Gui7DwFyXS4qWUsZ2qv2ZOgIM+xlj7ac+C9NaWbdiLDeZsD1KcmcHOPfH1Ki2zxecUEuPkfoIa6SEesh6lao+bBQBMoFpDa66ls2vQq24tzLzf7oFtfGtFIMnPuYVvSuKRvz2IoWIaMVcJHgflQnfFA0MKAoaynb/3oqoaqbXEdqZy+CD0KKLK/NwPgrgtuUyzs+AB7SmMI+fE/caHZPq78dzpS6ME2cqLnZTMap461ALEG1kM2LTeSU04cym+DJe4XHsFedugi/vwD3Su4nlachsJxsve1mvjRo5Xx0g5TJgizQPV7fpC6gNvNXJF1174i+QpcJpB5g8T3LLCvi/9bIuVqrnR4syE3G53JlG9E3SEnnm5NJYD3D3PI5bG8GuP+kqP2adCKw5gXsX/SauT51tngqLQnwxBF1rbT4q4kr0cCp4V8L9IWLSci8362WWG6hZm/ym2Ou3PJi2752+bvSoBho8mJhTPVtCqtbfObyecECmj2Hfv0+5Bg6nYwmyArLOT5HW1HANAEl24/jdZqSaJ4tHUAnwuSdpikul7kl5hjNeFwO2OkEHcrBKhNENPSiqTXjMjRYfoDds2RmNLn5PSebO70l6elYYFwQP+NSqzBgU8Q18xHRBC7tViDhUiUlbeQwozgHRAkMxQs+1Jtz+5ClH6M+1/WY4kXVOIIv3+ALK3zdS+95p1inyIN9TdxZKby/+M28xGFQgDjKkyCH2TRuUHmO+Jcb+yiNKyOcYQk9MMuHzyM/vr42EyTNpqaiftZpoFJQV/XP+AQ2jPK1wRQjpBFGl6kC2kmxItvOLPnnuKgoI6AE7RVRM9UyQ6Ha1b3WA03bx3qS4XE47Luj/piSUHRbAkhAEs4pP9c8sMNrADETzN1qIKM9eak+Pvucrs30Ry49eeKEmnEvoiqIuBe2x0C6FfqhfrLE4A5//T6u6h0f/RtLW4sU, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3NDA3OTQyIixleHBpcmVzPSIxNzkwNjc3NTg3OTQyIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEYCIQC0KZTlkBGuhTm26L1Ebe6a+R6QfqYVBcFpf0+BCBidCQIhAIuzmom1BPBNIe2x74Ro0mOWNA9XJBazxNn0QGJ0si4c))
+2026-09-29 10:23:28.946 INFO | com.epay.payment.service.IbmbPaymentService:177 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | finalInitTxnSignatureToString ::::::::::::::::{"payload":"BPB8tCfLebq7t3v0bg0qcK1P7dYAZ1GRhQsO+M9jHWhbib4kHVMJyTEwivgz4z9OYeKFBrvd9U5eb5M9XkyZMWqnH0N5xK8ah2BsaW3oevybuMcyHOXZi2ofLog/Swn8qG9xys4asp6d+MIcOyreBJVYYaVJtHuTaBHhpwzZ2fRS++Cl7L5euUUToqP5YD6u6KHV8Am51miFktlRxXa2yoItCdVIfbr/M+fwGDsHAIRFYWUMJ2V1he+4Gui7DwFyXS4qWUsZ2qv2ZOgIM+xlj7ac+C9NaWbdiLDeZsD1KcmcHOPfH1Ki2zxecUEuPkfoIa6SEesh6lao+bBQBMoFpDa66ls2vQq24tzLzf7oFtfGtFIMnPuYVvSuKRvz2IoWIaMVcJHgflQnfFA0MKAoaynb/3oqoaqbXEdqZy+CD0KKLK/NwPgrgtuUyzs+AB7SmMI+fE/caHZPq78dzpS6ME2cqLnZTMap461ALEG1kM2LTeSU04cym+DJe4XHsFedugi/vwD3Su4nlachsJxsve1mvjRo5Xx0g5TJgizQPV7fpC6gNvNXJF1174i+QpcJpB5g8T3LLCvi/9bIuVqrnR4syE3G53JlG9E3SEnnm5NJYD3D3PI5bG8GuP+kqP2adCKw5gXsX/SauT51tngqLQnwxBF1rbT4q4kr0cCp4V8L9IWLSci8362WWG6hZm/ym2Ou3PJi2752+bvSoBho8mJhTPVtCqtbfObyecECmj2Hfv0+5Bg6nYwmyArLOT5HW1HANAEl24/jdZqSaJ4tHUAnwuSdpikul7kl5hjNeFwO2OkEHcrBKhNENPSiqTXjMjRYfoDds2RmNLn5PSebO70l6elYYFwQP+NSqzBgU8Q18xHRBC7tViDhUiUlbeQwozgHRAkMxQs+1Jtz+5ClH6M+1/WY4kXVOIIv3+ALK3zdS+95p1inyIN9TdxZKby/+M28xGFQgDjKkyCH2TRuUHmO+Jcb+yiNKyOcYQk9MMuHzyM/vr42EyTNpqaiftZpoFJQV/XP+AQ2jPK1wRQjpBFGl6kC2kmxItvOLPnnuKgoI6AE7RVRM9UyQ6Ha1b3WA03bx3qS4XE47Luj/piSUHRbAkhAEs4pP9c8sMNrADETzN1qIKM9eak+Pvucrs30Ry49eeKEmnEvoiqIuBe2x0C6FfqhfrLE4A5//T6u6h0f/RtLW4sU","signature":{"signature":"MEYCIQC0KZTlkBGuhTm26L1Ebe6a+R6QfqYVBcFpf0+BCBidCQIhAIuzmom1BPBNIe2x74Ro0mOWNA9XJBazxNn0QGJ0si4c","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3NDA3OTQyIixleHBpcmVzPSIxNzkwNjc3NTg3OTQyIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
+2026-09-29 10:23:28.947 INFO | com.epay.payment.client.IbmbWebClient:77 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=post | Calling uri: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272RYMCZPAXUBE
+2026-09-29 10:23:29.391 INFO | com.epay.payment.service.IbmbPaymentService:179 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | response:::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272RYMCZPAXUBE","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:23:29.357321651Z"}
+2026-09-29 10:23:29.391 INFO | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | Response from IBMB :::::::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272RYMCZPAXUBE","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:23:29.357321651Z"}
+Hibernate: 
+    insert 
+    into
+        ibmb_txn_payload
+        (api_type, atrn_num, error_code, error_message, merchant_id, order_ref_number, payload_type, ref_id, sbi_order_ref_number, id, req_txn, resp_txn) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-29 10:23:29.471 WARN | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | SQL Error: 904, SQLState: 42000
+2026-09-29 10:23:29.471 ERROR | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=createNbblInitTxnReq | ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/
+2026-09-29 10:23:29.491 ERROR | com.epay.payment.exceptionhandlers.PaymentExceptionHandler:212 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=a77e34f7-ad81-4f56-9c2b-b42909c544c6 | methodName=handleGenericException | Error in handleGenericException could not execute statement [ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/] [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)] 
+2026-09-29 10:23:34.775 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 10:23:34.775 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = payment-paymentservice.dev-transaction.svc.cluster.local:9093
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = ReactorNetty/1.2.13
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: origin = https://dev.epay.sbi
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = application/json
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = application/json
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-correlation-id = 6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-principal-id = F172A4F3315C47448A52
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 117
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = 21eea4df-0496-4de3-ae59-ea53bf73f820
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=10179798097609e4a4683066568f60e0aa270ec408c5006d401dac47ac7670d6;Subject="";URI=spiffe://cluster.local/ns/dev-transaction/sa/default
+2026-09-29 10:23:34.776 INFO | com.epay.payment.filter.CorrelationIdFilter:42 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Received Correlation ID from transaction_service: 6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5
+2026-09-29 10:23:34.791 INFO | com.epay.payment.controller.CashChallanPaymentController:57 | principal=F172A4F3315C47448A52  | scenario=/api/payments/v1/cashchallan/sbi/pdf-generation | operation=POST | correlation=6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5 | methodName=cashChallanPdfGenRequest | Cash Challan PDF Generation Request API Start... CashChallanPdfGenRequest(atrn=CA890X0K3JMUMVSJBJTV, customerName=siddhesh nikam, mobileNumber=2342354235, emailId=dfh@gmail.com) 
+Hibernate: 
+    select
+        mop1_0.atrn_num,
+        mop1_0.available_refund_amount,
+        mop1_0.bank_reference_number,
+        mop1_0.cancellation_status,
+        mop1_0.channel_bank,
+        mop1_0.chargeback_amount,
+        mop1_0.chargeback_status,
+        mop1_0.cin,
+        mop1_0.created_by,
+        mop1_0.created_date,
+        mop1_0.currency_code,
+        mop1_0.debit_amt,
+        mop1_0.fail_reason,
+        mop1_0.gtw_issue_mecode,
+        mop1_0.gst_in,
+        mop1_0.gtw_map_id,
+        mop1_0.merchant_id,
+        mop1_0.order_amount,
+        mop1_0.order_ref_number,
+        mop1_0.pay_mode,
+        mop1_0.pay_proc_id,
+        mop1_0.payment_status,
+        mop1_0.payment_success_date,
+        mop1_0.pay_proc_type,
+        mop1_0.pooling_status,
+        mop1_0.push_response,
+        mop1_0.push_status,
+        mop1_0.refund_status,
+        mop1_0.sbi_order_ref_number,
+        mop1_0.settlement_status,
+        mop1_0.transaction_status,
+        mop1_0.updated_by,
+        mop1_0.updated_date 
+    from
+        merchant_order_payments mop1_0 
+    where
+        mop1_0.atrn_num=? 
+        and mop1_0.transaction_status=? 
+        and mop1_0.pay_mode=?
+Hibernate: 
+    select
+        mohf1_0.atrn_num,
+        mohf1_0.bearable_amount_cutoff,
+        mohf1_0.bearable_component,
+        mohf1_0.bearable_entity,
+        mohf1_0.bearable_flat_rate,
+        mohf1_0.bearable_limit,
+        mohf1_0.bearable_percentage_rate,
+        mohf1_0.bearable_rate_type,
+        mohf1_0.created_by,
+        mohf1_0.created_by_session_id,
+        mohf1_0.created_date,
+        mohf1_0.customer_fee_bearable_abs,
+        mohf1_0.customer_gst_bearable_abs,
+        mohf1_0.gst_rate,
+        mohf1_0.merchant_id,
+        mohf1_0.merchant_fee_bearable_abs,
+        mohf1_0.merchant_gst_bearable_abs,
+        mohf1_0.process_flag,
+        mohf1_0.updated_by,
+        mohf1_0.updated_date 
+    from
+        merchant_order_hybrid_fee_dtls mohf1_0 
+    where
+        mohf1_0.atrn_num=?
+Hibernate: 
+    select
+        o1_0.sbi_order_ref_number,
+        o1_0.created_by,
+        o1_0.created_date,
+        o1_0.currency_code,
+        o1_0.customer_id,
+        o1_0.expiry,
+        o1_0.merchant_id,
+        o1_0.merchant_type,
+        o1_0.multi_accounts,
+        o1_0.order_amount,
+        o1_0.order_hash,
+        o1_0.order_ref_number,
+        o1_0.order_retry_count,
+        o1_0.other_details,
+        o1_0.payment_mode,
+        o1_0.return_url,
+        o1_0.status,
+        o1_0.third_party_details,
+        o1_0.updated_by,
+        o1_0.updated_date 
+    from
+        merchant_orders o1_0 
+    where
+        o1_0.sbi_order_ref_number=? 
+        and o1_0.order_ref_number=?
+2026-09-29 10:23:34.861 INFO | com.epay.payment.externalservice.UpiAdminConfigDetailsClientService:79 | principal=F172A4F3315C47448A52  | scenario=/api/payments/v1/cashchallan/sbi/pdf-generation | operation=POST | correlation=6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call    ::  1000890 247
+2026-09-29 10:23:34.862 INFO | com.epay.payment.externalservice.UpiAdminConfigDetailsClientService:83 | principal=F172A4F3315C47448A52  | scenario=/api/payments/v1/cashchallan/sbi/pdf-generation | operation=POST | correlation=6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call  Json request  ::  {"mId":"1000890","aggGtwMapId":"247"}
+2026-09-29 10:23:34.863 INFO | com.epay.payment.externalservice.UpiAdminConfigDetailsClientService:88 | principal=F172A4F3315C47448A52  | scenario=/api/payments/v1/cashchallan/sbi/pdf-generation | operation=POST | correlation=6cc1e7a2-5d1f-49a8-91e1-195fc51de7d5 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call URL    ::  http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/gateway  
+2026-09-29 10:25:00.004 INFO | com.epay.payment.schedular.PayPalTokenScheduler:38 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e440a9a-990b-40f0-846c-b05a885b08d4 | methodName=checkExpiredToken | Paypal Token Expiry scheduler start 
+2026-09-29 10:25:00.011 INFO | com.epay.payment.dao.PayPalDao:72 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e440a9a-990b-40f0-846c-b05a885b08d4 | methodName=markTokenExpired | Marking expired tokens as inactive.
+Hibernate: 
+    update
+        paypal_access_token pte1_0 
+    set
+        pte1_0.status='INACTIVE',
+        pte1_0.is_token_valid=0,
+        pte1_0.updated_date=? 
+    where
+        pte1_0.status='ACTIVE' 
+        and pte1_0.is_token_valid=1 
+        and pte1_0.token_expiry_time<=?
+2026-09-29 10:25:00.062 INFO | com.epay.payment.schedular.PayPalTokenScheduler:40 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e440a9a-990b-40f0-846c-b05a885b08d4 | methodName=checkExpiredToken | token expired :0 
+2026-09-29 10:25:00.063 INFO | com.epay.payment.schedular.PayPalTokenScheduler:41 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=0e440a9a-990b-40f0-846c-b05a885b08d4 | methodName=checkExpiredToken | Paypal Token Expiry scheduler completed 
+2026-09-29 10:30:00.001 INFO | com.epay.payment.schedular.PayPalTokenScheduler:38 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=f5140cad-8cbf-4206-95b9-ede8f96f69a4 | methodName=checkExpiredToken | Paypal Token Expiry scheduler start 
+2026-09-29 10:30:00.009 INFO | com.epay.payment.dao.PayPalDao:72 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=f5140cad-8cbf-4206-95b9-ede8f96f69a4 | methodName=markTokenExpired | Marking expired tokens as inactive.
+Hibernate: 
+    update
+        paypal_access_token pte1_0 
+    set
+        pte1_0.status='INACTIVE',
+        pte1_0.is_token_valid=0,
+        pte1_0.updated_date=? 
+    where
+        pte1_0.status='ACTIVE' 
+        and pte1_0.is_token_valid=1 
+        and pte1_0.token_expiry_time<=?
+2026-09-29 10:30:00.048 INFO | com.epay.payment.schedular.PayPalTokenScheduler:40 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=f5140cad-8cbf-4206-95b9-ede8f96f69a4 | methodName=checkExpiredToken | token expired :0 
+2026-09-29 10:30:00.048 INFO | com.epay.payment.schedular.PayPalTokenScheduler:41 | principal=  | scenario=TokenExpiryScheduler | operation=checkExpiredToken | correlation=f5140cad-8cbf-4206-95b9-ede8f96f69a4 | methodName=checkExpiredToken | Paypal Token Expiry scheduler completed 
+2026-09-29 10:31:25.037 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 10:31:25.037 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = dev.epay.sbi
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = application/json
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = PostmanRuntime/7.29.2
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = */*
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: postman-token = 4b694d21-5991-4e4a-887a-c22d40337e2f
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept-encoding = gzip, deflate, br
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 164
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-host = dev.epay.sbi
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-port = 443
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: forwarded = for=10.177.142.145;host=dev.epay.sbi;proto=https
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-external-address = 172.16.6.2
+2026-09-29 10:31:25.038 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = 4712447c-eba5-4ef7-8f2e-2387c08eb050
+2026-09-29 10:31:25.039 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 10:31:25.039 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=c9ab78f592cccb89f1d206af7e4568cf7e5f707960b5575387f636b4b38ecae9;Subject="";URI=spiffe://cluster.local/ns/dev-istio-system/sa/default
+2026-09-29 10:31:25.039 INFO | com.epay.payment.filter.CorrelationIdFilter:40 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Correlation ID not found, generated new: 457d15ce-3057-4793-b628-f4b4e26ed770
+2026-09-29 10:31:25.042 INFO | com.epay.payment.service.IbmbPaymentService:68 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=sendInitTxnRequest | ::::::::::::::::::::: handleNBBL Txn Response:::::::::::::::::::::
+Hibernate: 
+    select
+        mop1_0.atrn_num,
+        mop1_0.available_refund_amount,
+        mop1_0.bank_reference_number,
+        mop1_0.cancellation_status,
+        mop1_0.channel_bank,
+        mop1_0.chargeback_amount,
+        mop1_0.chargeback_status,
+        mop1_0.cin,
+        mop1_0.created_by,
+        mop1_0.created_date,
+        mop1_0.currency_code,
+        mop1_0.debit_amt,
+        mop1_0.fail_reason,
+        mop1_0.gtw_issue_mecode,
+        mop1_0.gst_in,
+        mop1_0.gtw_map_id,
+        mop1_0.merchant_id,
+        mop1_0.order_amount,
+        mop1_0.order_ref_number,
+        mop1_0.pay_mode,
+        mop1_0.pay_proc_id,
+        mop1_0.payment_status,
+        mop1_0.payment_success_date,
+        mop1_0.pay_proc_type,
+        mop1_0.pooling_status,
+        mop1_0.push_response,
+        mop1_0.push_status,
+        mop1_0.refund_status,
+        mop1_0.sbi_order_ref_number,
+        mop1_0.settlement_status,
+        mop1_0.transaction_status,
+        mop1_0.updated_by,
+        mop1_0.updated_date 
+    from
+        merchant_order_payments mop1_0 
+    where
+        mop1_0.atrn_num=? 
+        and mop1_0.transaction_status=?
+2026-09-29 10:31:25.059 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:50 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call NBBL    ::  1000625 274
+2026-09-29 10:31:25.060 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:54 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call  Json request  NBBL ::  {"mId":"1000625","aggGtwMapId":"274"}
+2026-09-29 10:31:25.061 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:59 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call URL NBBL   ::  http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/gateway  
+Hibernate: 
+    Select
+        * 
+    from
+        MERCHANT_ORDERS 
+    where
+        MERCHANT_ID=?  
+        and SBI_ORDER_REF_NUMBER=?
+2026-09-29 10:31:25.095 INFO | com.epay.payment.externalservice.AdminServicesClient:46 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=getMerchantPayModeInfo | Fetching pay mode info for mId: 1000625
+2026-09-29 10:31:25.095 INFO | com.epay.payment.client.APIClient:94 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=post | Calling uri: http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/payMode/1000625
+2026-09-29 10:31:25.139 INFO | com.epay.payment.service.IbmbPaymentService:87 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=sendInitTxnRequest | ibmbBankId ::::::: BSI04  TPV details ::::::::: Y
+2026-09-29 10:31:25.140 INFO | com.epay.payment.service.IbmbPaymentService:143 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | ::::::::::::::: inside the createNbblInitTxnReq :::::::::::::::
+2026-09-29 10:31:25.140 INFO | com.epay.payment.util.IbmbInitiationUtil:44 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=fetchLFDOfCurrentDateTime | inside the createdJulianDate ::::6272
+2026-09-29 10:31:25.140 INFO | com.epay.payment.service.IbmbPaymentService:154 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | current Booking time ::::::2026-09-29T16:01:25+05:30 Epoch ::::::1790677885140
+2026-09-29 10:31:25.140 INFO | com.epay.payment.service.IbmbPaymentService:160 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | added the Txn expiry booking ::::::::1790678065140 String date :::::::::2026-09-29T16:04:25
+2026-09-29 10:31:25.140 INFO | com.epay.payment.util.IbmbInitiationUtil:67 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createRefId | inside the generateRefId ::::PSE096272NIPVDOMIIGN
+2026-09-29 10:31:25.141 INFO | com.epay.payment.service.IbmbPaymentService:163 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | currentDateTime::: 6272 txnBookingtime :: 2026-09-29T16:01:25+05:30
+Hibernate: 
+    select
+        * 
+    from
+        DEVICE_DETAILS dd 
+    where
+        dd.ORDER_HASH = ?
+2026-09-29 10:31:25.179 INFO | com.epay.payment.service.IbmbPaymentService:241 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=fetchDeviceDetails | :::::: device details :::::::::::::DeviceInfo(id=baf87301-5b56-432a-a767-cfc4a994a4d3, orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=[123, 34, 98, 114, 111, 119, 115, 101, 114, 34, 58, 32, 34, 67, 104, 114, 111, 109, 101, 34, 44, 32, 34, 111, 115, 34, 58, 32, 34, 87, 105, 110, 100, 111, 119, 115, 34, 44, 32, 34, 115, 99, 114, 101, 101, 110, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 115, 99, 114, 101, 101, 110, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 56, 48, 44, 32, 34, 99, 111, 108, 111, 114, 68, 101, 112, 116, 104, 34, 58, 32, 50, 52, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 52, 48, 44, 32, 34, 108, 97, 110, 103, 117, 97, 103, 101, 34, 58, 32, 34, 101, 110, 45, 85, 83, 34, 44, 32, 34, 117, 115, 101, 114, 65, 103, 101, 110, 116, 34, 58, 32, 34, 77, 111, 122, 105, 108, 108, 97, 47, 53, 46, 48, 32, 40, 87, 105, 110, 100, 111, 119, 115, 32, 78, 84, 32, 49, 48, 46, 48, 59, 32, 87, 105, 110, 54, 52, 59, 32, 120, 54, 52, 41, 34, 125], createdDate=1789996319275)
+2026-09-29 10:31:25.180 INFO | com.epay.payment.service.IbmbPaymentService:166 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | deviceDetials ::::::::::::: DeviceInfoDto(orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=DeviceDetailsRequest(clientIp=null, browser=Chrome, os=Windows, screenWidth=1920, screenHeight=1080, colorDepth=24, availableWidth=1920, availableHeight=1040, language=en-US, userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)), createdDate=1789996319275)
+2026-09-29 10:31:25.180 INFO | com.epay.payment.service.IbmbPaymentService:168 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | list of deviceDetails ::::::::::::: [DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]
+2026-09-29 10:31:25.180 INFO | com.epay.payment.service.IbmbPaymentService:172 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | initTxnRequest :::::::::::::::::: InitTxnRequest(initHeadDtls=InitHeadDtls(ver=1.0, ts=2026-09-29T16:01:25+05:30, msgID=PYLWFRKHSSSQGUWWWDNATZWRALK62721601, orgID=PSE09, bankID=BSI04, correlationKey=null), initTxnDtls=InitTxnDtls(refID=PSE096272NIPVDOMIIGN, ts=2026-09-29T16:01:25+05:30, expiry=300, initiationMode=QR), initPaDtls=InitPaDtls(paID=PSE09, paName=SBI ePay, paCreds=PACredential(credType=GSTN, credValue=27ABCDE1234F1Z5), beneficiary=null), initMerchDtls=InitMerchDtls(mcc=3102, mid=PSE09NETSHOP083, mName=DigiNet Solutions, beneficiary=null, returnUrl=ReturnUrl(success=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272NIPVDOMIIGN, failure=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272NIPVDOMIIGN)), initPayerDtls=InitPayerDtls(txnAmount=InitTxnAmount(value=20, curr=INR, amountBreakUp=null), txnDevice=InitTxnDeviceDtls(mobile=919243513674, deviceDtls=[DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]), tPV=[], details=null), initAddInfo=null)
+2026-09-29 10:31:25.180 INFO | com.epay.payment.service.IbmbPaymentService:173 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | Added the changes :::::::::::InitTxnDtls(refID=PSE096272NIPVDOMIIGN, ts=2026-09-29T16:01:25+05:30, expiry=300, initiationMode=QR)
+2026-09-29 10:31:25.181 INFO | com.epay.payment.service.IbmbPaymentService:211 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | retrivedPublicKey :::::: Sun EC public key, 256 bits
+  public x coord: 33628737513116238084051512609718669875547094259773623680362923959868006447911
+  public y coord: 91891631022447504455052932880054523400453355534873378438003156063833079014063
+  parameters: secp256r1 [NIST P-256,X9.62 prime256v1] (1.2.840.10045.3.1.7)
+Inside NBBLEncryptDecryptUtility
+Bouncy Castle Version := BC version 1.8502
+Bouncy Castle Version After removing BC := BC version 1.8502
+Bouncy castle Jar Path := jar:nested:/app/app.jar/!BOOT-INF/lib/bcprov-jdk18on-1.85.2.jar!/
+Bouncy Castle Version after adding BC provider := BC version 1.8502
+Inside NBBLEncryption encData = BKvojjOORGOzbL9nW4yv7UHsQ6ACKwozPA3H55Rip09Iukr/Il35JUwXkonmM4uRYeasm/VxC4lv+fo0k+x9ajWg1RfIfH+k0ft8f6CZHVzS1RexIqEWv/lbB+zvorEbVYUdWJSpvNAdxnqeV22c/y4cDPVj4qu8WzOyhEwUpyvramPMNgOWWJBMbzmDAcxyswTT0PJILxFB+JFPDgMfXI+89DAko67qKFLmvk7MyRqo6d87XkgaODJA3RKOJSd+77stmH7Dc7HEpqlh3LJKdzBg6g2b8MXiDyM5mlJ7v57d25qMYCGQ4jjBpSm0ejwffEPa9XkyXr0lfY7GJ6grPjE0hmuUG37REaHCdWLbjDCfghIxSZvm7VdVzvVw5yfTdNyV+Ll6oFsDajnTHldK3Prka7Kth3EDy27Sg7kFiMHEbq8jZcu5sX5fa6MRTzkpLS/NH+0kkX76W8unymT7MZMMpohXBD+CWE8bDR58oxZ5SRE8faeP6LyGPwBv8/5P/WNOPtroUisMpogmd4vvnn65UuKPuOdWcztQLUwGhW20AXwuq8tqI0T4ZgclYmaQdsHgGwTPZ4BWOB7lr4HZ9BfIwpRHhgMUs3w0Xlf08IQGiXvEexuYg6njP7CP0iagWe9Qu8VJh3JfR28bi64W+40/nzBmGOqqUKZPT6VoX77t2Zx4uGRvjiadBSA5HYh5uEuTKcj05zrb7tygyyUEIXhZSQbb1NXIHz6Jb+hQrvveaed4jfnuZ+gJ4cltiLMqDmT6ny6gb4g1tPWs2tEyBrnuznWbKTGem/hWZr7kDLJlNv9LB5mF5ZGqMbPJnANcBwMZwOHIT2Qy9JC6LRvBginSsHYxdgZWvsYhIlRd1hVlOoVOuxYtePzBSYw+4V49XCg9CXmJppYoK9//iDDfWQcop+Tosn/4Ed9G3qHXuXrLxvGSGaH5td/7D+ATVv7oDEKW+OnIBhQCKNtA0oblEw0CihG7vACoud94HtBnfeznlaowpZLtgE4E5j/ZGr6QIf47SmdfCJ62x7fJj4HE4KIwwog2SZxw1OV1zy5127D5znRzo+IrijLpnv2yBmMDvUEDt7Vk6DjLbZkzQBXIa5DUmM2r/iwux2nhS6tCAMcJI+6e7vHmO7efNT5GK3i0Bur4ZnTMZN5cbVfZ6TMbGBqPeYAf+fJciQ4sH+Y1zdmMyMf9vMmY
+2026-09-29 10:31:25.229 INFO | com.epay.payment.service.IbmbPaymentService:213 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | encodePayload :::::::BKvojjOORGOzbL9nW4yv7UHsQ6ACKwozPA3H55Rip09Iukr/Il35JUwXkonmM4uRYeasm/VxC4lv+fo0k+x9ajWg1RfIfH+k0ft8f6CZHVzS1RexIqEWv/lbB+zvorEbVYUdWJSpvNAdxnqeV22c/y4cDPVj4qu8WzOyhEwUpyvramPMNgOWWJBMbzmDAcxyswTT0PJILxFB+JFPDgMfXI+89DAko67qKFLmvk7MyRqo6d87XkgaODJA3RKOJSd+77stmH7Dc7HEpqlh3LJKdzBg6g2b8MXiDyM5mlJ7v57d25qMYCGQ4jjBpSm0ejwffEPa9XkyXr0lfY7GJ6grPjE0hmuUG37REaHCdWLbjDCfghIxSZvm7VdVzvVw5yfTdNyV+Ll6oFsDajnTHldK3Prka7Kth3EDy27Sg7kFiMHEbq8jZcu5sX5fa6MRTzkpLS/NH+0kkX76W8unymT7MZMMpohXBD+CWE8bDR58oxZ5SRE8faeP6LyGPwBv8/5P/WNOPtroUisMpogmd4vvnn65UuKPuOdWcztQLUwGhW20AXwuq8tqI0T4ZgclYmaQdsHgGwTPZ4BWOB7lr4HZ9BfIwpRHhgMUs3w0Xlf08IQGiXvEexuYg6njP7CP0iagWe9Qu8VJh3JfR28bi64W+40/nzBmGOqqUKZPT6VoX77t2Zx4uGRvjiadBSA5HYh5uEuTKcj05zrb7tygyyUEIXhZSQbb1NXIHz6Jb+hQrvveaed4jfnuZ+gJ4cltiLMqDmT6ny6gb4g1tPWs2tEyBrnuznWbKTGem/hWZr7kDLJlNv9LB5mF5ZGqMbPJnANcBwMZwOHIT2Qy9JC6LRvBginSsHYxdgZWvsYhIlRd1hVlOoVOuxYtePzBSYw+4V49XCg9CXmJppYoK9//iDDfWQcop+Tosn/4Ed9G3qHXuXrLxvGSGaH5td/7D+ATVv7oDEKW+OnIBhQCKNtA0oblEw0CihG7vACoud94HtBnfeznlaowpZLtgE4E5j/ZGr6QIf47SmdfCJ62x7fJj4HE4KIwwog2SZxw1OV1zy5127D5znRzo+IrijLpnv2yBmMDvUEDt7Vk6DjLbZkzQBXIa5DUmM2r/iwux2nhS6tCAMcJI+6e7vHmO7efNT5GK3i0Bur4ZnTMZN5cbVfZ6TMbGBqPeYAf+fJciQ4sH+Y1zdmMyMf9vMmY
+2026-09-29 10:31:25.230 INFO | com.epay.payment.service.IbmbPaymentService:215 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | retrivedSbiPrivateKey::::::::::: sun.security.ec.ECPrivateKeyImpl@1877a9a
+2026-09-29 10:31:25.230 INFO | com.epay.payment.service.IbmbPaymentService:216 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | creationTime ::::::::::: 1790677885140 Txn expiry time :::1790678065140
+2026-09-29 10:31:25.231 INFO | com.epay.payment.service.IbmbPaymentService:221 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | digital singature :::::::::: MEUCIQCtbqvH5wjyvUrHh4bcCsdqPY0eWACj/UcWlDgjQNP2TgIgSUrg9g0eqqIAXB5gNS0OhcXpHZBokFyA5T4tohdcQOo=
+2026-09-29 10:31:25.232 INFO | com.epay.payment.service.IbmbPaymentService:227 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | encodedProtectedData :::::::::: a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3ODg1MTQwIixleHBpcmVzPSIxNzkwNjc4MDY1MTQwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi
+2026-09-29 10:31:25.232 INFO | com.epay.payment.service.IbmbPaymentService:232 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | signatureRequest :::::::::: SignatureRequest(payload=BKvojjOORGOzbL9nW4yv7UHsQ6ACKwozPA3H55Rip09Iukr/Il35JUwXkonmM4uRYeasm/VxC4lv+fo0k+x9ajWg1RfIfH+k0ft8f6CZHVzS1RexIqEWv/lbB+zvorEbVYUdWJSpvNAdxnqeV22c/y4cDPVj4qu8WzOyhEwUpyvramPMNgOWWJBMbzmDAcxyswTT0PJILxFB+JFPDgMfXI+89DAko67qKFLmvk7MyRqo6d87XkgaODJA3RKOJSd+77stmH7Dc7HEpqlh3LJKdzBg6g2b8MXiDyM5mlJ7v57d25qMYCGQ4jjBpSm0ejwffEPa9XkyXr0lfY7GJ6grPjE0hmuUG37REaHCdWLbjDCfghIxSZvm7VdVzvVw5yfTdNyV+Ll6oFsDajnTHldK3Prka7Kth3EDy27Sg7kFiMHEbq8jZcu5sX5fa6MRTzkpLS/NH+0kkX76W8unymT7MZMMpohXBD+CWE8bDR58oxZ5SRE8faeP6LyGPwBv8/5P/WNOPtroUisMpogmd4vvnn65UuKPuOdWcztQLUwGhW20AXwuq8tqI0T4ZgclYmaQdsHgGwTPZ4BWOB7lr4HZ9BfIwpRHhgMUs3w0Xlf08IQGiXvEexuYg6njP7CP0iagWe9Qu8VJh3JfR28bi64W+40/nzBmGOqqUKZPT6VoX77t2Zx4uGRvjiadBSA5HYh5uEuTKcj05zrb7tygyyUEIXhZSQbb1NXIHz6Jb+hQrvveaed4jfnuZ+gJ4cltiLMqDmT6ny6gb4g1tPWs2tEyBrnuznWbKTGem/hWZr7kDLJlNv9LB5mF5ZGqMbPJnANcBwMZwOHIT2Qy9JC6LRvBginSsHYxdgZWvsYhIlRd1hVlOoVOuxYtePzBSYw+4V49XCg9CXmJppYoK9//iDDfWQcop+Tosn/4Ed9G3qHXuXrLxvGSGaH5td/7D+ATVv7oDEKW+OnIBhQCKNtA0oblEw0CihG7vACoud94HtBnfeznlaowpZLtgE4E5j/ZGr6QIf47SmdfCJ62x7fJj4HE4KIwwog2SZxw1OV1zy5127D5znRzo+IrijLpnv2yBmMDvUEDt7Vk6DjLbZkzQBXIa5DUmM2r/iwux2nhS6tCAMcJI+6e7vHmO7efNT5GK3i0Bur4ZnTMZN5cbVfZ6TMbGBqPeYAf+fJciQ4sH+Y1zdmMyMf9vMmY, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3ODg1MTQwIixleHBpcmVzPSIxNzkwNjc4MDY1MTQwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEUCIQCtbqvH5wjyvUrHh4bcCsdqPY0eWACj/UcWlDgjQNP2TgIgSUrg9g0eqqIAXB5gNS0OhcXpHZBokFyA5T4tohdcQOo=))
+2026-09-29 10:31:25.232 INFO | com.epay.payment.service.IbmbPaymentService:233 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createdDigiSignatureData | singature procteddd:::::::::::SignatureRequest(payload=BKvojjOORGOzbL9nW4yv7UHsQ6ACKwozPA3H55Rip09Iukr/Il35JUwXkonmM4uRYeasm/VxC4lv+fo0k+x9ajWg1RfIfH+k0ft8f6CZHVzS1RexIqEWv/lbB+zvorEbVYUdWJSpvNAdxnqeV22c/y4cDPVj4qu8WzOyhEwUpyvramPMNgOWWJBMbzmDAcxyswTT0PJILxFB+JFPDgMfXI+89DAko67qKFLmvk7MyRqo6d87XkgaODJA3RKOJSd+77stmH7Dc7HEpqlh3LJKdzBg6g2b8MXiDyM5mlJ7v57d25qMYCGQ4jjBpSm0ejwffEPa9XkyXr0lfY7GJ6grPjE0hmuUG37REaHCdWLbjDCfghIxSZvm7VdVzvVw5yfTdNyV+Ll6oFsDajnTHldK3Prka7Kth3EDy27Sg7kFiMHEbq8jZcu5sX5fa6MRTzkpLS/NH+0kkX76W8unymT7MZMMpohXBD+CWE8bDR58oxZ5SRE8faeP6LyGPwBv8/5P/WNOPtroUisMpogmd4vvnn65UuKPuOdWcztQLUwGhW20AXwuq8tqI0T4ZgclYmaQdsHgGwTPZ4BWOB7lr4HZ9BfIwpRHhgMUs3w0Xlf08IQGiXvEexuYg6njP7CP0iagWe9Qu8VJh3JfR28bi64W+40/nzBmGOqqUKZPT6VoX77t2Zx4uGRvjiadBSA5HYh5uEuTKcj05zrb7tygyyUEIXhZSQbb1NXIHz6Jb+hQrvveaed4jfnuZ+gJ4cltiLMqDmT6ny6gb4g1tPWs2tEyBrnuznWbKTGem/hWZr7kDLJlNv9LB5mF5ZGqMbPJnANcBwMZwOHIT2Qy9JC6LRvBginSsHYxdgZWvsYhIlRd1hVlOoVOuxYtePzBSYw+4V49XCg9CXmJppYoK9//iDDfWQcop+Tosn/4Ed9G3qHXuXrLxvGSGaH5td/7D+ATVv7oDEKW+OnIBhQCKNtA0oblEw0CihG7vACoud94HtBnfeznlaowpZLtgE4E5j/ZGr6QIf47SmdfCJ62x7fJj4HE4KIwwog2SZxw1OV1zy5127D5znRzo+IrijLpnv2yBmMDvUEDt7Vk6DjLbZkzQBXIa5DUmM2r/iwux2nhS6tCAMcJI+6e7vHmO7efNT5GK3i0Bur4ZnTMZN5cbVfZ6TMbGBqPeYAf+fJciQ4sH+Y1zdmMyMf9vMmY, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3ODg1MTQwIixleHBpcmVzPSIxNzkwNjc4MDY1MTQwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEUCIQCtbqvH5wjyvUrHh4bcCsdqPY0eWACj/UcWlDgjQNP2TgIgSUrg9g0eqqIAXB5gNS0OhcXpHZBokFyA5T4tohdcQOo=))
+2026-09-29 10:31:25.232 INFO | com.epay.payment.service.IbmbPaymentService:177 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | finalInitTxnSignatureToString ::::::::::::::::{"payload":"BKvojjOORGOzbL9nW4yv7UHsQ6ACKwozPA3H55Rip09Iukr/Il35JUwXkonmM4uRYeasm/VxC4lv+fo0k+x9ajWg1RfIfH+k0ft8f6CZHVzS1RexIqEWv/lbB+zvorEbVYUdWJSpvNAdxnqeV22c/y4cDPVj4qu8WzOyhEwUpyvramPMNgOWWJBMbzmDAcxyswTT0PJILxFB+JFPDgMfXI+89DAko67qKFLmvk7MyRqo6d87XkgaODJA3RKOJSd+77stmH7Dc7HEpqlh3LJKdzBg6g2b8MXiDyM5mlJ7v57d25qMYCGQ4jjBpSm0ejwffEPa9XkyXr0lfY7GJ6grPjE0hmuUG37REaHCdWLbjDCfghIxSZvm7VdVzvVw5yfTdNyV+Ll6oFsDajnTHldK3Prka7Kth3EDy27Sg7kFiMHEbq8jZcu5sX5fa6MRTzkpLS/NH+0kkX76W8unymT7MZMMpohXBD+CWE8bDR58oxZ5SRE8faeP6LyGPwBv8/5P/WNOPtroUisMpogmd4vvnn65UuKPuOdWcztQLUwGhW20AXwuq8tqI0T4ZgclYmaQdsHgGwTPZ4BWOB7lr4HZ9BfIwpRHhgMUs3w0Xlf08IQGiXvEexuYg6njP7CP0iagWe9Qu8VJh3JfR28bi64W+40/nzBmGOqqUKZPT6VoX77t2Zx4uGRvjiadBSA5HYh5uEuTKcj05zrb7tygyyUEIXhZSQbb1NXIHz6Jb+hQrvveaed4jfnuZ+gJ4cltiLMqDmT6ny6gb4g1tPWs2tEyBrnuznWbKTGem/hWZr7kDLJlNv9LB5mF5ZGqMbPJnANcBwMZwOHIT2Qy9JC6LRvBginSsHYxdgZWvsYhIlRd1hVlOoVOuxYtePzBSYw+4V49XCg9CXmJppYoK9//iDDfWQcop+Tosn/4Ed9G3qHXuXrLxvGSGaH5td/7D+ATVv7oDEKW+OnIBhQCKNtA0oblEw0CihG7vACoud94HtBnfeznlaowpZLtgE4E5j/ZGr6QIf47SmdfCJ62x7fJj4HE4KIwwog2SZxw1OV1zy5127D5znRzo+IrijLpnv2yBmMDvUEDt7Vk6DjLbZkzQBXIa5DUmM2r/iwux2nhS6tCAMcJI+6e7vHmO7efNT5GK3i0Bur4ZnTMZN5cbVfZ6TMbGBqPeYAf+fJciQ4sH+Y1zdmMyMf9vMmY","signature":{"signature":"MEUCIQCtbqvH5wjyvUrHh4bcCsdqPY0eWACj/UcWlDgjQNP2TgIgSUrg9g0eqqIAXB5gNS0OhcXpHZBokFyA5T4tohdcQOo=","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3ODg1MTQwIixleHBpcmVzPSIxNzkwNjc4MDY1MTQwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
+2026-09-29 10:31:25.232 INFO | com.epay.payment.client.IbmbWebClient:77 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=post | Calling uri: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NIPVDOMIIGN
+2026-09-29 10:31:25.465 INFO | com.epay.payment.service.IbmbPaymentService:179 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | response:::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272NIPVDOMIIGN","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:25.436249500Z"}
+2026-09-29 10:31:25.465 INFO | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | Response from IBMB :::::::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272NIPVDOMIIGN","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:25.436249500Z"}
+Hibernate: 
+    insert 
+    into
+        ibmb_txn_payload
+        (api_type, atrn_num, error_code, error_message, merchant_id, order_ref_number, payload_type, ref_id, sbi_order_ref_number, id, req_txn, resp_txn) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-29 10:31:25.477 WARN | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | SQL Error: 904, SQLState: 42000
+2026-09-29 10:31:25.477 ERROR | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=createNbblInitTxnReq | ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/
+2026-09-29 10:31:25.481 ERROR | com.epay.payment.exceptionhandlers.PaymentExceptionHandler:212 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=457d15ce-3057-4793-b628-f4b4e26ed770 | methodName=handleGenericException | Error in handleGenericException could not execute statement [ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/] [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)] 
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:32 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Incoming request headers:
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: host = dev.epay.sbi
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-type = application/json
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: user-agent = PostmanRuntime/7.29.2
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept = */*
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: postman-token = 401596b4-c23c-42f1-a181-3bc6ab2cfccb
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: accept-encoding = gzip, deflate, br
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: content-length = 164
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-host = dev.epay.sbi
+2026-09-29 10:31:43.587 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-port = 443
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-proto = http
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: forwarded = for=10.177.142.145;host=dev.epay.sbi;proto=https
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-external-address = 172.16.6.2
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-request-id = fbf90c98-faee-4fd4-bcdf-453cd5a50f1c
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-envoy-attempt-count = 1
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:34 | principal=  | scenario= | operation= | correlation= | methodName=lambda$doFilter$0 | Header: x-forwarded-client-cert = By=spiffe://cluster.local/ns/dev-transaction/sa/default;Hash=c9ab78f592cccb89f1d206af7e4568cf7e5f707960b5575387f636b4b38ecae9;Subject="";URI=spiffe://cluster.local/ns/dev-istio-system/sa/default
+2026-09-29 10:31:43.588 INFO | com.epay.payment.filter.CorrelationIdFilter:40 | principal=  | scenario= | operation= | correlation= | methodName=doFilter | Correlation ID not found, generated new: 00aaa013-b433-4f8a-9417-01ba37e27e01
+2026-09-29 10:31:43.591 INFO | com.epay.payment.service.IbmbPaymentService:68 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=sendInitTxnRequest | ::::::::::::::::::::: handleNBBL Txn Response:::::::::::::::::::::
+Hibernate: 
+    select
+        mop1_0.atrn_num,
+        mop1_0.available_refund_amount,
+        mop1_0.bank_reference_number,
+        mop1_0.cancellation_status,
+        mop1_0.channel_bank,
+        mop1_0.chargeback_amount,
+        mop1_0.chargeback_status,
+        mop1_0.cin,
+        mop1_0.created_by,
+        mop1_0.created_date,
+        mop1_0.currency_code,
+        mop1_0.debit_amt,
+        mop1_0.fail_reason,
+        mop1_0.gtw_issue_mecode,
+        mop1_0.gst_in,
+        mop1_0.gtw_map_id,
+        mop1_0.merchant_id,
+        mop1_0.order_amount,
+        mop1_0.order_ref_number,
+        mop1_0.pay_mode,
+        mop1_0.pay_proc_id,
+        mop1_0.payment_status,
+        mop1_0.payment_success_date,
+        mop1_0.pay_proc_type,
+        mop1_0.pooling_status,
+        mop1_0.push_response,
+        mop1_0.push_status,
+        mop1_0.refund_status,
+        mop1_0.sbi_order_ref_number,
+        mop1_0.settlement_status,
+        mop1_0.transaction_status,
+        mop1_0.updated_by,
+        mop1_0.updated_date 
+    from
+        merchant_order_payments mop1_0 
+    where
+        mop1_0.atrn_num=? 
+        and mop1_0.transaction_status=?
+2026-09-29 10:31:43.604 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:50 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call NBBL    ::  1000625 274
+2026-09-29 10:31:43.605 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:54 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call  Json request  NBBL ::  {"mId":"1000625","aggGtwMapId":"274"}
+2026-09-29 10:31:43.605 INFO | com.epay.payment.externalservice.IbmbAdminConfigDetailsClientService:59 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=getGatewayConfigDetails | getGatewayConfigDetails() -for Admin service call URL NBBL   ::  http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/gateway  
+Hibernate: 
+    Select
+        * 
+    from
+        MERCHANT_ORDERS 
+    where
+        MERCHANT_ID=?  
+        and SBI_ORDER_REF_NUMBER=?
+2026-09-29 10:31:43.637 INFO | com.epay.payment.externalservice.AdminServicesClient:46 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=getMerchantPayModeInfo | Fetching pay mode info for mId: 1000625
+2026-09-29 10:31:43.637 INFO | com.epay.payment.client.APIClient:94 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=post | Calling uri: http://admin-adminservice.dev-admin.svc.cluster.local:9094/api/admin/v1/merchant/payMode/1000625
+2026-09-29 10:31:43.688 INFO | com.epay.payment.service.IbmbPaymentService:87 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=sendInitTxnRequest | ibmbBankId ::::::: BSI04  TPV details ::::::::: Y
+2026-09-29 10:31:43.688 INFO | com.epay.payment.service.IbmbPaymentService:143 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | ::::::::::::::: inside the createNbblInitTxnReq :::::::::::::::
+2026-09-29 10:31:43.689 INFO | com.epay.payment.util.IbmbInitiationUtil:44 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=fetchLFDOfCurrentDateTime | inside the createdJulianDate ::::6272
+2026-09-29 10:31:43.689 INFO | com.epay.payment.service.IbmbPaymentService:154 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | current Booking time ::::::2026-09-29T16:01:43+05:30 Epoch ::::::1790677903689
+2026-09-29 10:31:43.689 INFO | com.epay.payment.service.IbmbPaymentService:160 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | added the Txn expiry booking ::::::::1790678083689 String date :::::::::2026-09-29T16:04:43
+2026-09-29 10:31:43.689 INFO | com.epay.payment.util.IbmbInitiationUtil:67 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createRefId | inside the generateRefId ::::PSE096272AJQINVEFNGF
+2026-09-29 10:31:43.690 INFO | com.epay.payment.service.IbmbPaymentService:163 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | currentDateTime::: 6272 txnBookingtime :: 2026-09-29T16:01:43+05:30
+Hibernate: 
+    select
+        * 
+    from
+        DEVICE_DETAILS dd 
+    where
+        dd.ORDER_HASH = ?
+2026-09-29 10:31:43.728 INFO | com.epay.payment.service.IbmbPaymentService:241 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=fetchDeviceDetails | :::::: device details :::::::::::::DeviceInfo(id=baf87301-5b56-432a-a767-cfc4a994a4d3, orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=[123, 34, 98, 114, 111, 119, 115, 101, 114, 34, 58, 32, 34, 67, 104, 114, 111, 109, 101, 34, 44, 32, 34, 111, 115, 34, 58, 32, 34, 87, 105, 110, 100, 111, 119, 115, 34, 44, 32, 34, 115, 99, 114, 101, 101, 110, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 115, 99, 114, 101, 101, 110, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 56, 48, 44, 32, 34, 99, 111, 108, 111, 114, 68, 101, 112, 116, 104, 34, 58, 32, 50, 52, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 87, 105, 100, 116, 104, 34, 58, 32, 49, 57, 50, 48, 44, 32, 34, 97, 118, 97, 105, 108, 97, 98, 108, 101, 72, 101, 105, 103, 104, 116, 34, 58, 32, 49, 48, 52, 48, 44, 32, 34, 108, 97, 110, 103, 117, 97, 103, 101, 34, 58, 32, 34, 101, 110, 45, 85, 83, 34, 44, 32, 34, 117, 115, 101, 114, 65, 103, 101, 110, 116, 34, 58, 32, 34, 77, 111, 122, 105, 108, 108, 97, 47, 53, 46, 48, 32, 40, 87, 105, 110, 100, 111, 119, 115, 32, 78, 84, 32, 49, 48, 46, 48, 59, 32, 87, 105, 110, 54, 52, 59, 32, 120, 54, 52, 41, 34, 125], createdDate=1789996319275)
+2026-09-29 10:31:43.729 INFO | com.epay.payment.service.IbmbPaymentService:166 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | deviceDetials ::::::::::::: DeviceInfoDto(orderHash=2gOkzJ8BKFRfGMrrf7v086u8lB3gVXdHAS5LoKK5TZR3yxgJCEqaUVREaazwoOE0TrFb5jRyMWGHSug, clientIp=10.30.64.126, deviceDetails=DeviceDetailsRequest(clientIp=null, browser=Chrome, os=Windows, screenWidth=1920, screenHeight=1080, colorDepth=24, availableWidth=1920, availableHeight=1040, language=en-US, userAgent=Mozilla/5.0 (Windows NT 10.0; Win64; x64)), createdDate=1789996319275)
+2026-09-29 10:31:43.729 INFO | com.epay.payment.service.IbmbPaymentService:168 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | list of deviceDetails ::::::::::::: [DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]
+2026-09-29 10:31:43.729 INFO | com.epay.payment.service.IbmbPaymentService:172 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | initTxnRequest :::::::::::::::::: InitTxnRequest(initHeadDtls=InitHeadDtls(ver=1.0, ts=2026-09-29T16:01:43+05:30, msgID=YNKUMMVLOCNCCOXPHYSCICZYZHV62721601, orgID=PSE09, bankID=BSI04, correlationKey=null), initTxnDtls=InitTxnDtls(refID=PSE096272AJQINVEFNGF, ts=2026-09-29T16:01:43+05:30, expiry=300, initiationMode=QR), initPaDtls=InitPaDtls(paID=PSE09, paName=SBI ePay, paCreds=PACredential(credType=GSTN, credValue=27ABCDE1234F1Z5), beneficiary=null), initMerchDtls=InitMerchDtls(mcc=3102, mid=PSE09NETSHOP083, mName=DigiNet Solutions, beneficiary=null, returnUrl=ReturnUrl(success=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272AJQINVEFNGF, failure=https://dev.epay.sbi/api/payments/v1/sbi/nbbl/callback?refID=PSE096272AJQINVEFNGF)), initPayerDtls=InitPayerDtls(txnAmount=InitTxnAmount(value=20, curr=INR, amountBreakUp=null), txnDevice=InitTxnDeviceDtls(mobile=919243513674, deviceDtls=[DeviceDtls(name=IP, value=10.30.64.126), DeviceDtls(name=BROWSER, value=Chrome)]), tPV=[], details=null), initAddInfo=null)
+2026-09-29 10:31:43.729 INFO | com.epay.payment.service.IbmbPaymentService:173 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | Added the changes :::::::::::InitTxnDtls(refID=PSE096272AJQINVEFNGF, ts=2026-09-29T16:01:43+05:30, expiry=300, initiationMode=QR)
+2026-09-29 10:31:43.730 INFO | com.epay.payment.service.IbmbPaymentService:211 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | retrivedPublicKey :::::: Sun EC public key, 256 bits
+  public x coord: 33628737513116238084051512609718669875547094259773623680362923959868006447911
+  public y coord: 91891631022447504455052932880054523400453355534873378438003156063833079014063
+  parameters: secp256r1 [NIST P-256,X9.62 prime256v1] (1.2.840.10045.3.1.7)
+Inside NBBLEncryptDecryptUtility
+Bouncy Castle Version := BC version 1.8502
+Bouncy Castle Version After removing BC := BC version 1.8502
+Bouncy castle Jar Path := jar:nested:/app/app.jar/!BOOT-INF/lib/bcprov-jdk18on-1.85.2.jar!/
+Bouncy Castle Version after adding BC provider := BC version 1.8502
+Inside NBBLEncryption encData = BMHBL+6qvBeJRHM9UULDPAqatBNeK4XLEW73+5zdZT8wOEC2Vh2LJtMEjYa/DsDibh7rYFhIQ43FYh6Qm+cNZuOwCIIruw+6OXl2b4aoUUKLlhL/rRXcGqDBGN2hKbQPyHMC74WmYZXktbZJ2hPrjErCy2a2Uv7qFG/uZxF4FRGGD7dU1//uBE8Jp6IdCOB2Ii625v94WiaVzyfSnvv55BWWOFUh885eYCxzm6EBprtWSRoiTolAysr7uvChRSUItFIrBreb/c1kmD9JoRxAiXrUdv1KPpdAb+dqM698jrCGFAPGvYW7CNwCUtlkY3wQ80WVAMrCn+xbOaMP0/VEV6xqdR3YE2Ekoqpp/HeSR2ukm3rFg5dyKgitmErIKxxg7QrXoNnQzii/nuSlbQnwa3rtya9SyVuGJRxX9/tpyUM3ezi+VvvFERE0GFYUOGLDEdIdxkbW7Q8UtXZlDUidXi6MZBc54sSWbGlLXiX7ke9XYaH58JEnJVJv/vEI/xNfs4aOIMiJiSQrFaYNlnX29KBLC1MA4mnNOf/7b1UeaOZI3TcIv3JVT3Ta5VPZcYppi7hSrnC23AJA8Aia7fr1uO3LMnBCTLGzyw1cfvcuQNie0GiLYrqOcZrQkjW3Hf9Ieo4N1q2FRtoFt8dkjqM33sdoFculBv54PLtP7dGP2i3ARZo1g84FysRVzfALXX1COU+BxCMbuJPcLQzgp/ZfmrJ5l1fUUc7votJc4GkbJ/4UMh/2QU179S2xP6KrfAMrEUCkyqaPI2E7pReO4kJYZfNduog6R9G/sB3xFAuMDd8t+YDIighjXLSIq19zZoxBNz1pGXsoZRa/b0BsrCqbN5IyHZz9ARbGuvzK5013fTDGr1pwdbrvZ2bXQE+0LiHIMEJ2O3/fyxbiXZOAorKvZzHr9NuH2sOaNHKTPiOXXZLYjLlIU2UzaD1hlgaDj9bBLf/BcviR1mIUnHCtW9w1aUkU5s1/CherkOfsTaVdcPjudlzTz54rFmp+0xeDdTX+7yGEltLIuH/BsSa78qsNymsVCj7rPX0tVMz64rMCf0x95s7PveZPtSg/F4OLcg0Mp015khYgN1XlCSv9rTuVldOLL7WAFbgNSTVrnd5hAOdknGqw0p61tTo0EL+XUc7zyGlI0k+fNS4nb6EBequIb9mOfQBMqq1pSNX3XUdSxC0uFmOVkj0u
+2026-09-29 10:31:43.795 INFO | com.epay.payment.service.IbmbPaymentService:213 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | encodePayload :::::::BMHBL+6qvBeJRHM9UULDPAqatBNeK4XLEW73+5zdZT8wOEC2Vh2LJtMEjYa/DsDibh7rYFhIQ43FYh6Qm+cNZuOwCIIruw+6OXl2b4aoUUKLlhL/rRXcGqDBGN2hKbQPyHMC74WmYZXktbZJ2hPrjErCy2a2Uv7qFG/uZxF4FRGGD7dU1//uBE8Jp6IdCOB2Ii625v94WiaVzyfSnvv55BWWOFUh885eYCxzm6EBprtWSRoiTolAysr7uvChRSUItFIrBreb/c1kmD9JoRxAiXrUdv1KPpdAb+dqM698jrCGFAPGvYW7CNwCUtlkY3wQ80WVAMrCn+xbOaMP0/VEV6xqdR3YE2Ekoqpp/HeSR2ukm3rFg5dyKgitmErIKxxg7QrXoNnQzii/nuSlbQnwa3rtya9SyVuGJRxX9/tpyUM3ezi+VvvFERE0GFYUOGLDEdIdxkbW7Q8UtXZlDUidXi6MZBc54sSWbGlLXiX7ke9XYaH58JEnJVJv/vEI/xNfs4aOIMiJiSQrFaYNlnX29KBLC1MA4mnNOf/7b1UeaOZI3TcIv3JVT3Ta5VPZcYppi7hSrnC23AJA8Aia7fr1uO3LMnBCTLGzyw1cfvcuQNie0GiLYrqOcZrQkjW3Hf9Ieo4N1q2FRtoFt8dkjqM33sdoFculBv54PLtP7dGP2i3ARZo1g84FysRVzfALXX1COU+BxCMbuJPcLQzgp/ZfmrJ5l1fUUc7votJc4GkbJ/4UMh/2QU179S2xP6KrfAMrEUCkyqaPI2E7pReO4kJYZfNduog6R9G/sB3xFAuMDd8t+YDIighjXLSIq19zZoxBNz1pGXsoZRa/b0BsrCqbN5IyHZz9ARbGuvzK5013fTDGr1pwdbrvZ2bXQE+0LiHIMEJ2O3/fyxbiXZOAorKvZzHr9NuH2sOaNHKTPiOXXZLYjLlIU2UzaD1hlgaDj9bBLf/BcviR1mIUnHCtW9w1aUkU5s1/CherkOfsTaVdcPjudlzTz54rFmp+0xeDdTX+7yGEltLIuH/BsSa78qsNymsVCj7rPX0tVMz64rMCf0x95s7PveZPtSg/F4OLcg0Mp015khYgN1XlCSv9rTuVldOLL7WAFbgNSTVrnd5hAOdknGqw0p61tTo0EL+XUc7zyGlI0k+fNS4nb6EBequIb9mOfQBMqq1pSNX3XUdSxC0uFmOVkj0u
+2026-09-29 10:31:43.796 INFO | com.epay.payment.service.IbmbPaymentService:215 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | retrivedSbiPrivateKey::::::::::: sun.security.ec.ECPrivateKeyImpl@1877a9a
+2026-09-29 10:31:43.796 INFO | com.epay.payment.service.IbmbPaymentService:216 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | creationTime ::::::::::: 1790677903689 Txn expiry time :::1790678083689
+2026-09-29 10:31:43.798 INFO | com.epay.payment.service.IbmbPaymentService:221 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | digital singature :::::::::: MEUCIGleGrIJ23Ma45HNLIjs6bhwkKUzkk2OU3AfEBGULQFNAiEAzk9vGBLBdpPcTSLNrm7wTRxY6j6haLt7S7OjuumNRas=
+2026-09-29 10:31:43.798 INFO | com.epay.payment.service.IbmbPaymentService:227 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | encodedProtectedData :::::::::: a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3OTAzNjg5IixleHBpcmVzPSIxNzkwNjc4MDgzNjg5IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi
+2026-09-29 10:31:43.798 INFO | com.epay.payment.service.IbmbPaymentService:232 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | signatureRequest :::::::::: SignatureRequest(payload=BMHBL+6qvBeJRHM9UULDPAqatBNeK4XLEW73+5zdZT8wOEC2Vh2LJtMEjYa/DsDibh7rYFhIQ43FYh6Qm+cNZuOwCIIruw+6OXl2b4aoUUKLlhL/rRXcGqDBGN2hKbQPyHMC74WmYZXktbZJ2hPrjErCy2a2Uv7qFG/uZxF4FRGGD7dU1//uBE8Jp6IdCOB2Ii625v94WiaVzyfSnvv55BWWOFUh885eYCxzm6EBprtWSRoiTolAysr7uvChRSUItFIrBreb/c1kmD9JoRxAiXrUdv1KPpdAb+dqM698jrCGFAPGvYW7CNwCUtlkY3wQ80WVAMrCn+xbOaMP0/VEV6xqdR3YE2Ekoqpp/HeSR2ukm3rFg5dyKgitmErIKxxg7QrXoNnQzii/nuSlbQnwa3rtya9SyVuGJRxX9/tpyUM3ezi+VvvFERE0GFYUOGLDEdIdxkbW7Q8UtXZlDUidXi6MZBc54sSWbGlLXiX7ke9XYaH58JEnJVJv/vEI/xNfs4aOIMiJiSQrFaYNlnX29KBLC1MA4mnNOf/7b1UeaOZI3TcIv3JVT3Ta5VPZcYppi7hSrnC23AJA8Aia7fr1uO3LMnBCTLGzyw1cfvcuQNie0GiLYrqOcZrQkjW3Hf9Ieo4N1q2FRtoFt8dkjqM33sdoFculBv54PLtP7dGP2i3ARZo1g84FysRVzfALXX1COU+BxCMbuJPcLQzgp/ZfmrJ5l1fUUc7votJc4GkbJ/4UMh/2QU179S2xP6KrfAMrEUCkyqaPI2E7pReO4kJYZfNduog6R9G/sB3xFAuMDd8t+YDIighjXLSIq19zZoxBNz1pGXsoZRa/b0BsrCqbN5IyHZz9ARbGuvzK5013fTDGr1pwdbrvZ2bXQE+0LiHIMEJ2O3/fyxbiXZOAorKvZzHr9NuH2sOaNHKTPiOXXZLYjLlIU2UzaD1hlgaDj9bBLf/BcviR1mIUnHCtW9w1aUkU5s1/CherkOfsTaVdcPjudlzTz54rFmp+0xeDdTX+7yGEltLIuH/BsSa78qsNymsVCj7rPX0tVMz64rMCf0x95s7PveZPtSg/F4OLcg0Mp015khYgN1XlCSv9rTuVldOLL7WAFbgNSTVrnd5hAOdknGqw0p61tTo0EL+XUc7zyGlI0k+fNS4nb6EBequIb9mOfQBMqq1pSNX3XUdSxC0uFmOVkj0u, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3OTAzNjg5IixleHBpcmVzPSIxNzkwNjc4MDgzNjg5IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEUCIGleGrIJ23Ma45HNLIjs6bhwkKUzkk2OU3AfEBGULQFNAiEAzk9vGBLBdpPcTSLNrm7wTRxY6j6haLt7S7OjuumNRas=))
+2026-09-29 10:31:43.798 INFO | com.epay.payment.service.IbmbPaymentService:233 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createdDigiSignatureData | singature procteddd:::::::::::SignatureRequest(payload=BMHBL+6qvBeJRHM9UULDPAqatBNeK4XLEW73+5zdZT8wOEC2Vh2LJtMEjYa/DsDibh7rYFhIQ43FYh6Qm+cNZuOwCIIruw+6OXl2b4aoUUKLlhL/rRXcGqDBGN2hKbQPyHMC74WmYZXktbZJ2hPrjErCy2a2Uv7qFG/uZxF4FRGGD7dU1//uBE8Jp6IdCOB2Ii625v94WiaVzyfSnvv55BWWOFUh885eYCxzm6EBprtWSRoiTolAysr7uvChRSUItFIrBreb/c1kmD9JoRxAiXrUdv1KPpdAb+dqM698jrCGFAPGvYW7CNwCUtlkY3wQ80WVAMrCn+xbOaMP0/VEV6xqdR3YE2Ekoqpp/HeSR2ukm3rFg5dyKgitmErIKxxg7QrXoNnQzii/nuSlbQnwa3rtya9SyVuGJRxX9/tpyUM3ezi+VvvFERE0GFYUOGLDEdIdxkbW7Q8UtXZlDUidXi6MZBc54sSWbGlLXiX7ke9XYaH58JEnJVJv/vEI/xNfs4aOIMiJiSQrFaYNlnX29KBLC1MA4mnNOf/7b1UeaOZI3TcIv3JVT3Ta5VPZcYppi7hSrnC23AJA8Aia7fr1uO3LMnBCTLGzyw1cfvcuQNie0GiLYrqOcZrQkjW3Hf9Ieo4N1q2FRtoFt8dkjqM33sdoFculBv54PLtP7dGP2i3ARZo1g84FysRVzfALXX1COU+BxCMbuJPcLQzgp/ZfmrJ5l1fUUc7votJc4GkbJ/4UMh/2QU179S2xP6KrfAMrEUCkyqaPI2E7pReO4kJYZfNduog6R9G/sB3xFAuMDd8t+YDIighjXLSIq19zZoxBNz1pGXsoZRa/b0BsrCqbN5IyHZz9ARbGuvzK5013fTDGr1pwdbrvZ2bXQE+0LiHIMEJ2O3/fyxbiXZOAorKvZzHr9NuH2sOaNHKTPiOXXZLYjLlIU2UzaD1hlgaDj9bBLf/BcviR1mIUnHCtW9w1aUkU5s1/CherkOfsTaVdcPjudlzTz54rFmp+0xeDdTX+7yGEltLIuH/BsSa78qsNymsVCj7rPX0tVMz64rMCf0x95s7PveZPtSg/F4OLcg0Mp015khYgN1XlCSv9rTuVldOLL7WAFbgNSTVrnd5hAOdknGqw0p61tTo0EL+XUc7zyGlI0k+fNS4nb6EBequIb9mOfQBMqq1pSNX3XUdSxC0uFmOVkj0u, signature=Signature(signProtected=a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3OTAzNjg5IixleHBpcmVzPSIxNzkwNjc4MDgzNjg5IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi, signature=MEUCIGleGrIJ23Ma45HNLIjs6bhwkKUzkk2OU3AfEBGULQFNAiEAzk9vGBLBdpPcTSLNrm7wTRxY6j6haLt7S7OjuumNRas=))
+2026-09-29 10:31:43.798 INFO | com.epay.payment.service.IbmbPaymentService:177 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | finalInitTxnSignatureToString ::::::::::::::::{"payload":"BMHBL+6qvBeJRHM9UULDPAqatBNeK4XLEW73+5zdZT8wOEC2Vh2LJtMEjYa/DsDibh7rYFhIQ43FYh6Qm+cNZuOwCIIruw+6OXl2b4aoUUKLlhL/rRXcGqDBGN2hKbQPyHMC74WmYZXktbZJ2hPrjErCy2a2Uv7qFG/uZxF4FRGGD7dU1//uBE8Jp6IdCOB2Ii625v94WiaVzyfSnvv55BWWOFUh885eYCxzm6EBprtWSRoiTolAysr7uvChRSUItFIrBreb/c1kmD9JoRxAiXrUdv1KPpdAb+dqM698jrCGFAPGvYW7CNwCUtlkY3wQ80WVAMrCn+xbOaMP0/VEV6xqdR3YE2Ekoqpp/HeSR2ukm3rFg5dyKgitmErIKxxg7QrXoNnQzii/nuSlbQnwa3rtya9SyVuGJRxX9/tpyUM3ezi+VvvFERE0GFYUOGLDEdIdxkbW7Q8UtXZlDUidXi6MZBc54sSWbGlLXiX7ke9XYaH58JEnJVJv/vEI/xNfs4aOIMiJiSQrFaYNlnX29KBLC1MA4mnNOf/7b1UeaOZI3TcIv3JVT3Ta5VPZcYppi7hSrnC23AJA8Aia7fr1uO3LMnBCTLGzyw1cfvcuQNie0GiLYrqOcZrQkjW3Hf9Ieo4N1q2FRtoFt8dkjqM33sdoFculBv54PLtP7dGP2i3ARZo1g84FysRVzfALXX1COU+BxCMbuJPcLQzgp/ZfmrJ5l1fUUc7votJc4GkbJ/4UMh/2QU179S2xP6KrfAMrEUCkyqaPI2E7pReO4kJYZfNduog6R9G/sB3xFAuMDd8t+YDIighjXLSIq19zZoxBNz1pGXsoZRa/b0BsrCqbN5IyHZz9ARbGuvzK5013fTDGr1pwdbrvZ2bXQE+0LiHIMEJ2O3/fyxbiXZOAorKvZzHr9NuH2sOaNHKTPiOXXZLYjLlIU2UzaD1hlgaDj9bBLf/BcviR1mIUnHCtW9w1aUkU5s1/CherkOfsTaVdcPjudlzTz54rFmp+0xeDdTX+7yGEltLIuH/BsSa78qsNymsVCj7rPX0tVMz64rMCf0x95s7PveZPtSg/F4OLcg0Mp015khYgN1XlCSv9rTuVldOLL7WAFbgNSTVrnd5hAOdknGqw0p61tTo0EL+XUc7zyGlI0k+fNS4nb6EBequIb9mOfQBMqq1pSNX3XUdSxC0uFmOVkj0u","signature":{"signature":"MEUCIGleGrIJ23Ma45HNLIjs6bhwkKUzkk2OU3AfEBGULQFNAiEAzk9vGBLBdpPcTSLNrm7wTRxY6j6haLt7S7OjuumNRas=","protected":"a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjc3OTAzNjg5IixleHBpcmVzPSIxNzkwNjc4MDgzNjg5IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"}}
+2026-09-29 10:31:43.798 INFO | com.epay.payment.client.IbmbWebClient:77 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=post | Calling uri: https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272AJQINVEFNGF
+2026-09-29 10:31:43.871 INFO | com.epay.payment.service.IbmbPaymentService:179 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | response:::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272AJQINVEFNGF","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:43.842586973Z"}
+2026-09-29 10:31:43.871 INFO | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | Response from IBMB :::::::::::::::::{"api":"REQUEST_TXN_INIT","refID":"PSE096272AJQINVEFNGF","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG001","errorDtl":"Signature Exception error"}],"ts":"2026-09-29T10:31:43.842586973Z"}
+Hibernate: 
+    insert 
+    into
+        ibmb_txn_payload
+        (api_type, atrn_num, error_code, error_message, merchant_id, order_ref_number, payload_type, ref_id, sbi_order_ref_number, id, req_txn, resp_txn) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2026-09-29 10:31:43.885 WARN | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | SQL Error: 904, SQLState: 42000
+2026-09-29 10:31:43.885 ERROR | com.epay.payment.service.IbmbPaymentService:182 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=createNbblInitTxnReq | ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/
+2026-09-29 10:31:43.888 ERROR | com.epay.payment.exceptionhandlers.PaymentExceptionHandler:212 | principal=NA  | scenario=/api/payments/v1/sbi/ibmb/init/txn/req | operation=POST | correlation=00aaa013-b433-4f8a-9417-01ba37e27e01 | methodName=handleGenericException | Error in handleGenericException could not execute statement [ORA-00904: "RESP_TXN": invalid identifier
+
+https://docs.oracle.com/error-help/db/ora-00904/] [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)]; SQL [insert into ibmb_txn_payload (api_type,atrn_num,error_code,error_message,merchant_id,order_ref_number,payload_type,ref_id,sbi_order_ref_number,id,req_txn,resp_txn) values (?,?,?,?,?,?,?,?,?,?,?,?)] 
