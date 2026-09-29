@@ -1,4 +1,4 @@
-cat > /tmp/shared_pub.pem <<'EOF'
+sh-5.1$ cat > /tmp/shared_pub.pem <<'EOF'
 -----BEGIN PUBLIC KEY-----
 MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
 ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
@@ -8,3 +8,105 @@ EOF
 head -1 /proc/1/root/nbbl-certs/sbi_private_key          # just the format header, not the key
 openssl pkey -in /proc/1/root/nbbl-certs/sbi_private_key -pubout -out /tmp/app_pub.pem
 diff /tmp/app_pub.pem /tmp/shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+-----BEGIN PRIVATE KEY-----
+sh: openssl: command not found
+sh: diff: command not found
+MISMATCH
+sh-5.1$
+
+
+
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BP4wGe5qtvSe+k/SttoNixK0ZKpmye/w/2Zzs7/ifVpOtU3RWYI+7BqNF0lael1X3KAi1eC7HCFW9HjkD+0oV9+iWC7uNoURuaYJ8AXMytH5lYP/WK9gXZPTBvXv81YX11TqVzRWTKFSoIMsxZjG0+pMyCMzOCsw/K5nN9gvRzSKK+M39UCQ+EyuaG1ELT3irfrL7SG/J1UsDjMVD0AIpKHaHlPnhO7H6ED1VlbGk3b7k/+FbnlxNcKIxpuzxQyyZUnPE7GlkzYZpmGtX1y5zKT2mDDoqm5rsbFFee+/jGJV49OaFMQlWf6uPqCk4845JK67nndc5mAbnSfURqCAGdDE5Vrux/DdzMqpGpVy+x9jVShf24kKGzDjat1XrqzM4wD5SwhHizTl3xNCTANSGuf+AU18FAEFSWHjnImLZKUnnYmXDv7cAiZzODJx24X4T8t64myNqusvO4WG+eZkXZAkiODLoPUgth6qRHOESkglxH3XOxk1QWkxwziWl4aq1+K46XTxSelzwIHYrOdI27/BfcmOhUAvSruvDK0kdK6K4TFdsiI0V4Ray0k0YuMTpNfnQVOiNfM98kkp7nCo0dTd2RjJGQP/nBevN/Gw25nhwrsW8v9IqpNj+aitiUiHNQ8zvUUvKreqMSDtsOs9Ui1vHFEeC1zBCrbGrKpL7Fe99XOhgh5U9pIWu2/TTUpV3syFu+amXP4Qfo7Lf4azoSXZTHxSRKdSHzSDvfZBE7O7tfJkPOFqpLRv+FrQROdMLb3w8joG74OSe6Yj8a2DEXi44E+GkoWruNSynVoK70cnW4cxVS+Z/O1OhEgPgDJK0se4TM9/r0SgXkgfvSbHs36WOHVgXZ0alO34ga5m/Z2T3P/qvAR03yuvI6ULoU3VjgeBHmmkgWWjqPs8wMuBe8W7eJ9cOEc5F6p5Oj4kKD2e64WtLuUtUbXTf7qfg/Ckx0zxpEc8f/zMqiH51C+dm1KS+z8W+T/1JOdf8b5Pgn4X1WruHTE5ZvEpr97SrKUZ0zcznlh2gLWSGTN9RiaTyU3dXbqiD7AzTxhm7N3e0XLr1frHAKyq6nNjebPCRE77TXSRdKc/WL0D8wh469CHZG4o2YznR5cWvSCFYf+b5BUb7Vc0WdrXriDUPV1RvQzVJ/vEOcZjYTkxTlCxrcstLWtFIUScUQ==",
+  "signature" : {
+    "signature" : "MEUCIDj6Hp7yjf1qs4/y6v14fZ1YSSSLHto0cDWFWmtjqnJqAiEAq38guwFtN6iAhuFc+uthiVJJQolFNUZfUGhZhj6SpV0=",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjYyMTk2MDAwIixleHBpcmVzPSIxNzkwNjYyMzc2MDAwIiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272NPCHNLIEJPM HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 191
+< date: Tue, 29 Sep 2026 06:15:40 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0d03930344bcaeea6700b0a754a33ba6d283882f5312ea9d9700ecd1e6be04f04bb74b40c8a3f83c0e9ae26296a8f70d71; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272NPCHNLIEJPM","result":"FAILURE","errReason":[{"errorCd":"IBMBSIG010","errorDtl":"Signature Verification Failed"}],"ts":"2026-09-29T11:45:40+05:30"}sh-5.1$
