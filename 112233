@@ -1,1 +1,94 @@
-sed 's/.*"protected" *: *"\([^"]*\)".*/\1/' /tmp/req.json | tr -d '\n ' | base64 -d; echo; date +%s
+sh-5.1$ cat > /tmp/req.json <<'EOF'
+{
+  "payload" : "BG8eIW3wb749MOcDsO24tggFFFya7Bc7nIK4UlkGF0fHmx3UOur2HdZHIeMVD+GUNRdWvYu1nokHYlrviCj7cY1Og8ONb7cSPP7U19izTkl0KAZbyN/ybvwCOBFnua8TAHh1fz95OaSo85Kx5kgcubJ8kPlx/4uWjTGhZfQihhKDAeQFjjHZ/oAdtup/i0fVhcF3v7+6MHKjcKeN5yPA09ZBhw64xo5Akc264AnX8DcslDR5CfRZc5lsFFO8izuNWRK9qVCx1A8L1hQetfLgNxiigzp3O0upWkrMbAtoSd4Tc5RmNLOtqhBfomy3SYcs+I1soya2s/dQjDEZrZaiQJyl8bPy8rOkxdvO9nEI+pEfWCoXjOB0ra+tk42pS9u69qzcL0fxli+qUFHw4HnznHiwjvUKbf6vGyWokhaKAsbXAnrXot78lXr2xBTe652EylmtAo1tQYd9fZZ+EKmzG5YydzGmhLbiNdZ0KlV1F4gWi2WP+/x0LMxVgAFj+X1Y8t6sX1cS6QUbkB5/KaXbH5V+eE5mfSNaJHwaQFU2wGMyksiz5EsjDeM561bYF16kZrjPdUX+lXfrntLTPQxbYtpq//GIYR0o+dN7+5XYQ+wNbcxQNh7CVa6iPvKKSo24R9uWMc4Gpg04ndBrR4YaPlX/r1eepLF++OF1RTO/a7K071IvICs8syOKSUlkFD/X32scYiwN96IvnQcgeIhFv1Jhs3R0CA5/Wwc9C0KGhq0iZh7B4nA5cjHk9AmFv1mr+ndqnL+leohPc9syOoDsQT96od5v/3Kxxz8csKnSxcnymFlf2PokXa13oM/PsB/Evk2OQOjiqtag0zjPmYy6ieXsWrilvZodbxdMeRGoBCD7rQAP+YY+apzXIKPVmXoEAz/qEExynb24zMw2hP2nQNPp5vIaWjIBgX5pqwWhov+rGmcv+YzlomQO4OmF1vLqueOIv1mfg0jGNde6fsinI0xHtQ699mx40X4m2hA0x5vo1eEpqpX1Czv3krxzeL3EjEmUZsVP+sl1DHUVVPhvb15Myz3trssOrn+96ESP/BKiOzgcOEg1jjWzs3f2TkTvMjOFCT/yf+zz7yNMBbOKUaa2vVUmuTKME78FM0evGAbmLrzx1AOzHWoJRfJ3nhyxsoQOG5TtEYduBOHdvaBTxuN3Im5AJQ==",
+  "signature" : {
+    "signature" : "MEYCIQCML4nl+gyCFoCS2ksOMVhJ5AoYRGUTGkXbKB9QmjLG9AIhALvJCwIrz1WlNxxfYd6H8Z9i4M1tz3yN++VF5fYD8Ekh",
+    "protected" : "a2V5SWQ9IlBTRTA5fGVjZHNhIixhbGdvcml0aG09ImVjZHNhIixjcmVhdGVkPSIxNzkwNjcyMjc5MTI0IixleHBpcmVzPSIxNzkwNjcyNDU5MTI0IiwiaWJtYktleVBhaXJWZXI9IjAiLHBhcnRuZXJLZXlQYWlyVmVyPSIwIixoZWFkZXJzPSIoY3JlYXRlZCkoZXhwaXJlcylkaWdlc3Qi"
+  }
+}
+EOF
+wc -c /tmp/req.json
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272OLEOFALYQGJ"
+1583 /tmp/req.json
+*   Trying 10.191.191.39:9090...
+* Connected to serverswg.sbi.co.in (10.191.191.39) port 9090 (#0)
+* allocate connect buffer!
+* Establish HTTP proxy tunnel to ibmbcert.npci.org.in:443
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+> Host: ibmbcert.npci.org.in:443
+> User-Agent: curl/7.76.1
+> Proxy-Connection: Keep-Alive
+>
+< HTTP/1.1 200 Connection established
+<
+* Proxy replied 200 to CONNECT request
+* CONNECT phase completed!
+* ALPN, offering h2
+* ALPN, offering http/1.1
+*  CAfile: /etc/pki/tls/certs/ca-bundle.crt
+* TLSv1.0 (OUT), TLS header, Certificate Status (22):
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* CONNECT phase completed!
+* CONNECT phase completed!
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Certificate (11):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server key exchange (12):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Request CERT (13):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Server finished (14):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Certificate (11):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Client key exchange (16):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* TLSv1.2 (OUT), TLS header, Finished (20):
+* TLSv1.2 (OUT), TLS change cipher, Change cipher spec (1):
+* TLSv1.2 (OUT), TLS header, Certificate Status (22):
+* TLSv1.2 (OUT), TLS handshake, Finished (20):
+* TLSv1.2 (IN), TLS header, Finished (20):
+* TLSv1.2 (IN), TLS header, Certificate Status (22):
+* TLSv1.2 (IN), TLS handshake, Finished (20):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+* ALPN, server did not agree to a protocol
+* Server certificate:
+*  subject: jurisdictionC=IN; businessCategory=Private Organization; serialNumber=189067; C=IN; ST=Maharashtra; L=Mumbai; O=National Payments Corporation of India; CN=ibmbcert.npci.org.in
+*  start date: Jan 16 00:00:00 2026 GMT
+*  expire date: Feb 16 23:59:59 2027 GMT
+*  subjectAltName: host "ibmbcert.npci.org.in" matched cert's "ibmbcert.npci.org.in"
+*  issuer: C=US; O=DigiCert Inc; CN=DigiCert EV RSA CA G2
+*  SSL certificate verify ok.
+* TLSv1.2 (OUT), TLS header, Unknown (23):
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:PSE096272OLEOFALYQGJ HTTP/1.1
+> Host: ibmbcert.npci.org.in
+> Accept: */*
+> Content-Type: application/json
+> User-Agent: Java/17.0.11
+> Content-Length: 1576
+>
+* TLSv1.2 (IN), TLS header, Unknown (23):
+* Mark bundle as not supporting multiuse
+< HTTP/1.1 200 OK
+< allow: POST, GET, PUT
+< content-security-policy: default-src 'self'
+< x-content-type-options: nosniff
+< x-frame-options: DENY
+< x-xss-protection: 1; mode=block
+< content-type: application/json
+< content-length: 155
+< date: Tue, 29 Sep 2026 09:00:26 GMT
+< x-backend-app: waap02
+< x-incoming-ip:
+< strict-transport-security: max-age=31536000; includeSubdomains; preload
+< Set-Cookie: TS01723025=0179480d0d9d9ca895ee698064058b16f30881ccc7f76594202dbda7943c15aa9f66dd492b1c56920b3eb19cff7b8c62be983f8f41; Path=/; Domain=.ibmbcert.npci.org.in
+<
+* Connection #0 to host serverswg.sbi.co.in left intact
+{"api":"REQUEST_TXN_INIT","refID":"PSE096272OLEOFALYQGJ","msgID":"PGBULMKIYAGLPKQCHMXDOOTSZTP62721427","result":"SUCCESS","ts":"2026-09-29T14:30:26+05:30"}sh-5.1$
