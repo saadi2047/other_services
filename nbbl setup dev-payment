@@ -1,4 +1,13 @@
-[osuser@bastion ~]$ oc logs payment-paymentservice-7c9dbb55b7-pxbnj -c paymentservice -n dev-transaction --since=5m \
->   | grep -iE -A15 'ReqTxnInit|referenceId|"payload"' | tail -60
-[osuser@bastion ~]$
+curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" \
+  -H "User-Agent: Java/17.0.11" \
+  --data @/tmp/req.json \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<REFERENCE_ID>"
 
+
+{"payload":"<PAYLOAD>","signature":{"signature":"<ECDSA_SIGNATURE_MEUC...>","protected":"<PROTECTED_BASE64_a2V5SWQ9...>"}}
+
+cat > /tmp/req.json <<'EOF'
+{"payload":"...","signature":{"signature":"MEUC...","protected":"a2V5SWQ9..."}}
+EOF
