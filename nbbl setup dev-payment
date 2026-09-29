@@ -1,17 +1,31 @@
-cd ~/nbbl-keys
-cat > shared_pub.pem <<'EOF'
------BEGIN PUBLIC KEY-----
-MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
-ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
------END PUBLIC KEY-----
-EOF
-openssl pkey -in sbi_private_key -pubout | diff - shared_pub.pem && echo "MATCH" || echo "MISMATCH"
-
-kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
-  --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
-  --target=paymentservice -- /bin/sh
-
-wc -c /proc/1/root/nbbl-certs/..data/*        # sbi_private_key ~240 bytes; check .crt is NOT 0
-
-   keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
+[osuser@bastion nbbl-keys]$ cat > shared_pub.pem <<'EOF'
+> -----BEGIN PUBLIC KEY-----
+> MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEtc6E+nBfOHXHGr7oKdV7w5Mwfxyt
+> ETAoyKbiP15ZdslsTu5EL61Ns95oY6IECqkBRamXcPO4MNMYjxTuE2Fe+w==
+> -----END PUBLIC KEY-----
+> EOF
+[osuser@bastion nbbl-keys]$ openssl pkey -in sbi_private_key -pubout | diff - shared_pub.pem && echo "MATCH" || echo "MISMATCH"
+MATCH
+[osuser@bastion nbbl-keys]$
+[osuser@bastion nbbl-keys]$ kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+-bash: /usr/local/bin/kubectl: Permission denied
+[osuser@bastion nbbl-keys]$ sudo su -
+[root@bastion ~]# kubectl debug -it payment-paymentservice-d5b98dc94-gnjnh -n dev-transaction \
+>   --image=artifactory.jfrog.sbi:443/itepaypg-sbiepay2-docker-local/custom-ci/ubi9/openjdk-21:1.23-6.1756793462 \
+>   --target=paymentservice -- /bin/sh
+Targeting container "paymentservice". If you don't see processes from this container it may be because the container runtime doesn't support this feature.
+Defaulting debug container name to debugger-ctk6s.
+If you don't see a command prompt, try pressing enter.
+sh-5.1$ wc -c /proc/1/root/nbbl-certs/..data/*
+ 124 /proc/1/root/nbbl-certs/..data/ibmbcert_npci_org_in_new_24Dec.crt
+2338 /proc/1/root/nbbl-certs/..data/nbbl_client.jks
+ 241 /proc/1/root/nbbl-certs/..data/sbi_private_key
+2703 total
+sh-5.1$ keytool -importkeystore -srckeystore /proc/1/root/nbbl-certs/nbbl_client.jks -srcstoretype JKS -srcstorepass 'sbi@123' \
            -destkeystore /tmp/npci-client.p12 -deststoretype PKCS12 -deststorepass 'sbi@123'
+Importing keystore /proc/1/root/nbbl-certs/nbbl_client.jks to /tmp/npci-client.p12...
+Entry for alias mykey successfully imported.
+Import command completed:  1 entries successfully imported, 0 entries failed or cancelled
+sh-5.1$
