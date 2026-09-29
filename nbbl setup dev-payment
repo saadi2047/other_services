@@ -11,3 +11,32 @@ curl -v --proxy http://serverswg.sbi.co.in:9090 \
   -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
   --data @/tmp/req.json \
   "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:<new refId>"
+
+
+
+sh-5.1$ which keytool
+sh: which: command not found
+sh-5.1$ ls -l /proc/1/root/nbbl-certs/
+total 0
+lrwxrwxrwx. 1 root 1001190000 41 Sep 28 07:00 ibmbcert_npci_org_in_new_24Dec.crt -> ..data/ibmbcert_npci_org_in_new_24Dec.crt
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 nbbl_client.jks -> ..data/nbbl_client.jks
+lrwxrwxrwx. 1 root 1001190000 22 Sep 28 07:00 sbi_private_key -> ..data/sbi_private_key
+sh-5.1$ keytool -list -v -keystore /tmp/npci-client.p12 -storetype PKCS12 -storepass 'sbi@123' | grep -E 'Alias|Entry type|Owner|Issuer|Valid'
+Alias name: mykey
+Entry type: PrivateKeyEntry
+Owner: CN=uat.sbiepay.sbi, O=STATE BANK OF INDIA, L=Mumbai, ST=Maharashtra, C=IN
+Issuer: EMAILADDRESS=infosec@npci.org.in, CN=NPCI_IBMB_UAT_ROOT_EXT_1, OU=Infosec, O=National Payments Corporation Of India, L=Mumbai, ST=Maharastra, C=IN
+Valid from: Tue Dec 10 06:29:36 UTC 2024 until: Wed Dec 10 06:29:36 UTC 2025
+sh-5.1$ curl -v --proxy http://serverswg.sbi.co.in:9090 \
+  --cert-type P12 --cert "/tmp/npci-client.p12:sbi@123" \
+  -H "Content-Type: application/json" -H "User-Agent: Java/17.0.11" \
+  -d '{"payload":"","signature":{"signature":"","protected":""}}' \
+  "https://ibmbcert.npci.org.in/ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST" 2>&1 | grep -E 'CERT verify|alert|SSL connection|HTTP/|Empty reply|error'
+> CONNECT ibmbcert.npci.org.in:443 HTTP/1.1
+< HTTP/1.1 200 Connection established
+* TLSv1.2 (OUT), TLS handshake, CERT verify (15):
+* SSL connection using TLSv1.2 / ECDHE-RSA-AES128-GCM-SHA256
+> POST /ibmb/ReqTxnInit/1.0/urn:referenceId:CONNTEST HTTP/1.1
+< HTTP/1.1 200 OK
+* TLSv1.2 (OUT), TLS alert, close notify (256):
+sh-5.1$
