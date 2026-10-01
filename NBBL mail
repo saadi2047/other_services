@@ -1,0 +1,32 @@
+Subject: NBBL (IBMB) API Integration – Security Configuration & Connectivity Verification SOP v1.1 | DEV → NPCI IBMB UAT
+
+Dear Team,
+
+Please find attached the SOP for the NBBL (IBMB) API integration of the SBI ePay 2.0 Payment Service (NBBL_IBMB_Integration_SOP_v1.1.docx).
+
+This task was originally assigned to Tariq Rais. As Tariq is currently on leave, I have taken over the handover and completed the activity.
+
+Summary
+- End-to-end connectivity from the DEV Payment Service (namespace dev-transaction) to NPCI IBMB UAT (ibmbcert.npci.org.in) has been verified through the SBI proxy (serverswg.sbi.co.in:9090) with mutual TLS.
+- The ReqTxnInit call sent by the Payment Service itself returned SUCCESS on 29-Sep-2026 at 17:38:45 IST (refID PSE096272TZSOICTWLRJ).
+- The rotated SBI signing key for PSE09 was rejected by IBMB UAT (IBMBSIG001). DEV has been restored to the previous signing key, which IBMB accepts. The rotated key will be applied once NBBL/NPCI confirm it is active.
+
+The document covers
+- Security design (Section 2, Application Team)
+- Environment, certificates and keys, integration architecture and deployment configuration (Section 3)
+- Step-by-step verification procedure (Section 5)
+- Verification results with screenshots, and the key rotation finding (Section 6)
+- Troubleshooting reference and observations/recommendations (Sections 7 and 8)
+- Key and certificate management: rotation, verification and rollback (Section 9)
+
+Actions requested
+1. NBBL/NPCI: confirm activation of the rotated PSE09 signing key and the partnerKeyPairVer value to be used (O-6).
+2. NPCI: renew the UAT client certificate in nbbl_client.jks, which shows expiry 10-Dec-2025 (O-1).
+3. Application Team: fix ORA-00904 "RESP_TXN" on ibmb_txn_payload (O-9).
+4. Before production: verify connectivity to ibmb.npci.org.in from the production proxy and add the nbbl-cert mount to the higher-environment charts (O-7, O-8).
+
+Kindly review the document and share your sign-off or comments.
+
+Regards,
+Saad Mohammad Muzzammil
+Platform Team – SBI ePay 2.0
